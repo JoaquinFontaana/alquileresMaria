@@ -30,10 +30,7 @@ public class ValidationException extends RuntimeException{
         // Lista de errores con estructura {field, message}
         List<Map<String, String>> errorDetails = this.errors.stream()
                 .map(error -> {
-                    Map<String, String> detail = new HashMap<>();
-                    detail.put("field", error.getField());
-                    detail.put("message", error.getMessage());
-                    return detail;
+                    return error.toErrorResponse();
                 })
                 .collect(Collectors.toList());
 
