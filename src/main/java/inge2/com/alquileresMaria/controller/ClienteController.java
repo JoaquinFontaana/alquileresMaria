@@ -9,4 +9,5 @@ public class ClienteController {
     public String hola(){
         return "Andando";
     }
+    //Metodo para registrase
 }

@@ -1,6 +1,7 @@
 package inge2.com.alquileresMaria.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 @Entity
@@ -11,6 +12,7 @@ public class Alquiler {
     private LocalDate inicio;
     private LocalDate fin;
     private double total;
+    @NotBlank(message = "La licencia del conductor es obligatoria")
     private String licenciaConductor;
     @ManyToOne
     @JoinColumn(name = "cliente_id")
