@@ -1,12 +1,19 @@
 package inge2.com.alquileresMaria.model;
 
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
+@Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Usuario extends Persona{
-    private String nombre;
-    private String apellido;
-    private String mail;
-    private String dni;
+public abstract class Persona {
+    @Id
+    @GeneratedValue
+    private Long id;
+    @NotBlank(message = "El username es obligatorio")
+    private String username;
+    @NotBlank(message = "La contraseña es obligatoria")
+    private String password;
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
+
 }
