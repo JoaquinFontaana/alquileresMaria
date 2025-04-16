@@ -5,7 +5,7 @@ import jakarta.validation.constraints.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Persona {
+public class Usuario {
     @Id
     @GeneratedValue
     private Long id;

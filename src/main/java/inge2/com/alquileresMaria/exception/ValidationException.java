@@ -38,8 +38,4 @@ public class ValidationException extends RuntimeException{
         response.put("errors", errorDetails);
         return response;
     }
-
-    public HttpStatus getStatus() {
-        return status;
-    }
 }
