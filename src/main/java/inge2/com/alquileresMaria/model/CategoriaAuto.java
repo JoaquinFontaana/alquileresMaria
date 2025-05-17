@@ -2,7 +2,7 @@ package inge2.com.alquileresMaria.model;
 
 public enum CategoriaAuto {
     ;
-    //Poner categorias
+    //todo Poner categorias
 
     private final String nombre;
     CategoriaAuto(String nombre){

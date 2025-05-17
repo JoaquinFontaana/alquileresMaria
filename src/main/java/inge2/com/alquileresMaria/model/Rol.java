@@ -1,12 +1,11 @@
 package inge2.com.alquileresMaria.model;
 
-public enum Rol {
-    ADMIN("Administrador"),
-    EMPLEADO("Empleado"),
-    Cliente("Cliente");
+import jakarta.persistence.*;
 
-    private final String nombre;
-    Rol(String nombre){
-        this.nombre = nombre;
-    }
+@Entity
+public class Rol {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+    private String nombreRol;
 }

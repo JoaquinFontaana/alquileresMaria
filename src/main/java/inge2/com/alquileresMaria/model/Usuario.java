@@ -13,7 +13,8 @@ public class Usuario {
     private String username;
     @NotBlank(message = "La contraseña es obligatoria")
     private String password;
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "rol_id")
     private Rol rol;
 
 }
