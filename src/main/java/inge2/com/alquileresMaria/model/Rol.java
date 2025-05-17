@@ -5,11 +5,14 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity @Getter @Setter
 public class Rol {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "El rol debe tener un nombre")
-    private String nombreRol;
+    private String nombre;
+
 }

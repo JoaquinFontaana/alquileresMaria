@@ -1,16 +1,14 @@
-package inge2.com.alquileresMaria.model;
+package inge2.com.alquileresMaria.dto;
 
-import inge2.com.alquileresMaria.dto.PersonaDTO;
 import jakarta.persistence.Column;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-@MappedSuperclass @Getter @Setter
-public abstract class Persona extends Usuario {
+@Getter @Setter
+public class PersonaDTO {
     @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
     @NotBlank(message = "El apellido es obligatorio")
@@ -22,13 +20,6 @@ public abstract class Persona extends Usuario {
     @NotBlank(message = "El DNI es obligatorio")
     @Size(min = 8, max = 9, message = "El dni debe tener 8 o 9 caracteres")
     private String dni;
-
-    public Persona(PersonaDTO dto,Rol rol) {
-        this.nombre = dto.getNombre();
-        this.apellido = dto.getApellido();
-        this.mail = dto.getMail();
-        this.dni = dto.getDni();
-        this.setRol(rol);
-        this.setPassword(dto.getPassword());
-    }
+    @NotBlank(message = "La contraseña es obligatoria")
+    private String password;
 }

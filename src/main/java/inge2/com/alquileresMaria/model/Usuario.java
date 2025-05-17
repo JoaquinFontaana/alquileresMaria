@@ -10,10 +10,8 @@ import lombok.Setter;
 @Getter @Setter
 public class Usuario {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "El username es obligatorio")
-    private String username;
     @NotBlank(message = "La contraseña es obligatoria")
     private String password;
     @ManyToOne(optional = false)

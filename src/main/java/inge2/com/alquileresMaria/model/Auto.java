@@ -12,7 +12,7 @@ import java.util.List;
 @Getter @Setter
 public class Auto {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "La patente es obligatoria")
     private String patente;

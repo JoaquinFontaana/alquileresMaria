@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Entity @Getter @Setter
 public class Alquiler {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
     private LocalDate inicio;

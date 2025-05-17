@@ -10,7 +10,7 @@ import java.util.*;
 @Getter @Setter
 public class Sucursal {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "La ciudad es obligatoria")
     private String ciudad;
