@@ -2,14 +2,19 @@ package inge2.com.alquileresMaria.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
-@Entity
+@Entity @Getter @Setter
 public class Alquiler {
     @Id
     @GeneratedValue
     private Long id;
+    @NotNull
     private LocalDate inicio;
+    @NotNull
     private LocalDate fin;
     private double total;
     @NotBlank(message = "La licencia del conductor es obligatoria")
