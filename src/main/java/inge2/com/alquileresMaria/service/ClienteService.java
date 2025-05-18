@@ -14,9 +14,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClienteService {
     @Autowired
+    private EncryptService encryptService;
+    @Autowired
     private IClienteRepository repository;
     @Autowired
     private IRolRepository rolRepository;
+
     @Transactional
     public void crearCliente(PersonaDTO clienteDTO){
         if(repository.existsByMail(clienteDTO.getMail())){
@@ -25,9 +28,11 @@ public class ClienteService {
         if(repository.existsByDni(clienteDTO.getDni())){
             throw new EntityExistsException("El dni " + clienteDTO.getDni() + " ya existe");
         }
-        Rol rol = this.rolRepository.findByNombre("Empleado")
-                .orElseThrow(() -> new EntityExistsException("El rol Empleado no existe"));
+        Rol rol = this.rolRepository.findByNombre("Cliente")
+                .orElseThrow(() -> new EntityExistsException("El rol Cliente no existe"));
+        clienteDTO.setPassword(encryptService.encryptPassword(clienteDTO.getPassword()));
         Cliente cliente = new Cliente(clienteDTO,rol);
         repository.save(cliente);
     }
+
 }
