@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  java_app:
+    container_name: java.app
+    image: appimage
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://java_db:3306/alquileres_maria?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - java_db
+  java_db:
+    container_name: java_db
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=alquileres_maria
+    volumes:
+      - db_data:/var/lib/mysql
+volumes:
+  db_data:
