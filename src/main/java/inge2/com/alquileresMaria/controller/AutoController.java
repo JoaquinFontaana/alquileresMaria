@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/auto")
@@ -22,6 +25,11 @@ public class AutoController {
     public ResponseEntity<String> crearAuto(@Valid @RequestBody Auto auto){
         this.service.crearAuto(auto);
         return ResponseEntity.ok("Auto creado con exito");
+    }
+
+    @GetMapping("/listar")
+    public List<Auto> listarAutos(){
+        return this.service.listarAuto();
     }
 
 }
