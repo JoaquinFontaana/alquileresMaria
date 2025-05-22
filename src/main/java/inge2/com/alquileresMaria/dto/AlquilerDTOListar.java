@@ -16,7 +16,7 @@ public class AlquilerDTOListar {
     private double total;
     private String licenciaConductor;
     private String clienteMail;
-    private AutoDtoListar auto;
+    private AutoDTO auto;
 
     private String sucursalEntrega;
     private String sucursalDevolucion;
@@ -27,7 +27,7 @@ public class AlquilerDTOListar {
         this.fin = alquiler.getRangoFecha().getFechaHasta();
         this.licenciaConductor = alquiler.getLicenciaConductor();
         this.clienteMail = alquiler.getCliente().getMail();
-        this.auto = new AutoDtoListar(alquiler.getAuto());
+        this.auto = new AutoDTO(alquiler.getAuto());
         this.sucursalDevolucion = alquiler.getDevolucionEnSucursal().getCiudad();
         this.sucursalEntrega = alquiler.getEntregaEnSucursal().getCiudad();
     }
