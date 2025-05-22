@@ -1,4 +1,4 @@
-##Pasos para ejecutar la API
+## Pasos para ejecutar la API
 
 1. **Instalar [Docker Desktop](https://www.docker.com/products/docker-desktop/)**  
    Asegurate de que Docker esté instalado y **siempre iniciado** antes de correr la API.
