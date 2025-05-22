@@ -1,6 +1,6 @@
 package inge2.com.alquileresMaria.service;
 
-import inge2.com.alquileresMaria.dto.AutoDto;
+import inge2.com.alquileresMaria.dto.AutoDtoListar;
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.repository.IAutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class AutoService {
         return repository.save(auto);
     }
 
-    public List<AutoDto> listarAuto(){
-        return this.repository.findAll().stream().map(auto -> new AutoDto(auto)).toList();
+    public List<AutoDtoListar> listarAutos(){
+        return this.repository.findAll().stream().map(auto -> new AutoDtoListar(auto)).toList();
     }
 }

@@ -9,10 +9,7 @@ import lombok.Setter;
 
 import java.util.List;
 @Getter @Setter
-public class AutoDto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class AutoDtoListar {
     @NotBlank(message = "La patente es obligatoria")
     private String patente;
     @Positive(message = "La capacidad debe ser mayor a cero")
@@ -30,13 +27,12 @@ public class AutoDto {
     private Rembolso rembolso;
     @Enumerated(EnumType.STRING)
     private EstadoAuto estado;
-    @OneToMany(mappedBy = "auto")
+    //Cambiar a reservaDto
     private List<Alquiler> reservas;
 
     private String sucursal;
 
-    public AutoDto(Auto auto) {
-        this.id = auto.getId();
+    public AutoDtoListar(Auto auto) {
         this.patente = auto.getPatente();
         this.capacidad = auto.getCapacidad();
         this.marca = auto.getMarca();
