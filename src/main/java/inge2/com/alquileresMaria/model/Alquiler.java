@@ -13,9 +13,7 @@ public class Alquiler {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
-    private LocalDate inicio;
-    @NotNull
-    private LocalDate fin;
+    private RangoFecha rangoFecha;
     private double total;
     @NotBlank(message = "La licencia del conductor es obligatoria")
     private String licenciaConductor;
@@ -33,5 +31,7 @@ public class Alquiler {
     private Sucursal entregaEnSucursal;
     //Cuando se crea el alquiler se debe verificar la edad del conductor aunque no se guarde >= 18
 
-
+    public boolean disponibleEnRangoFechas(RangoFecha rango){
+        return this.rangoFecha.sinSolapamiento(rango);
+    }
 }
