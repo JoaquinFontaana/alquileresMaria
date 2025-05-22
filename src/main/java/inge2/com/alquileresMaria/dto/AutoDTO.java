@@ -34,7 +34,7 @@ public class AutoDTO {
     private String sucursal;
 
     public AutoDTO(){
-
+        
     }
     public AutoDTO(Auto auto) {
         this.patente = auto.getPatente();

@@ -31,4 +31,5 @@ public class AlquilerDTOListar {
         this.sucursalDevolucion = alquiler.getDevolucionEnSucursal().getCiudad();
         this.sucursalEntrega = alquiler.getEntregaEnSucursal().getCiudad();
     }
+
 }

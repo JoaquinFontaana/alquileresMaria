@@ -29,7 +29,7 @@ public class AutoController {
      *
      * Filtros disponibles:
      * <ul>
-     *     <li><b>nombreSucursal</b>: nombre (o parte) de la sucursal (String).</li>
+     *     <li><b>nombreSucursal</b>: nombre de la sucursal (String).</li>
      *     <li><b>fechaDesde</b> y <b>fechaHasta</b>: rango de fechas deseado (formato yyyy-MM-dd).</li>
      *     <li><b>capacidad</b>: capacidad mínima requerida (entero positivo).</li>
      *     <li><b>categorias</b>: lista de categorías (puede repetirse en la query).</li>
