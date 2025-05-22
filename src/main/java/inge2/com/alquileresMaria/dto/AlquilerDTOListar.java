@@ -23,9 +23,8 @@ public class AlquilerDTOListar {
 
     public AlquilerDTOListar(Alquiler alquiler){
         this.id = alquiler.getId();
-        this.inicio = alquiler.getInicio();
-        this.fin = alquiler.getFin();
-        this.total = alquiler.getTotal();
+        this.inicio = alquiler.getRangoFecha().getFechaDesde();
+        this.fin = alquiler.getRangoFecha().getFechaHasta();
         this.licenciaConductor = alquiler.getLicenciaConductor();
         this.clienteMail = alquiler.getCliente().getMail();
         this.auto = new AutoDtoListar(alquiler.getAuto());

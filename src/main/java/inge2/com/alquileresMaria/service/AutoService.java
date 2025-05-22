@@ -1,12 +1,14 @@
 package inge2.com.alquileresMaria.service;
 
 import inge2.com.alquileresMaria.dto.AutoDtoListar;
+import inge2.com.alquileresMaria.dto.AutoDTOCrear;
 import inge2.com.alquileresMaria.dto.AutoFilterDTO;
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.Sucursal;
 import inge2.com.alquileresMaria.repository.IAutoRepository;
 import inge2.com.alquileresMaria.repository.ISucursalRepository;
 import inge2.com.alquileresMaria.service.Filter.BaseAutoFilter;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -23,9 +25,9 @@ public class AutoService {
     @Autowired
     private ISucursalRepository sucursalRepository;
 
-    public void crearAuto(AutoDtoListar autoDto){
+    public void crearAuto(AutoDTOCrear autoDto){
         if(this.repository.existsByPatente(autoDto.getPatente())){
-            //throw excepcion de que la patente ya existe
+            throw new EntityExistsException("La patente " +autoDto.getPatente() + " ya se encuentra registrada");
         }
         Sucursal sucursal = this.sucursalRepository.findByCiudad(autoDto.getSucursal())
                 .orElseThrow(() -> new EntityNotFoundException("La sucursal con ciudad " + autoDto.getSucursal() + " no existe"));

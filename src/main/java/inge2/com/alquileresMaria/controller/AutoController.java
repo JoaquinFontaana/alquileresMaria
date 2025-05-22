@@ -1,5 +1,6 @@
 package inge2.com.alquileresMaria.controller;
 
+import inge2.com.alquileresMaria.dto.AutoDTOCrear;
 import inge2.com.alquileresMaria.dto.AutoDtoListar;
 import inge2.com.alquileresMaria.dto.AutoFilterDTO;
 import inge2.com.alquileresMaria.model.Auto;
@@ -20,7 +21,7 @@ public class AutoController {
     private AutoService service;
 
     @PostMapping("/crear")
-    public ResponseEntity<String> crearAuto(@Valid @RequestBody AutoDtoListar autoDto){
+    public ResponseEntity<String> crearAuto(@Valid @RequestBody AutoDTOCrear autoDto){
         this.service.crearAuto(autoDto);
         return ResponseEntity.ok("Auto creado con exito");
     }

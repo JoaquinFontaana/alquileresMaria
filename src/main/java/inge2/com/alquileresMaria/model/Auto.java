@@ -1,5 +1,6 @@
 package inge2.com.alquileresMaria.model;
 
+import inge2.com.alquileresMaria.dto.AutoDTOCrear;
 import inge2.com.alquileresMaria.dto.AutoDtoListar;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -38,7 +39,7 @@ public class Auto {
     @JoinColumn(name = "sucursal_id")
     private Sucursal sucursal;
 
-    public Auto(AutoDtoListar dto, Sucursal sucursal) {
+    public Auto(AutoDTOCrear dto, Sucursal sucursal) {
         this.patente = dto.getPatente();
         this.capacidad = dto.getCapacidad();
         this.marca = dto.getMarca();
