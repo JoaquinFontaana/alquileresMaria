@@ -2,6 +2,7 @@ package inge2.com.alquileresMaria.service;
 
 
 import inge2.com.alquileresMaria.dto.PersonaDTO;
+import inge2.com.alquileresMaria.dto.PersonaDtoPassword;
 import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.model.Rol;
 import inge2.com.alquileresMaria.repository.IClienteRepository;
@@ -21,7 +22,7 @@ public class ClienteService {
     private IRolRepository rolRepository;
 
     @Transactional
-    public void crearCliente(PersonaDTO clienteDTO){
+    public void crearCliente(PersonaDtoPassword clienteDTO){
         if(repository.existsByMail(clienteDTO.getMail())){
             throw new EntityExistsException("El email " + clienteDTO.getMail() + " ya existe");
         }

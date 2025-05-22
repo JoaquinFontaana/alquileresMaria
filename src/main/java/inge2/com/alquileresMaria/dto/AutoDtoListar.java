@@ -27,8 +27,6 @@ public class AutoDtoListar {
     private Rembolso rembolso;
     @Enumerated(EnumType.STRING)
     private EstadoAuto estado;
-    //Cambiar a reservaDto
-    private List<Alquiler> reservas;
 
     private String sucursal;
 
@@ -41,7 +39,6 @@ public class AutoDtoListar {
         this.categoria = auto.getCategoria();
         this.rembolso = auto.getRembolso();
         this.estado = auto.getEstado();
-        this.reservas = auto.getReservas();
         this.sucursal = auto.getSucursal().getCiudad();
     }
 }
