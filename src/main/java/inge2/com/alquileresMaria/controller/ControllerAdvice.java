@@ -1,6 +1,8 @@
 package inge2.com.alquileresMaria.controller;
 
 import inge2.com.alquileresMaria.exception.ValidationException;
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -33,5 +35,12 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
         ValidationException validationException = new ValidationException(errors, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(validationException.toErrorResponse(),headers,status);
     }
-
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleEntityNotFound(EntityNotFoundException ex){
+        return new ResponseEntity<>(ex.getMessage(),HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(EntityExistsException.class)
+    public ResponseEntity<String> handleEntityExist(EntityExistsException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
 }
