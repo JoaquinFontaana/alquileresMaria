@@ -2,7 +2,9 @@ package inge2.com.alquileresMaria.service;
 
 import inge2.com.alquileresMaria.dto.AutoDTO;
 import inge2.com.alquileresMaria.dto.AutoFilterDTO;
+import inge2.com.alquileresMaria.model.Alquiler;
 import inge2.com.alquileresMaria.model.Auto;
+import inge2.com.alquileresMaria.model.EstadoAuto;
 import inge2.com.alquileresMaria.model.Sucursal;
 import inge2.com.alquileresMaria.repository.IAutoRepository;
 import inge2.com.alquileresMaria.repository.ISucursalRepository;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AutoService {
@@ -22,6 +25,9 @@ public class AutoService {
     private BaseAutoFilter serviceFilter;
     @Autowired
     private ISucursalRepository sucursalRepository;
+
+    @Autowired
+    private AlquilerService serviceAlquiler;
 
     public void crearAuto(AutoDTO autoDto){
         if(this.repository.existsByPatente(autoDto.getPatente())){
@@ -38,4 +44,23 @@ public class AutoService {
                 .stream().map(auto -> new AutoDTO(auto))
                 .toList();
     }
+
+    public void eliminarAuto(String patente){
+        if(!this.repository.existsByPatente(patente)){
+            throw new EntityExistsException("La patente " +patente + " no se encuentra registrada");
+        }
+        Auto auto = this.repository.findByPatente(patente)
+                .orElseThrow(()->new EntityNotFoundException("la patente " + patente + " no existe"));
+        if(auto.getEstado().equals(EstadoAuto.ALQUILADO)){
+            throw new RuntimeException("el vehiculo con patente " + patente + " esta alquilado en este momento");
+        }
+
+        List<Long> idAlquileres = auto.getReservas().stream().map(Alquiler::getId).toList();
+        serviceAlquiler.cancelarReservas(idAlquileres);
+        //ToDo enviar mails
+
+        auto.setEstado(EstadoAuto.BAJA);
+        this.repository.save(auto);
+    }
+
 }

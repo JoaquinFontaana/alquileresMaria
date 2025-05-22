@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface IAutoRepository extends JpaRepository<Auto,Long> {
     public boolean existsByPatente(String patente);
+    public Optional<Auto> findByPatente(String patente);
 }

@@ -4,6 +4,7 @@ import inge2.com.alquileresMaria.dto.AutoDTO;
 import inge2.com.alquileresMaria.dto.AutoFilterDTO;
 import inge2.com.alquileresMaria.service.AutoService;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,12 @@ public class AutoController {
 
     @Autowired
     private AutoService service;
+
+    @PutMapping("/eliminar")
+    public ResponseEntity<String> eliminarAuto(@RequestParam String patente){
+        this.service.eliminarAuto(patente);
+        return ResponseEntity.ok("Auto eliminado con exito");
+    }
 
     @PostMapping("/crear")
     public ResponseEntity<String> crearAuto(@Valid @RequestBody AutoDTO autoDto){

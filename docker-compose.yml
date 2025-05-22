@@ -8,6 +8,12 @@ services:
     ports:
       - "8080:8080"
     environment:
+      - spring.mail.host=sandbox.smtp.mailtrap.io
+      - spring.mail.port=2525
+      - spring.mail.username=17d85f2b63dbe8
+      - spring.mail.password=95133832a1f7ff
+      - spring.mail.properties.smtp.auth=true
+      - spring.mail.properties.smtp.starttls.enable=true
       - SPRING_DATASOURCE_URL=jdbc:mysql://java_db:3306/alquileres_maria?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
