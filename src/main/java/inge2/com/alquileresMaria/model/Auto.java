@@ -39,6 +39,10 @@ public class Auto {
     @JoinColumn(name = "sucursal_id")
     private Sucursal sucursal;
 
+    public Auto(){
+        // Constructor por defecto requerido por Hibernate
+    }
+
     public Auto(AutoDTOCrear dto, Sucursal sucursal) {
         this.patente = dto.getPatente();
         this.capacidad = dto.getCapacidad();

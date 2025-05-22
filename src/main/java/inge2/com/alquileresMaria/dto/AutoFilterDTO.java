@@ -6,16 +6,15 @@ import inge2.com.alquileresMaria.service.Filter.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
-
+@Getter @Setter
 public class AutoFilterDTO {
-    @NotBlank(message= "El nombre no puede estar vacio")
     private String nombreSucursal;
     private RangoFecha rangoFechas;
-    @Positive(message = "La capacidad debe ser mayor a cero")
     private Integer capacidad;
-    @NotEmpty(message = "no mandar lista si no hay categorias para filtrar")
     private List<CategoriaAuto> categorias;
     public AutoFilterDTO(String nombreSucursal, RangoFecha rangoFecha, Integer capacidad, List<CategoriaAuto> categorias) {
         this.nombreSucursal = nombreSucursal;

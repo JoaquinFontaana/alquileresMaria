@@ -50,7 +50,7 @@ public class AutoController {
             description = "Permite filtrar autos por nombre de sucursal, rango de fechas, capacidad mínima y categorías. Todos los filtros son opcionales y se combinan con lógica AND."
     )*/
     @GetMapping("/listar")
-    public List<AutoDtoListar> listarAutos(@Valid @ModelAttribute AutoFilterDTO opcionesFiltrado){
+    public List<AutoDtoListar> listarAutos(@ModelAttribute AutoFilterDTO opcionesFiltrado){
         return this.service.listarAutos(opcionesFiltrado);
     }
 }

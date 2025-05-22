@@ -1,8 +1,10 @@
 package inge2.com.alquileresMaria.model;
 
 
-import java.time.LocalDate;
+import jakarta.persistence.Embeddable;
 
+import java.time.LocalDate;
+@Embeddable
 public class RangoFecha {
     private LocalDate fechaDesde;
     private LocalDate fechaHasta;
