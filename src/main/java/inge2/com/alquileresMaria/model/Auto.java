@@ -1,5 +1,6 @@
 package inge2.com.alquileresMaria.model;
 
+import inge2.com.alquileresMaria.dto.AutoDtoListar;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -37,7 +38,15 @@ public class Auto {
     @JoinColumn(name = "sucursal_id")
     private Sucursal sucursal;
 
-    public String getPatente() {
-        return patente;
+    public Auto(AutoDtoListar dto, Sucursal sucursal) {
+        this.patente = dto.getPatente();
+        this.capacidad = dto.getCapacidad();
+        this.marca = dto.getMarca();
+        this.modelo = dto.getModelo();
+        this.precioPorDia = dto.getPrecioPorDia();
+        this.categoria = dto.getCategoria();
+        this.rembolso = dto.getRembolso();
+        this.estado = dto.getEstado();
+        this.sucursal = sucursal;
     }
 }

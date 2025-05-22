@@ -20,8 +20,8 @@ public class AutoController {
     private AutoService service;
 
     @PostMapping("/crear")
-    public ResponseEntity<String> crearAuto(@Valid @RequestBody Auto auto){
-        this.service.crearAuto(auto);
+    public ResponseEntity<String> crearAuto(@Valid @RequestBody AutoDtoListar autoDto){
+        this.service.crearAuto(autoDto);
         return ResponseEntity.ok("Auto creado con exito");
     }
 

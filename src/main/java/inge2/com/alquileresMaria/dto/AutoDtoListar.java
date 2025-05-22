@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.engine.internal.ImmutableEntityEntry;
 
 import java.util.List;
 @Getter @Setter
@@ -27,7 +28,7 @@ public class AutoDtoListar {
     private Rembolso rembolso;
     @Enumerated(EnumType.STRING)
     private EstadoAuto estado;
-
+    @NotBlank(message = "La sucursal es obligatoria")
     private String sucursal;
 
     public AutoDtoListar(Auto auto) {
