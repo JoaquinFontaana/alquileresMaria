@@ -27,7 +27,7 @@ public class AutoController {
 
 
     @GetMapping("/listar")
-    public List<AutoDtoListar> listarAutos(@ModelAttribute AutoFilterDTO opcionesFiltrado){
+    public List<AutoDtoListar> listarAutos(@Valid @ModelAttribute AutoFilterDTO opcionesFiltrado){
         return this.service.listarAutos(opcionesFiltrado);
     }
 }
