@@ -1,5 +1,6 @@
 package inge2.com.alquileresMaria.dto;
 
+import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.CategoriaAuto;
 import inge2.com.alquileresMaria.model.EstadoAuto;
 import inge2.com.alquileresMaria.model.Rembolso;
@@ -11,7 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class AutoDTOCrear {
+public class AutoDTO {
     @NotBlank(message = "La patente es obligatoria")
     private String patente;
     @Positive(message = "La capacidad debe ser mayor a cero")
@@ -31,4 +32,19 @@ public class AutoDTOCrear {
     private EstadoAuto estado;
     @NotBlank(message = "La sucursal es obligatoria")
     private String sucursal;
+
+    public AutoDTO(){
+
+    }
+    public AutoDTO(Auto auto) {
+        this.patente = auto.getPatente();
+        this.capacidad = auto.getCapacidad();
+        this.marca = auto.getMarca();
+        this.modelo = auto.getModelo();
+        this.precioPorDia = auto.getPrecioPorDia();
+        this.categoria = auto.getCategoria();
+        this.rembolso = auto.getRembolso();
+        this.estado = auto.getEstado();
+        this.sucursal = auto.getSucursal().getCiudad();
+    }
 }

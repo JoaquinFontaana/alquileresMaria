@@ -1,11 +1,8 @@
 package inge2.com.alquileresMaria.controller;
 
-import inge2.com.alquileresMaria.dto.AutoDTOCrear;
-import inge2.com.alquileresMaria.dto.AutoDtoListar;
+import inge2.com.alquileresMaria.dto.AutoDTO;
 import inge2.com.alquileresMaria.dto.AutoFilterDTO;
-import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.service.AutoService;
-import inge2.com.alquileresMaria.service.Filter.BaseAutoFilter;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +18,7 @@ public class AutoController {
     private AutoService service;
 
     @PostMapping("/crear")
-    public ResponseEntity<String> crearAuto(@Valid @RequestBody AutoDTOCrear autoDto){
+    public ResponseEntity<String> crearAuto(@Valid @RequestBody AutoDTO autoDto){
         this.service.crearAuto(autoDto);
         return ResponseEntity.ok("Auto creado con exito");
     }
@@ -50,7 +47,7 @@ public class AutoController {
             description = "Permite filtrar autos por nombre de sucursal, rango de fechas, capacidad mínima y categorías. Todos los filtros son opcionales y se combinan con lógica AND."
     )*/
     @GetMapping("/listar")
-    public List<AutoDtoListar> listarAutos(@ModelAttribute AutoFilterDTO opcionesFiltrado){
+    public List<AutoDTO> listarAutos(@ModelAttribute AutoFilterDTO opcionesFiltrado){
         return this.service.listarAutos(opcionesFiltrado);
     }
 }

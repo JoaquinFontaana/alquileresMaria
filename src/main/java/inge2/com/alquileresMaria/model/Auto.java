@@ -1,9 +1,7 @@
 package inge2.com.alquileresMaria.model;
 
-import inge2.com.alquileresMaria.dto.AutoDTOCrear;
-import inge2.com.alquileresMaria.dto.AutoDtoListar;
+import inge2.com.alquileresMaria.dto.AutoDTO;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
@@ -43,7 +41,7 @@ public class Auto {
         // Constructor por defecto requerido por Hibernate
     }
 
-    public Auto(AutoDTOCrear dto, Sucursal sucursal) {
+    public Auto(AutoDTO dto, Sucursal sucursal) {
         this.patente = dto.getPatente();
         this.capacidad = dto.getCapacidad();
         this.marca = dto.getMarca();

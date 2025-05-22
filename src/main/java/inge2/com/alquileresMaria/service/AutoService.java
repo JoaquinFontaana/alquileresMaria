@@ -1,7 +1,6 @@
 package inge2.com.alquileresMaria.service;
 
-import inge2.com.alquileresMaria.dto.AutoDtoListar;
-import inge2.com.alquileresMaria.dto.AutoDTOCrear;
+import inge2.com.alquileresMaria.dto.AutoDTO;
 import inge2.com.alquileresMaria.dto.AutoFilterDTO;
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.Sucursal;
@@ -24,7 +23,7 @@ public class AutoService {
     @Autowired
     private ISucursalRepository sucursalRepository;
 
-    public void crearAuto(AutoDTOCrear autoDto){
+    public void crearAuto(AutoDTO autoDto){
         if(this.repository.existsByPatente(autoDto.getPatente())){
             throw new EntityExistsException("La patente " +autoDto.getPatente() + " ya se encuentra registrada");
         }
@@ -34,9 +33,9 @@ public class AutoService {
         repository.save(auto);
     }
 
-    public List<AutoDtoListar> listarAutos(AutoFilterDTO opcionesFiltrado){
+    public List<AutoDTO> listarAutos(AutoFilterDTO opcionesFiltrado){
         return opcionesFiltrado.buildFilter(this.serviceFilter).listar()
-                .stream().map(auto -> new AutoDtoListar(auto))
+                .stream().map(auto -> new AutoDTO(auto))
                 .toList();
     }
 }
