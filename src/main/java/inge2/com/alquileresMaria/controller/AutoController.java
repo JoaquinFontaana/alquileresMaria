@@ -1,5 +1,6 @@
 package inge2.com.alquileresMaria.controller;
 
+import inge2.com.alquileresMaria.dto.AutoDto;
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.repository.IAutoRepository;
 import inge2.com.alquileresMaria.service.AutoService;
@@ -28,7 +29,7 @@ public class AutoController {
     }
 
     @GetMapping("/listar")
-    public List<Auto> listarAutos(){
+    public List<AutoDto> listarAutos(){
         return this.service.listarAuto();
     }
 
