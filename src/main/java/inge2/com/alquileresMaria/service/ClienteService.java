@@ -17,23 +17,26 @@ public class ClienteService {
     @Autowired
     private EncryptService encryptService;
     @Autowired
-    private IClienteRepository repository;
+    private IClienteRepository clienteRepository;
     @Autowired
-    private IRolRepository rolRepository;
+    private RolService rolService ;
 
     @Transactional
     public void crearCliente(PersonaDtoPassword clienteDTO){
-        if(repository.existsByMail(clienteDTO.getMail())){
-            throw new EntityExistsException("El email " + clienteDTO.getMail() + " ya existe");
-        }
-        if(repository.existsByDni(clienteDTO.getDni())){
-            throw new EntityExistsException("El dni " + clienteDTO.getDni() + " ya existe");
-        }
-        Rol rol = this.rolRepository.findByNombre("Cliente")
-                .orElseThrow(() -> new EntityExistsException("El rol Cliente no existe"));
+        this.checkNotExistMail(clienteDTO.getMail());
+        this.checkNotExistDni(clienteDTO.getDni());
         clienteDTO.setPassword(encryptService.encryptPassword(clienteDTO.getPassword()));
-        Cliente cliente = new Cliente(clienteDTO,rol);
-        repository.save(cliente);
+        Cliente cliente = new Cliente(clienteDTO,rolService.findRolByNombre("Cliente"));
+        clienteRepository.save(cliente);
     }
-
+    private void checkNotExistMail(String mail){
+        if(clienteRepository.existsByMail(mail)){
+            throw new EntityExistsException("El email " + mail + " ya existe");
+        }
+    }
+    private void checkNotExistDni(String dni){
+        if(clienteRepository.existsByDni(dni)){
+            throw new EntityExistsException("El dni " + dni + " ya existe");
+        }
+    }
 }

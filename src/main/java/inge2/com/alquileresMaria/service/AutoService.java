@@ -49,10 +49,8 @@ public class AutoService {
     public void eliminarAuto(String patente){
         Auto auto = this.findAutoPatente(patente);
         this.checkAutoNotAlquilado(auto);
-
         List<Alquiler> alquileres = auto.getReservas();
         serviceAlquiler.cancelarReservas(alquileres);
-
         auto.setEstado(EstadoAuto.BAJA);
         this.autoRepository.save(auto);
     }
