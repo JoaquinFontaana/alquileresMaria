@@ -61,9 +61,6 @@ public class AutoService {
     }
 
     public void actualizarAuto(AutoDTO autoActualizado){
-        if(!this.repository.existsByPatente(autoActualizado.getPatente())){
-            throw new EntityNotFoundException("La patente "+ autoActualizado.getPatente() +" no se encuentra registrada.");
-        }
         Sucursal sucursal = sucursalRepository.findByCiudad(autoActualizado.getSucursal())
                 .orElseThrow(() -> new EntityNotFoundException("No existe sucursal en la ciudad " + autoActualizado.getSucursal()));
         Auto auto = this.repository.findByPatente(autoActualizado.getPatente())
