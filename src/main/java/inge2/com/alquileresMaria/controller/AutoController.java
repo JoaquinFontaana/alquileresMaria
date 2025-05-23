@@ -30,7 +30,7 @@ public class AutoController {
         return ResponseEntity.ok("Auto creado con exito");
     }
 
-    @PutMapping(path = "/listar-actualizar")
+    @PutMapping("/actualizar")
     public ResponseEntity<String> actualizarAuto(AutoDTO autoActualizado){
         this.service.actualizarAuto(autoActualizado);
         return ResponseEntity.ok("Auto actualizado con exito");
