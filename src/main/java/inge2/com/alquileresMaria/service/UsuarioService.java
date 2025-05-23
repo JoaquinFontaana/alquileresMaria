@@ -20,7 +20,7 @@ public class UsuarioService {
             //Contraseña incorrecta
         }
         String nombreRol = usuario.getRol().getNombre();
-        //Buscar segun el rol en la tabla empleado o cliente
+        //Buscar segun el rol, en la tabla empleado o cliente
         return "Hola";
     }
 }
