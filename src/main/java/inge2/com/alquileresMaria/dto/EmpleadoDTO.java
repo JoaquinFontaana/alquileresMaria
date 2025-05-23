@@ -12,8 +12,11 @@ public class EmpleadoDTO extends PersonaDtoPassword{
     @NotNull(message = "La sucursal donde trabaja es obligatoria, ingresa el nombre")
     private String nombreSucursalTrabaja;
 
-    public EmpleadoDTO(Empleado empleado) {
+
+    public EmpleadoDTO(Empleado empleado){
         super(empleado);
         this.nombreSucursalTrabaja = empleado.getTrabajaEnSucursal().getCiudad();
     }
+
+
 }

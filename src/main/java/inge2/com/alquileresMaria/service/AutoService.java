@@ -50,13 +50,23 @@ public class AutoService {
         Auto auto = this.repository.findByPatente(patente)
                 .orElseThrow(()->new EntityNotFoundException("la patente " + patente + " no existe"));
         if(auto.getEstado().equals(EstadoAuto.ALQUILADO)){
-            throw new RuntimeException("el vehiculo con patente " + patente + " esta alquilado en este momento");
+            throw new RuntimeException("El vehiculo con patente " + patente + " esta alquilado en este momento");
         }
 
         List<Alquiler> alquileres = auto.getReservas();
         serviceAlquiler.cancelarReservas(alquileres);
 
         auto.setEstado(EstadoAuto.BAJA);
+        this.repository.save(auto);
+    }
+
+    public void actualizarAuto(AutoDTO autoActualizado){
+        if(!this.repository.existsByPatente(autoActualizado.getPatente())){
+            throw new EntityNotFoundException("La patente "+ autoActualizado.getPatente() +" no se encuentra registrada.");
+        }
+        Sucursal sucursal = sucursalRepository.findByCiudad(autoActualizado.getSucursal())
+                .orElseThrow(() -> new EntityNotFoundException("No existe sucursal en la ciudad " + autoActualizado.getSucursal()));
+        Auto auto = new Auto(autoActualizado, sucursal);
         this.repository.save(auto);
     }
 

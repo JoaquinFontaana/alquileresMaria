@@ -17,6 +17,6 @@ public class EmailTestingController {
 
     @RequestMapping("/send-test-email")
     public void sentEmailTest(){
-        emailService.sendEmail("test@example.com","Email test","putooo");
+        emailService.sendEmail("test@example.com","Email test","hola");
     }
 }

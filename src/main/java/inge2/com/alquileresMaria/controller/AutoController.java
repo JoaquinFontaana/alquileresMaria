@@ -30,6 +30,12 @@ public class AutoController {
         return ResponseEntity.ok("Auto creado con exito");
     }
 
+    @PutMapping(path = "/listar-actualizar")
+    public ResponseEntity<String> actualizarAuto(AutoDTO autoActualizado){
+        this.service.actualizarAuto(autoActualizado);
+        return ResponseEntity.ok("Auto actualizado con exito");
+    }
+
     /**
      * Lista los autos disponibles aplicando filtros combinados (todos opcionales).
      * <p>Los filtros se envían como parámetros de query, y se combinan con lógica AND.</p>

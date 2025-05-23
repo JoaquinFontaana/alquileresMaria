@@ -17,4 +17,8 @@ public class PersonaDtoPassword extends PersonaDTO{
         super(persona);
         this.password = persona.getPassword();
     }
+    public PersonaDtoPassword(Persona persona, String password) {
+        super(persona);
+        this.password = password;
+    }
 }

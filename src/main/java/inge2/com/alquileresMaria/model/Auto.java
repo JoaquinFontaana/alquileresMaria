@@ -42,6 +42,11 @@ public class Auto {
     }
 
     public Auto(AutoDTO dto, Sucursal sucursal) {
+        this.asignarDTOaAuto(dto);
+        this.sucursal = sucursal;
+    }
+
+    private void asignarDTOaAuto(AutoDTO dto){
         this.patente = dto.getPatente();
         this.capacidad = dto.getCapacidad();
         this.marca = dto.getMarca();
@@ -50,6 +55,5 @@ public class Auto {
         this.categoria = dto.getCategoria();
         this.rembolso = dto.getRembolso();
         this.estado = dto.getEstado();
-        this.sucursal = sucursal;
     }
 }
