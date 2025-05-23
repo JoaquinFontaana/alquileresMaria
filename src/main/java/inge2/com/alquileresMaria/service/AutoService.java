@@ -11,6 +11,7 @@ import inge2.com.alquileresMaria.repository.ISucursalRepository;
 import inge2.com.alquileresMaria.service.Filter.BaseAutoFilter;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class AutoService {
 
     @Autowired
     private AlquilerService serviceAlquiler;
-
+    @Transactional
     public void crearAuto(AutoDTO autoDto){
         if(this.repository.existsByPatente(autoDto.getPatente())){
             throw new EntityExistsException("La patente " +autoDto.getPatente() + " ya se encuentra registrada");
@@ -44,7 +45,7 @@ public class AutoService {
                 .stream().map(auto -> new AutoDTO(auto))
                 .toList();
     }
-
+    @Transactional
     public void eliminarAuto(String patente){
         if(!this.repository.existsByPatente(patente)){
             throw new EntityExistsException("La patente " +patente + " no se encuentra registrada");
@@ -55,9 +56,8 @@ public class AutoService {
             throw new RuntimeException("el vehiculo con patente " + patente + " esta alquilado en este momento");
         }
 
-        List<Long> idAlquileres = auto.getReservas().stream().map(Alquiler::getId).toList();
-        serviceAlquiler.cancelarReservas(idAlquileres);
-        //ToDo enviar mails
+        List<Alquiler> alquileres = auto.getReservas();
+        serviceAlquiler.cancelarReservas(alquileres);
 
         auto.setEstado(EstadoAuto.BAJA);
         this.repository.save(auto);

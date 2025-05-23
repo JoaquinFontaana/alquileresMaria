@@ -1,10 +1,13 @@
 package inge2.com.alquileresMaria.service;
 
+import inge2.com.alquileresMaria.model.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class EmailService {
@@ -23,5 +26,10 @@ public class EmailService {
         message.setText(body);
 
         mailSender.send(message);
+    }
+    @Async
+    public void sendEmailsClientesCanleacion(List<Cliente> clientes,String subject, String body){
+        clientes.stream()
+                .forEach(cliente -> this.sendEmail(cliente.getMail(),subject,body));
     }
 }
