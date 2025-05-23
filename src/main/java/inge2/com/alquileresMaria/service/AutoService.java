@@ -25,21 +25,24 @@ public class AutoService {
     @Autowired
     private BaseAutoFilter serviceFilter;
     @Autowired
-    private ISucursalRepository sucursalRepository;
+    private SucursalService sucursalService;
 
     @Autowired
     private AlquilerService serviceAlquiler;
     @Transactional
     public void crearAuto(AutoDTO autoDto){
         this.checkPatenteNotExists(autoDto.getPatente());
-        Sucursal sucursal =this.findSucursalCiudad(autoDto.getSucursal());
+        Sucursal sucursal = this.sucursalService.findSucursalCiudad(autoDto.getSucursal());
         Auto auto = new Auto(autoDto,sucursal);
         autoRepository.save(auto);
     }
 
     public List<AutoDTO> listarAutos(AutoFilterDTO opcionesFiltrado){
-        return opcionesFiltrado.buildFilter(this.serviceFilter).listar()
-                .stream().map(auto -> new AutoDTO(auto))
+        return opcionesFiltrado
+                .buildFilter(this.serviceFilter)
+                .listar()
+                .stream()
+                .map(auto -> new AutoDTO(auto))
                 .toList();
     }
     @Transactional
@@ -55,7 +58,7 @@ public class AutoService {
     }
 
     public void actualizarAuto(AutoDTO autoActualizado){
-        Sucursal sucursal = this.findSucursalCiudad(autoActualizado.getSucursal());
+        Sucursal sucursal = this.sucursalService.findSucursalCiudad(autoActualizado.getSucursal());
         Auto auto = this.findAutoPatente(autoActualizado.getPatente());
         auto.actualizarAuto(autoActualizado,sucursal);
         this.autoRepository.save(auto);
@@ -71,11 +74,6 @@ public class AutoService {
     private Auto findAutoPatente(String patente) {
         return autoRepository.findByPatente(patente)
                 .orElseThrow(() -> new EntityNotFoundException("La patente " + patente + " no existe"));
-    }
-
-    private Sucursal findSucursalCiudad(String ciudad) {
-        return sucursalRepository.findByCiudad(ciudad)
-                .orElseThrow(() -> new EntityNotFoundException("No existe sucursal en la ciudad " + ciudad));
     }
 
     private void checkAutoNotAlquilado(Auto auto) {

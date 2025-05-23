@@ -15,13 +15,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/sucursal")
 public class SucursalService {
     @Autowired
-    private ISucursalRepository repository;
+    private ISucursalRepository sucursalRepository;
     @Transactional
     public Sucursal crearSucursal(Sucursal sucursal){
-        if(repository.existsByCiudad(sucursal.getCiudad())){
-            throw new EntityNotFoundException("La sucursal de " + sucursal.getCiudad() +" ya existe");
-        }
-        return repository.save(sucursal);
+        this.checkNotExistSucursal(sucursal);
+        return sucursalRepository.save(sucursal);
     }
 
+    public Sucursal findSucursalCiudad(String ciudad) {
+        return sucursalRepository.findByCiudad(ciudad)
+                .orElseThrow(() -> new EntityNotFoundException("No existe sucursal en la ciudad " + ciudad));
+    }
+
+    private void checkNotExistSucursal(Sucursal sucursal){
+        if(sucursalRepository.existsByCiudad(sucursal.getCiudad())){
+            throw new EntityNotFoundException("La sucursal de " + sucursal.getCiudad() +" ya existe");
+        }
+    }
 }
