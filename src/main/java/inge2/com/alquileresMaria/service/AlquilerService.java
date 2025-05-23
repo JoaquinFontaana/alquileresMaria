@@ -22,12 +22,10 @@ public class AlquilerService {
     public void cancelarReservas(List<Alquiler> alquileres){
         //Solo mandar mails a clientes con reservas futuras verificar que la fecha no sea menor a la actual
         List<Alquiler> alquileresPosteriores = this.filtrarAlquileresPosteriores(alquileres);
-        List<Long> alquileresIds = this.obtenerIdsDeAlquileres(alquileresPosteriores);
-        List<Cliente> clientes = this.obtenerClientesDeAlquileres(alquileresPosteriores);
-        this.repository.deleteAllById(alquileresIds);
+        this.repository.deleteAllById(this.obtenerIdsDeAlquileres(alquileresPosteriores));
         String subject = "Su auto reservado ya no se encuentra disponible";
         String body = "Ofrecer opcion de rembolso o cambiar de auto";
-        this.serviceEmail.sendEmailsClientes(clientes,subject,body);
+        this.serviceEmail.sendEmailsClientes(this.obtenerClientesDeAlquileres(alquileresPosteriores),subject,body);
     }
 
     private List<Alquiler> filtrarAlquileresPosteriores(List<Alquiler> alquileres){
