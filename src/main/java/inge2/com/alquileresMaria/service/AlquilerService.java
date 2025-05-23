@@ -31,6 +31,6 @@ public class AlquilerService {
         this.repository.deleteAllById(alquileresIds);
         String subject = "Su auto reservado ya no se encuentra disponible";
         String body = "Ofrecer opcion de rembolso o cambiar de auto";
-        this.serviceEmail.sendEmailsClientesCanleacion(clientes,subject,body);
+        this.serviceEmail.sendEmailsClientes(clientes,subject,body);
     }
 }

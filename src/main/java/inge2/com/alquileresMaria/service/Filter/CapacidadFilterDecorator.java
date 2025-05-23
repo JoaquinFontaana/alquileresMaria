@@ -14,6 +14,6 @@ public class CapacidadFilterDecorator extends FilterDecorator{
 
     @Override
     public List<Auto> filtrar(List<Auto> autos) {
-        return autos.stream().filter(auto -> auto.getCapacidad() == this.capacidadFilter).toList();
+        return autos.stream().filter(auto -> auto.getCapacidad() >= this.capacidadFilter).toList();
     }
 }

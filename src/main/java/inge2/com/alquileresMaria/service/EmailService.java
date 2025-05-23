@@ -28,7 +28,7 @@ public class EmailService {
         mailSender.send(message);
     }
     @Async
-    public void sendEmailsClientesCanleacion(List<Cliente> clientes,String subject, String body){
+    public void sendEmailsClientes(List<Cliente> clientes,String subject, String body){
         clientes.stream()
                 .forEach(cliente -> this.sendEmail(cliente.getMail(),subject,body));
     }
