@@ -47,9 +47,6 @@ public class AutoService {
     }
     @Transactional
     public void eliminarAuto(String patente){
-        if(!this.repository.existsByPatente(patente)){
-            throw new EntityExistsException("La patente " +patente + " no se encuentra registrada");
-        }
         Auto auto = this.repository.findByPatente(patente)
                 .orElseThrow(()->new EntityNotFoundException("la patente " + patente + " no existe"));
         if(auto.getEstado().equals(EstadoAuto.ALQUILADO)){
