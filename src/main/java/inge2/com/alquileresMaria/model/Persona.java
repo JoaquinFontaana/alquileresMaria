@@ -17,8 +17,6 @@ public abstract class Persona extends Usuario {
     @NotBlank(message = "El apellido es obligatorio")
     private String apellido;
     @NotBlank(message = "El mail es obligatorio")
-    @Email(message = "Ingresa un email valido")
-    private String mail;
     @Column(length = 9)
     @NotBlank(message = "El DNI es obligatorio")
     @Size(min = 8, max = 9, message = "El dni debe tener 8 o 9 caracteres")
@@ -27,8 +25,8 @@ public abstract class Persona extends Usuario {
     public Persona(PersonaDtoPassword dto, Rol rol) {
         this.nombre = dto.getNombre();
         this.apellido = dto.getApellido();
-        this.mail = dto.getMail();
         this.dni = dto.getDni();
+        this.setMail(dto.getMail());
         this.setRol(rol);
         this.setPassword(dto.getPassword());
     }

@@ -14,6 +14,8 @@ public class Usuario {
     private Long id;
     @NotBlank(message = "La contraseña es obligatoria")
     private String password;
+    @Email(message = "Ingresa un email valido")
+    private String mail;
     @ManyToOne(optional = false)
     @JoinColumn(name = "rol_id")
     private Rol rol;
