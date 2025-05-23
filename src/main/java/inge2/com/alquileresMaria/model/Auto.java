@@ -45,6 +45,10 @@ public class Auto {
         this.asignarDTOaAuto(dto);
         this.sucursal = sucursal;
     }
+    public void actualizarAuto(AutoDTO dto, Sucursal sucursal){
+        this.asignarDTOaAuto(dto);
+        this.sucursal = sucursal;
+    }
 
     private void asignarDTOaAuto(AutoDTO dto){
         this.patente = dto.getPatente();

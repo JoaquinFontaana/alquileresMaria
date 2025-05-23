@@ -31,7 +31,7 @@ public class AutoController {
     }
 
     @PutMapping("/actualizar")
-    public ResponseEntity<String> actualizarAuto(AutoDTO autoActualizado){
+    public ResponseEntity<String> actualizarAuto(@Valid @RequestBody AutoDTO autoActualizado){
         this.service.actualizarAuto(autoActualizado);
         return ResponseEntity.ok("Auto actualizado con exito");
     }

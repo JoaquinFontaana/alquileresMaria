@@ -66,7 +66,9 @@ public class AutoService {
         }
         Sucursal sucursal = sucursalRepository.findByCiudad(autoActualizado.getSucursal())
                 .orElseThrow(() -> new EntityNotFoundException("No existe sucursal en la ciudad " + autoActualizado.getSucursal()));
-        Auto auto = new Auto(autoActualizado, sucursal);
+        Auto auto = this.repository.findByPatente(autoActualizado.getPatente())
+                .orElseThrow(() -> new EntityNotFoundException("No existe la patente "+ autoActualizado.getPatente()));
+        auto.actualizarAuto(autoActualizado,sucursal);
         this.repository.save(auto);
     }
 
