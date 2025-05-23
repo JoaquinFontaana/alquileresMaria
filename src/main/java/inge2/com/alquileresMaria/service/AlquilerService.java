@@ -21,16 +21,24 @@ public class AlquilerService {
     @Transactional
     public void cancelarReservas(List<Alquiler> alquileres){
         //Solo mandar mails a clientes con reservas futuras verificar que la fecha no sea menor a la actual
-        List<Alquiler> alquileresPosteriores = alquileres.stream()
-                .filter(alquiler -> alquiler.getRangoFecha().getFechaDesde().isAfter(LocalDate.now()))
-                .toList();
-        List<Long> alquileresIds = alquileresPosteriores.stream()
-                .map(Alquiler::getId).toList();
-        List<Cliente> clientes = alquileresPosteriores.stream()
-                .map(Alquiler::getCliente).toList();
+        List<Alquiler> alquileresPosteriores = this.filtrarAlquileresPosteriores(alquileres);
+        List<Long> alquileresIds = this.obtenerIdsDeAlquileres(alquileresPosteriores);
+        List<Cliente> clientes = this.obtenerClientesDeAlquileres(alquileresPosteriores);
         this.repository.deleteAllById(alquileresIds);
         String subject = "Su auto reservado ya no se encuentra disponible";
         String body = "Ofrecer opcion de rembolso o cambiar de auto";
         this.serviceEmail.sendEmailsClientes(clientes,subject,body);
+    }
+
+    private List<Alquiler> filtrarAlquileresPosteriores(List<Alquiler> alquileres){
+        return  alquileres.stream()
+                .filter(alquiler -> alquiler.getRangoFecha().getFechaDesde().isAfter(LocalDate.now()))
+                .toList();
+    }
+    private List<Cliente> obtenerClientesDeAlquileres(List<Alquiler> alquileres){
+        return  alquileres.stream().map(Alquiler::getCliente).toList();
+    }
+    private List<Long> obtenerIdsDeAlquileres(List<Alquiler> alquileres){
+        return  alquileres.stream().map(Alquiler::getId).toList();
     }
 }
