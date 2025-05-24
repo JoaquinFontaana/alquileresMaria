@@ -19,7 +19,9 @@ import java.util.List;
 public class CheckOutService {
 
     public String createPreference(/*Datos que mande el front sobre el pago a crear*/DatosPagoDTO datosPagoDTO) throws MPException, MPApiException {
-
+        /*Se podria recebir algun dato del auto como patente, para buscarlo en la bd y obtener su precio por dia
+        y que el front mande la cantidad de dias, asi calculando el precio total
+         */
         PreferenceItemRequest item = PreferenceItemRequest.builder()
                 .title(datosPagoDTO.getTitulo())
                 .quantity(1)
