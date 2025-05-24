@@ -6,13 +6,10 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Service
-@RequestMapping("/sucursal")
 public class SucursalService {
     @Autowired
     private ISucursalRepository sucursalRepository;
@@ -22,7 +19,7 @@ public class SucursalService {
         return sucursalRepository.save(sucursal);
     }
 
-    public Sucursal findSucursalCiudad(String ciudad) {
+    public Sucursal findSucursalByCiudad(String ciudad) {
         return sucursalRepository.findByCiudad(ciudad)
                 .orElseThrow(() -> new EntityNotFoundException("No existe sucursal en la ciudad " + ciudad));
     }
