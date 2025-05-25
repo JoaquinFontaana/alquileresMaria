@@ -10,6 +10,7 @@ import com.mercadopago.resources.preference.Preference;
 import inge2.com.alquileresMaria.dto.AlquilerDTOCrear;
 import inge2.com.alquileresMaria.dto.CheckOutDTO;
 import inge2.com.alquileresMaria.dto.DatosPagoDTO;
+import inge2.com.alquileresMaria.helpers.MpPreferenceBuilder;
 import inge2.com.alquileresMaria.model.Alquiler;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ public class CheckOutService {
     private AlquilerService alquilerService;
     @Autowired
     private  PreferenceClient client;
+    @Autowired
+    private MpPreferenceBuilder mpPreferenceBuilder;
 
     @Transactional
     public String createPreference(CheckOutDTO checkOutDTO) throws MPException, MPApiException {
@@ -36,41 +39,18 @@ public class CheckOutService {
 
         Alquiler alquiler = this.alquilerService.crearAlquiler(alquilerDTO);
 
-        Preference preference = this.client.create(this.crearPreferenceRequest(alquiler.getId().toString(),datosPagoDTO,alquiler.calcularTotal());
+        Preference preference = this.client
+                .create(this.mpPreferenceBuilder
+                        .crearPreferenceRequest(
+                                alquiler.getId().toString(),
+                                datosPagoDTO,
+                                alquiler.calcularTotal()
+                        )
+                );
 
         pagoService.crearPago(preference.getId(),alquiler,preference.getSandboxInitPoint(),alquiler.calcularTotal());
 
         return preference.getSandboxInitPoint(); //url de pago de prueba generada a partir de los datos obtenidos
-    }
-
-    private PreferenceItemRequest crearPreferenceItemRequest(DatosPagoDTO datosPagoDTO, double total){
-        return PreferenceItemRequest.builder()
-                .title(datosPagoDTO.getTitulo())
-                .quantity(1)
-                .currencyId("ARS")
-                .unitPrice(new BigDecimal(total))
-                .build();
-    }
-
-    private PreferenceBackUrlsRequest crearPreferenceBackUrlsRequest(DatosPagoDTO datosPagoDTO){
-        return  PreferenceBackUrlsRequest.builder()
-                .success(datosPagoDTO.getSuccessUrl()) //Rutas de redirrecion en el frontend
-                .failure(datosPagoDTO.getFailureUrl())
-                .pending(datosPagoDTO.getPendingUrl())
-                .build();
-    }
-
-    private PreferenceRequest crearPreferenceRequest(String externalReference, DatosPagoDTO datosPagoDTO,double total){
-        PreferenceItemRequest item = this.crearPreferenceItemRequest(datosPagoDTO,total);
-        PreferenceBackUrlsRequest backUrlsRequest = this.crearPreferenceBackUrlsRequest(datosPagoDTO);
-        return  PreferenceRequest.builder()
-                .items(List.of(item))
-                .backUrls(backUrlsRequest)
-                //Para implementar las notificaciones la API debe estar en un dominio accesible en internet
-                .notificationUrl("miDominio/checkOut/webhook")
-                .externalReference(externalReference)
-                .autoReturn("approved") //Investigar
-                .build();
     }
 
 }
