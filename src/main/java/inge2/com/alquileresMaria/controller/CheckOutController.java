@@ -18,6 +18,28 @@ public class CheckOutController {
     private CheckOutService checkOutService;
     @Autowired
     private PagoService pagoService;
+
+    /*
+    ** Ejemplo de peticion
+    *  {
+    "datosPagoDTO": {
+      "titulo": "Reserva de Auto - 5 días",
+      "successUrl": "https://miapp.com/pago/exito",
+      "failureUrl": "https://miapp.com/pago/fallo",
+      "pendingUrl": "https://miapp.com/pago/pendiente"
+    },
+    "alquilerDTO": {
+      "rangoFecha": {
+        "fechaDesde": "2025-06-10",
+        "fechaHasta": "2025-06-15"
+      },
+      "licenciaConductor": "ABC123456",
+      "clienteMail": "maria.gonzalez@example.com",
+      "patenteAuto": "ADF111",
+      "sucursalEntrega": "Trelew",
+      "sucursalDevolucion": "Trelew"
+    }
+ }   */
     @PostMapping("/createPreference")
     public String createPreference(@Valid @RequestBody CheckOutDTO checkOutDTO) throws MPException, MPApiException {
         return this.checkOutService.createPreference(checkOutDTO); //Url de redireccion del pago
