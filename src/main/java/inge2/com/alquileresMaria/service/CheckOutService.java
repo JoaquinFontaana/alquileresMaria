@@ -7,26 +7,37 @@ import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
-import com.mercadopago.resources.preference.PreferenceBackUrls;
+import inge2.com.alquileresMaria.dto.AlquilerDTOListar;
+import inge2.com.alquileresMaria.dto.CheckOutDTO;
 import inge2.com.alquileresMaria.dto.DatosPagoDTO;
+import inge2.com.alquileresMaria.model.Auto;
+import inge2.com.alquileresMaria.model.Pago;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CheckOutService {
+    @Autowired
+    private PagoService pagoService;
+    @Autowired
+    private AutoService autoService;
+    @Autowired
+    private AlquilerService alquilerService;
 
-    public String createPreference(/*Datos que mande el front sobre el pago a crear*/DatosPagoDTO datosPagoDTO) throws MPException, MPApiException {
-        /*Se podria recebir algun dato del auto como patente, para buscarlo en la bd y obtener su precio por dia
-        y que el front mande la cantidad de dias, asi calculando el precio total
-         */
+    public String createPreference(/*Datos que mande el front sobre el pago a crear*/CheckOutDTO checkOutDTO) throws MPException, MPApiException {
+        DatosPagoDTO datosPagoDTO = checkOutDTO.getDatosPagoDTO();
+        AlquilerDTOListar alquilerDTO = checkOutDTO.getAlquilerDTO();
+
+        Auto auto = autoService.findAutoByPatente(datosPagoDTO.getPatente());
+        Double total = datosPagoDTO.calcularTotal(auto.getPrecioPorDia());
         PreferenceItemRequest item = PreferenceItemRequest.builder()
                 .title(datosPagoDTO.getTitulo())
                 .quantity(1)
                 .currencyId("ARS")
-                .unitPrice(new BigDecimal(datosPagoDTO.getTotal()))
+                .unitPrice(new BigDecimal(total))
                 .build();
 
         List<PreferenceItemRequest> items = List.of(item);
@@ -35,14 +46,19 @@ public class CheckOutService {
                 .failure(datosPagoDTO.getFailureUrl())
                 .pending(datosPagoDTO.getPendingUrl())
                 .build();
+
         PreferenceRequest request = PreferenceRequest.builder()
                 .items(items)
                 .backUrls(backUrlsRequest)
+                .externalReference()
                 .autoReturn("approved") //Investigar
                 .build();
 
         PreferenceClient client = new PreferenceClient();
         Preference preference = client.create(request);
+        Alquiler
+        Pago pago = new Pago(preference.getId(),,preference.getInitPoint(),total);
+
 
         return preference.getInitPoint();//url de pago generada a partir de los datos obtenidos
     }

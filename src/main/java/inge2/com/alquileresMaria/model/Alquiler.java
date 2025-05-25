@@ -1,5 +1,6 @@
 package inge2.com.alquileresMaria.model;
 
+import inge2.com.alquileresMaria.dto.AlquilerDTOCrear;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,9 +29,19 @@ public class Alquiler {
     @ManyToOne
     @JoinColumn(name = "entrega_sucursal_id")
     private Sucursal entregaEnSucursal;
+    @OneToOne(mappedBy = "alquiler")
+    private Pago pago;
 
     public boolean disponibleEnRangoFechas(RangoFecha rango){
         return this.rangoFecha.sinSolapamiento(rango);
+    }
+    public Alquiler (AlquilerDTOCrear alquilerDTOCrear,Auto auto,Cliente cliente,Sucursal devolucionEnSucursal,Sucursal entregaEnSucursal){
+        this.auto = auto;
+        this.cliente = cliente;
+        this.devolucionEnSucursal = devolucionEnSucursal;
+        this.entregaEnSucursal = entregaEnSucursal;
+        this.licenciaConductor = alquilerDTOCrear.getLicenciaConductor();
+        this.rangoFecha = alquilerDTOCrear.getRangoFecha();
     }
     //Calcular total
 }

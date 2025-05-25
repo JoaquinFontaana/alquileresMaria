@@ -1,7 +1,11 @@
 package inge2.com.alquileresMaria.service;
 
+import inge2.com.alquileresMaria.dto.AlquilerDTOCrear;
+import inge2.com.alquileresMaria.dto.AlquilerDTOListar;
 import inge2.com.alquileresMaria.model.Alquiler;
+import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.Cliente;
+import inge2.com.alquileresMaria.model.Sucursal;
 import inge2.com.alquileresMaria.repository.IAlquilerRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,23 @@ public class AlquilerService {
     private IAlquilerRepository repository;
     @Autowired
     private EmailService serviceEmail;
+    @Autowired
+    private SucursalService sucursalService;
+    @Autowired
+    private AutoService autoService;
+    @Autowired
+    private ClienteService clienteService;
+
+    @Transactional
+    public Alquiler crearAlquiler(AlquilerDTOCrear alquilerDTO){
+        Auto auto = autoService.findAutoByPatente(alquilerDTO.getPatenteAuto());
+        this.autoService.verficarDisponibilidad(auto,alquilerDTO.getRangoFecha());
+        Sucursal entregaSucursal = this.sucursalService.findSucursalByCiudad(alquilerDTO.getSucursalEntrega());
+        Sucursal devolucionSucursal = this.sucursalService.findSucursalByCiudad(alquilerDTO.getSucursalDevolucion());
+        Cliente cliente = this.clienteService.findClienteByEmail(alquilerDTO.getClienteMail());
+        Alquiler alquiler = new Alquiler(alquilerDTO,auto,cliente,devolucionSucursal,entregaSucursal);
+        return this.repository.save(alquiler);
+    }
 
     @Transactional
     public void cancelarReservas(List<Alquiler> alquileres){

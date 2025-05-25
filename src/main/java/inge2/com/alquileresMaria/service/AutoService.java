@@ -4,6 +4,7 @@ import inge2.com.alquileresMaria.dto.AutoDTO;
 import inge2.com.alquileresMaria.dto.AutoFilterDTO;
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.EstadoAuto;
+import inge2.com.alquileresMaria.model.RangoFecha;
 import inge2.com.alquileresMaria.model.Sucursal;
 import inge2.com.alquileresMaria.repository.IAutoRepository;
 import inge2.com.alquileresMaria.service.Filter.BaseAutoFilter;
@@ -59,13 +60,25 @@ public class AutoService {
     }
 
     //Helpers para validaciones o buscar registros en la BD
+    public void verficarDisponibilidad(Auto auto,RangoFecha rangoFecha){
+        if(auto.getReservas().stream().anyMatch(alquiler -> !alquiler.disponibleEnRangoFechas(rangoFecha))){
+            throw new IllegalStateException("El auto no se encuentra disponible en esas fechas");
+        }
+    }
+
     private void checkPatenteNotExists(String patente) {
         if (autoRepository.existsByPatente(patente)) {
             throw new EntityExistsException("La patente " + patente + " ya se encuentra registrada");
         }
     }
 
-    private Auto findAutoByPatente(String patente) {
+    private void checkPatenteExists(String patente) {
+        if (autoRepository.existsByPatente(patente)) {
+            throw new EntityExistsException("La patente " + patente + " no se encuentra registrada");
+        }
+    }
+
+    public Auto findAutoByPatente(String patente) {
         return autoRepository.findByPatente(patente)
                 .orElseThrow(() -> new EntityNotFoundException("La patente " + patente + " no existe"));
     }

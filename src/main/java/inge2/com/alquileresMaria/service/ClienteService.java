@@ -8,6 +8,7 @@ import inge2.com.alquileresMaria.model.Rol;
 import inge2.com.alquileresMaria.repository.IClienteRepository;
 import inge2.com.alquileresMaria.repository.IRolRepository;
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,5 +39,9 @@ public class ClienteService {
         if(clienteRepository.existsByDni(dni)){
             throw new EntityExistsException("El dni " + dni + " ya existe");
         }
+    }
+    public Cliente findClienteByEmail(String mail){
+        return this.clienteRepository.findClienteByMail(mail)
+                .orElseThrow(() -> new EntityNotFoundException("El cliente con el mail " + mail + " no existe"));
     }
 }

@@ -2,9 +2,13 @@ package inge2.com.alquileresMaria.model;
 
 
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
-@Embeddable
+import java.time.Period;
+
+@Embeddable @Getter @Setter
 public class RangoFecha {
     private LocalDate fechaDesde;
     private LocalDate fechaHasta;
@@ -12,13 +16,6 @@ public class RangoFecha {
     public RangoFecha(LocalDate fechaDesde, LocalDate fechaHasta) {
         this.fechaDesde = fechaDesde;
         this.fechaHasta = fechaHasta;
-    }
-    public LocalDate getFechaDesde() {
-        return fechaDesde;
-    }
-
-    public LocalDate getFechaHasta() {
-        return fechaHasta;
     }
 
     /**
@@ -34,5 +31,8 @@ public class RangoFecha {
     public boolean sinSolapamiento(RangoFecha rango) {
         return this.fechaHasta.isBefore(rango.getFechaDesde())
                 || rango.getFechaHasta().isBefore(this.fechaDesde);
+    }
+    public int cantidadDeDias(){
+        return Period.between(fechaDesde,fechaHasta).getDays();
     }
 }
