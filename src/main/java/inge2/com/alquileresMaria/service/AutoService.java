@@ -30,8 +30,10 @@ public class AutoService {
     @Transactional
     public void crearAuto(AutoDTO autoDto){
         this.verficacionAutoService.checkPatenteNotExists(autoDto.getPatente());
+
         Sucursal sucursal = this.sucursalService.findSucursalByCiudad(autoDto.getSucursal());
         Auto auto = new Auto(autoDto,sucursal);
+
         autoRepository.save(auto);
     }
 
@@ -47,14 +49,17 @@ public class AutoService {
     public void eliminarAuto(String patente){
         Auto auto = this.verficacionAutoService.findAutoByPatente(patente);
         this.verficacionAutoService.checkAutoNotAlquilado(auto);
+
         serviceAlquiler.cancelarReservas(auto.getReservas());
         auto.setEstado(EstadoAuto.BAJA);
+
         this.autoRepository.save(auto);
     }
     @Transactional
     public void actualizarAuto(AutoDTO autoActualizado){
         Sucursal sucursal = this.sucursalService.findSucursalByCiudad(autoActualizado.getSucursal());
         Auto auto = this.verficacionAutoService.findAutoByPatente(autoActualizado.getPatente());
+
         auto.actualizarAuto(autoActualizado,sucursal);
         this.autoRepository.save(auto);
     }
