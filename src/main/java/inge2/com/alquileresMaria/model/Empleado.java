@@ -16,4 +16,7 @@ public class Empleado extends Persona {
         super((PersonaDTO) empleadoDTO,rol);
         this.trabajaEnSucursal = trabajaEnSucursal;
     }
+    public Empleado(){
+        super();
+    }
 }

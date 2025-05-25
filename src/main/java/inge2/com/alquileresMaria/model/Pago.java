@@ -15,6 +15,7 @@ public class Pago {
     private Alquiler externalReference;
     private String initPoint;
     private Double monto;
+    @Enumerated(EnumType.STRING)
     private EstadoPago estadoPago;
 
     public Pago(String preference_id, Alquiler external_reference, String init_point, Double monto) {
@@ -23,5 +24,9 @@ public class Pago {
         this.initPoint = init_point;
         this.monto = monto;
         this.estadoPago = EstadoPago.PENDIENTE;
+    }
+
+    public Pago(){
+
     }
 }
