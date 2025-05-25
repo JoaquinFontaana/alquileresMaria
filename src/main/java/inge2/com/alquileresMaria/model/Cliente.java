@@ -14,7 +14,10 @@ public class Cliente extends Persona {
 
     @OneToMany(mappedBy = "cliente")
     private List<Alquiler> alquileres;
-
+    public Cliente() {
+        super();
+        this.alquileres = new ArrayList<>();
+    }
     public Cliente (PersonaDTO dto, Rol rol){
         super(dto,rol);
         this.alquileres = new ArrayList<>();

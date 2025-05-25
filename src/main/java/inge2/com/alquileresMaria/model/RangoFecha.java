@@ -12,7 +12,9 @@ import java.time.Period;
 public class RangoFecha {
     private LocalDate fechaDesde;
     private LocalDate fechaHasta;
+    public RangoFecha(){
 
+    }
     public RangoFecha(LocalDate fechaDesde, LocalDate fechaHasta) {
         this.fechaDesde = fechaDesde;
         this.fechaHasta = fechaHasta;

@@ -28,4 +28,7 @@ public abstract class Persona extends Usuario {
         this.setRol(rol);
         this.setPassword(dto.getPassword());
     }
+    public Persona(){
+        super();
+    }
 }

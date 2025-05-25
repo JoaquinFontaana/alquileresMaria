@@ -19,5 +19,7 @@ public class Usuario {
     @ManyToOne(optional = false)
     @JoinColumn(name = "rol_id")
     private Rol rol;
+    public Usuario(){
 
+    }
 }
