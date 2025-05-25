@@ -2,11 +2,8 @@ package inge2.com.alquileresMaria.service;
 
 
 import inge2.com.alquileresMaria.dto.PersonaDTO;
-import inge2.com.alquileresMaria.dto.PersonaDtoPassword;
 import inge2.com.alquileresMaria.model.Cliente;
-import inge2.com.alquileresMaria.model.Rol;
 import inge2.com.alquileresMaria.repository.IClienteRepository;
-import inge2.com.alquileresMaria.repository.IRolRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -23,11 +20,11 @@ public class ClienteService {
     private RolService rolService ;
 
     @Transactional
-    public void crearCliente(PersonaDtoPassword clienteDTO){
+    public void crearCliente(PersonaDTO clienteDTO){
         this.checkNotExistMail(clienteDTO.getMail());
         this.checkNotExistDni(clienteDTO.getDni());
         clienteDTO.setPassword(encryptService.encryptPassword(clienteDTO.getPassword()));
-        Cliente cliente = new Cliente(clienteDTO,rolService.findRolByNombre("Cliente"));
+        Cliente cliente = new Cliente(clienteDTO,rolService.findRolByNombre("CLIENT"));
         clienteRepository.save(cliente);
     }
     private void checkNotExistMail(String mail){

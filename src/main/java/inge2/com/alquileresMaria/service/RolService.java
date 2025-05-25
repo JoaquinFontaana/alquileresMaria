@@ -12,6 +12,6 @@ public class RolService {
     private IRolRepository rolRepository;
 
     public Rol findRolByNombre(String nombre) {
-        return  this.rolRepository.findByNombre("Cliente").orElseThrow(() -> new EntityExistsException("El rol Cliente no existe"));
+        return  this.rolRepository.findByNombre(nombre).orElseThrow(() -> new EntityExistsException("El rol" + nombre + "no existe"));
     }
 }

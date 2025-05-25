@@ -7,6 +7,7 @@ import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.model.Sucursal;
 import inge2.com.alquileresMaria.repository.IAlquilerRepository;
+import inge2.com.alquileresMaria.service.Verfication.VerficacionAutoService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,14 +25,14 @@ public class AlquilerService {
     @Autowired
     private SucursalService sucursalService;
     @Autowired
-    private AutoService autoService;
+    private VerficacionAutoService verficacionAutoService;
     @Autowired
     private ClienteService clienteService;
 
     @Transactional
     public Alquiler crearAlquiler(AlquilerDTOCrear alquilerDTO){
-        Auto auto = autoService.findAutoByPatente(alquilerDTO.getPatenteAuto());
-        this.autoService.verficarDisponibilidad(auto,alquilerDTO.getRangoFecha());
+        Auto auto = this.verficacionAutoService.findAutoByPatente(alquilerDTO.getPatenteAuto());
+        this.verficacionAutoService.verificarDisponibilidad(auto,alquilerDTO.getRangoFecha());
         Sucursal entregaSucursal = this.sucursalService.findSucursalByCiudad(alquilerDTO.getSucursalEntrega());
         Sucursal devolucionSucursal = this.sucursalService.findSucursalByCiudad(alquilerDTO.getSucursalDevolucion());
         Cliente cliente = this.clienteService.findClienteByEmail(alquilerDTO.getClienteMail());

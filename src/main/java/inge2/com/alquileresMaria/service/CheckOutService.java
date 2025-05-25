@@ -1,9 +1,6 @@
 package inge2.com.alquileresMaria.service;
 
-import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
 import com.mercadopago.client.preference.PreferenceClient;
-import com.mercadopago.client.preference.PreferenceItemRequest;
-import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
@@ -28,8 +25,6 @@ public class CheckOutService {
     @Autowired
     private AlquilerService alquilerService;
     @Autowired
-    private  PreferenceClient client;
-    @Autowired
     private MpPreferenceBuilder mpPreferenceBuilder;
 
     @Transactional
@@ -38,8 +33,8 @@ public class CheckOutService {
         AlquilerDTOCrear alquilerDTO = checkOutDTO.getAlquilerDTO();
 
         Alquiler alquiler = this.alquilerService.crearAlquiler(alquilerDTO);
-
-        Preference preference = this.client
+        PreferenceClient client = new PreferenceClient();
+        Preference preference = client
                 .create(this.mpPreferenceBuilder
                         .crearPreferenceRequest(
                                 alquiler.getId().toString(),

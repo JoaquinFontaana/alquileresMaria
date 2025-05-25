@@ -14,9 +14,9 @@ public class SucursalService {
     @Autowired
     private ISucursalRepository sucursalRepository;
     @Transactional
-    public Sucursal crearSucursal(Sucursal sucursal){
+    public void crearSucursal(Sucursal sucursal){
         this.checkNotExistSucursal(sucursal);
-        return sucursalRepository.save(sucursal);
+        sucursalRepository.save(sucursal);
     }
 
     public Sucursal findSucursalByCiudad(String ciudad) {

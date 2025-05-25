@@ -29,7 +29,7 @@ public class Alquiler {
     @ManyToOne
     @JoinColumn(name = "entrega_sucursal_id")
     private Sucursal entregaEnSucursal;
-    @OneToOne(mappedBy = "alquiler")
+    @OneToOne(mappedBy = "externalReference")
     private Pago pago;
 
     public boolean disponibleEnRangoFechas(RangoFecha rango){

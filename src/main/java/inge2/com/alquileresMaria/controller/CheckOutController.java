@@ -24,7 +24,7 @@ public class CheckOutController {
     }
 
     //Aca se recibiran las notificaciones referidas a las preference de mercadopago
-    @PostMapping("/webhook")
+    /*@PostMapping("/webhook")
     public ResponseEntity<String> recibirNotificacion(@RequestParam("type") String type, @RequestParam("data.id") String dataId){
         // Solo procesamos pagos
         if ("payment".equals(type)) {
@@ -33,6 +33,6 @@ public class CheckOutController {
 
         // Responder 200 OK para que MP no reintente
         return ResponseEntity.ok("OK");
-    }
+    }*/
 
 }
