@@ -14,5 +14,10 @@ public class Rol {
     private Long id;
     @NotBlank(message = "El rol debe tener un nombre")
     private String nombre;
+    public Rol(){
 
+    }
+    public Rol(String nombre) {
+        this.nombre = nombre;
+    }
 }

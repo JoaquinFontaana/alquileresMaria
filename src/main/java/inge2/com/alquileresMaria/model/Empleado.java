@@ -2,9 +2,7 @@ package inge2.com.alquileresMaria.model;
 
 import inge2.com.alquileresMaria.dto.EmpleadoDTO;
 import inge2.com.alquileresMaria.dto.PersonaDTO;
-import inge2.com.alquileresMaria.dto.PersonaDtoPassword;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +13,10 @@ public class Empleado extends Persona {
     private Sucursal trabajaEnSucursal;
 
     public Empleado(EmpleadoDTO empleadoDTO, Sucursal trabajaEnSucursal,Rol rol) {
-        super((PersonaDtoPassword) empleadoDTO,rol);
+        super((PersonaDTO) empleadoDTO,rol);
         this.trabajaEnSucursal = trabajaEnSucursal;
+    }
+    public Empleado(){
+        super();
     }
 }

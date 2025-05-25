@@ -43,4 +43,8 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> handleEntityExist(EntityExistsException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleGenericException(RuntimeException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }

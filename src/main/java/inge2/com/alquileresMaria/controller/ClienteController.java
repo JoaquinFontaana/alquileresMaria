@@ -1,8 +1,6 @@
 package inge2.com.alquileresMaria.controller;
 
 import inge2.com.alquileresMaria.dto.PersonaDTO;
-import inge2.com.alquileresMaria.dto.PersonaDtoPassword;
-import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.service.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,7 @@ public class ClienteController {
     //Metodo para registrase
 
     @PostMapping(path = "/registrar")
-    public ResponseEntity<String> registrarCliente(@Valid @RequestBody PersonaDtoPassword cliente){
+    public ResponseEntity<String> registrarCliente(@Valid @RequestBody PersonaDTO cliente){
         // Si falla la validaciónes o existe email/dni, se lanzará una RuntimeException
         service.crearCliente(cliente);
 

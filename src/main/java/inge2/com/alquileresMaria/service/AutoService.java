@@ -7,8 +7,7 @@ import inge2.com.alquileresMaria.model.EstadoAuto;
 import inge2.com.alquileresMaria.model.Sucursal;
 import inge2.com.alquileresMaria.repository.IAutoRepository;
 import inge2.com.alquileresMaria.service.Filter.BaseAutoFilter;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
+import inge2.com.alquileresMaria.service.Verfication.VerficacionAutoService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,14 +22,18 @@ public class AutoService {
     private BaseAutoFilter serviceFilter;
     @Autowired
     private SucursalService sucursalService;
-
+    @Autowired
+    private VerficacionAutoService verficacionAutoService;
     @Autowired
     private AlquilerService serviceAlquiler;
+
     @Transactional
     public void crearAuto(AutoDTO autoDto){
-        this.checkPatenteNotExists(autoDto.getPatente());
+        this.verficacionAutoService.checkPatenteNotExists(autoDto.getPatente());
+
         Sucursal sucursal = this.sucursalService.findSucursalByCiudad(autoDto.getSucursal());
         Auto auto = new Auto(autoDto,sucursal);
+
         autoRepository.save(auto);
     }
 
@@ -44,35 +47,20 @@ public class AutoService {
     }
     @Transactional
     public void eliminarAuto(String patente){
-        Auto auto = this.findAutoByPatente(patente);
-        this.checkAutoNotAlquilado(auto);
+        Auto auto = this.verficacionAutoService.findAutoByPatente(patente);
+        this.verficacionAutoService.checkAutoNotAlquilado(auto);
+
         serviceAlquiler.cancelarReservas(auto.getReservas());
         auto.setEstado(EstadoAuto.BAJA);
+
         this.autoRepository.save(auto);
     }
     @Transactional
     public void actualizarAuto(AutoDTO autoActualizado){
         Sucursal sucursal = this.sucursalService.findSucursalByCiudad(autoActualizado.getSucursal());
-        Auto auto = this.findAutoByPatente(autoActualizado.getPatente());
+        Auto auto = this.verficacionAutoService.findAutoByPatente(autoActualizado.getPatente());
+
         auto.actualizarAuto(autoActualizado,sucursal);
         this.autoRepository.save(auto);
-    }
-
-    //Helpers para validaciones o buscar registros en la BD
-    private void checkPatenteNotExists(String patente) {
-        if (autoRepository.existsByPatente(patente)) {
-            throw new EntityExistsException("La patente " + patente + " ya se encuentra registrada");
-        }
-    }
-
-    private Auto findAutoByPatente(String patente) {
-        return autoRepository.findByPatente(patente)
-                .orElseThrow(() -> new EntityNotFoundException("La patente " + patente + " no existe"));
-    }
-
-    private void checkAutoNotAlquilado(Auto auto) {
-        if (auto.getEstado() == EstadoAuto.ALQUILADO) {
-            throw new IllegalStateException("El vehiculo con patente " + auto.getPatente() + " esta alquilado en este momento");
-        }
     }
 }
