@@ -47,7 +47,6 @@ public class CheckOutService {
 
         Preference preference = this.client.create(request);
 
-
         pagoService.crearPago(preference.getId(),alquiler,preference.getInitPoint(),total);
 
         return preference.getInitPoint(); //url de pago generada a partir de los datos obtenidos
@@ -76,6 +75,8 @@ public class CheckOutService {
         return  PreferenceRequest.builder()
                 .items(List.of(item))
                 .backUrls(backUrlsRequest)
+                //Para implementar las notificaciones la API debe estar en un dominio accesible en internet
+                .notificationUrl("miDominio/checkOut/webhook")
                 .externalReference(externalReference)
                 .autoReturn("approved") //Investigar
                 .build();

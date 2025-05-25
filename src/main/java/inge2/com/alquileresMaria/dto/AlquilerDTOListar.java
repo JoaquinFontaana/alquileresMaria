@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter @Setter
 
 public class AlquilerDTOListar {
-  //  @NotBlank(message)
     @Embedded
     private RangoFecha rangoFecha;
     private String licenciaConductor;
