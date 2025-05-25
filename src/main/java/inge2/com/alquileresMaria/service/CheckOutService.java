@@ -11,8 +11,6 @@ import inge2.com.alquileresMaria.dto.AlquilerDTOCrear;
 import inge2.com.alquileresMaria.dto.CheckOutDTO;
 import inge2.com.alquileresMaria.dto.DatosPagoDTO;
 import inge2.com.alquileresMaria.model.Alquiler;
-import inge2.com.alquileresMaria.model.Auto;
-import inge2.com.alquileresMaria.model.Pago;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,22 +31,16 @@ public class CheckOutService {
 
     @Transactional
     public String createPreference(CheckOutDTO checkOutDTO) throws MPException, MPApiException {
-
         DatosPagoDTO datosPagoDTO = checkOutDTO.getDatosPagoDTO();
         AlquilerDTOCrear alquilerDTO = checkOutDTO.getAlquilerDTO();
 
-
         Alquiler alquiler = this.alquilerService.crearAlquiler(alquilerDTO);
-        double total = alquiler.calcularTotal();
 
-        String idAlquiler = alquiler.getId().toString();
-        PreferenceRequest request = this.crearPreferenceRequest(idAlquiler,datosPagoDTO,total);
+        Preference preference = this.client.create(this.crearPreferenceRequest(alquiler.getId().toString(),datosPagoDTO,alquiler.calcularTotal());
 
-        Preference preference = this.client.create(request);
+        pagoService.crearPago(preference.getId(),alquiler,preference.getSandboxInitPoint(),alquiler.calcularTotal());
 
-        pagoService.crearPago(preference.getId(),alquiler,preference.getSandboxInitPoint(),total);
-
-        return preference.getSandboxInitPoint(); //url de pago generada a partir de los datos obtenidos
+        return preference.getSandboxInitPoint(); //url de pago de prueba generada a partir de los datos obtenidos
     }
 
     private PreferenceItemRequest crearPreferenceItemRequest(DatosPagoDTO datosPagoDTO, double total){
