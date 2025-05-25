@@ -35,6 +35,9 @@ public class Alquiler {
     public boolean disponibleEnRangoFechas(RangoFecha rango){
         return this.rangoFecha.sinSolapamiento(rango);
     }
+    public double calcularTotal(){
+        return this.auto.getPrecioPorDia() * this.rangoFecha.cantidadDeDias();
+    }
     public Alquiler (AlquilerDTOCrear alquilerDTOCrear,Auto auto,Cliente cliente,Sucursal devolucionEnSucursal,Sucursal entregaEnSucursal){
         this.auto = auto;
         this.cliente = cliente;
@@ -42,6 +45,9 @@ public class Alquiler {
         this.entregaEnSucursal = entregaEnSucursal;
         this.licenciaConductor = alquilerDTOCrear.getLicenciaConductor();
         this.rangoFecha = alquilerDTOCrear.getRangoFecha();
+    }
+    public Alquiler(){
+
     }
     //Calcular total
 }

@@ -8,18 +8,18 @@ import lombok.Setter;
 public class Pago {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String preference_id;
+    private String preferenceId;
     @OneToOne
     @JoinColumn(name = "alquiler_id")
-    private Alquiler external_reference;
-    private String init_point;
+    private Alquiler externalReference;
+    private String initPoint;
     private Double monto;
     private EstadoPago estadoPago;
 
     public Pago(String preference_id, Alquiler external_reference, String init_point, Double monto) {
-        this.preference_id = preference_id;
-        this.external_reference = external_reference;
-        this.init_point = init_point;
+        this.preferenceId = preference_id;
+        this.externalReference = external_reference;
+        this.initPoint = init_point;
         this.monto = monto;
         this.estadoPago = EstadoPago.PENDIENTE;
     }

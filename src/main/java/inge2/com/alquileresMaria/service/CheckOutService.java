@@ -37,19 +37,18 @@ public class CheckOutService {
         DatosPagoDTO datosPagoDTO = checkOutDTO.getDatosPagoDTO();
         AlquilerDTOCrear alquilerDTO = checkOutDTO.getAlquilerDTO();
 
-        Auto auto = autoService.findAutoByPatente(alquilerDTO.getPatenteAuto());
-        double total = alquilerDTO.calcularTotal(auto.getPrecioPorDia());
-
 
         Alquiler alquiler = this.alquilerService.crearAlquiler(alquilerDTO);
+        double total = alquiler.calcularTotal();
+
         String idAlquiler = alquiler.getId().toString();
         PreferenceRequest request = this.crearPreferenceRequest(idAlquiler,datosPagoDTO,total);
 
         Preference preference = this.client.create(request);
 
-        pagoService.crearPago(preference.getId(),alquiler,preference.getInitPoint(),total);
+        pagoService.crearPago(preference.getId(),alquiler,preference.getSandboxInitPoint(),total);
 
-        return preference.getInitPoint(); //url de pago generada a partir de los datos obtenidos
+        return preference.getSandboxInitPoint(); //url de pago generada a partir de los datos obtenidos
     }
 
     private PreferenceItemRequest crearPreferenceItemRequest(DatosPagoDTO datosPagoDTO, double total){
