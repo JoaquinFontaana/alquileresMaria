@@ -47,8 +47,8 @@ public class CheckOutService {
 
         Preference preference = this.client.create(request);
 
-        Pago pago = new Pago(preference.getId(),alquiler,preference.getInitPoint(),total);
-        pagoService.crearPago(pago);
+
+        pagoService.crearPago(preference.getId(),alquiler,preference.getInitPoint(),total);
 
         return preference.getInitPoint(); //url de pago generada a partir de los datos obtenidos
     }
