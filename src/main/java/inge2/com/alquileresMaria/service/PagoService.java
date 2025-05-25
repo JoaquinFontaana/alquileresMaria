@@ -1,5 +1,6 @@
 package inge2.com.alquileresMaria.service;
 
+import com.mercadopago.resources.preference.Preference;
 import inge2.com.alquileresMaria.model.Alquiler;
 import inge2.com.alquileresMaria.model.Pago;
 import inge2.com.alquileresMaria.repository.IPagoRepository;
@@ -14,8 +15,8 @@ public class PagoService {
     private IPagoRepository pagoRepository;
 
     @Transactional
-    public void crearPago(String preferenceId, Alquiler alquiler, String initPoint, double total){
-        Pago pago = new Pago(preferenceId,alquiler,initPoint,total);
+    public void crearPago(Preference preference, Alquiler alquiler){
+        Pago pago = new Pago(preference.getId(),alquiler,preference.getSandboxInitPoint(),alquiler.calcularTotal());
         this.pagoRepository.save(pago);
     }
 

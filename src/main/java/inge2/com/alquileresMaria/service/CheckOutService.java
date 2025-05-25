@@ -48,7 +48,7 @@ public class CheckOutService {
                         )
                 );
 
-        pagoService.crearPago(preference.getId(),alquiler,preference.getSandboxInitPoint(),alquiler.calcularTotal());
+        pagoService.crearPago(preference,alquiler);
 
         return preference.getSandboxInitPoint(); //url de pago de prueba generada a partir de los datos obtenidos
     }
