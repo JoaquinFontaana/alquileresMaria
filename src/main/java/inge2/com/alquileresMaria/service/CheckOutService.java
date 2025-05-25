@@ -7,11 +7,13 @@ import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
-import inge2.com.alquileresMaria.dto.AlquilerDTOListar;
+import inge2.com.alquileresMaria.dto.AlquilerDTOCrear;
 import inge2.com.alquileresMaria.dto.CheckOutDTO;
 import inge2.com.alquileresMaria.dto.DatosPagoDTO;
+import inge2.com.alquileresMaria.model.Alquiler;
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.Pago;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,41 +28,57 @@ public class CheckOutService {
     private AutoService autoService;
     @Autowired
     private AlquilerService alquilerService;
+    @Autowired
+    private  PreferenceClient client;
 
-    public String createPreference(/*Datos que mande el front sobre el pago a crear*/CheckOutDTO checkOutDTO) throws MPException, MPApiException {
+    @Transactional
+    public String createPreference(CheckOutDTO checkOutDTO) throws MPException, MPApiException {
+
         DatosPagoDTO datosPagoDTO = checkOutDTO.getDatosPagoDTO();
-        AlquilerDTOListar alquilerDTO = checkOutDTO.getAlquilerDTO();
+        AlquilerDTOCrear alquilerDTO = checkOutDTO.getAlquilerDTO();
 
-        Auto auto = autoService.findAutoByPatente(datosPagoDTO.getPatente());
-        Double total = datosPagoDTO.calcularTotal(auto.getPrecioPorDia());
-        PreferenceItemRequest item = PreferenceItemRequest.builder()
+        Auto auto = autoService.findAutoByPatente(alquilerDTO.getPatenteAuto());
+        double total = alquilerDTO.calcularTotal(auto.getPrecioPorDia());
+
+
+        Alquiler alquiler = this.alquilerService.crearAlquiler(alquilerDTO);
+        String idAlquiler = alquiler.getId().toString();
+        PreferenceRequest request = this.crearPreferenceRequest(idAlquiler,datosPagoDTO,total);
+
+        Preference preference = this.client.create(request);
+
+        Pago pago = new Pago(preference.getId(),alquiler,preference.getInitPoint(),total);
+        pagoService.crearPago(pago);
+
+        return preference.getInitPoint(); //url de pago generada a partir de los datos obtenidos
+    }
+
+    private PreferenceItemRequest crearPreferenceItemRequest(DatosPagoDTO datosPagoDTO, double total){
+        return PreferenceItemRequest.builder()
                 .title(datosPagoDTO.getTitulo())
                 .quantity(1)
                 .currencyId("ARS")
                 .unitPrice(new BigDecimal(total))
                 .build();
+    }
 
-        List<PreferenceItemRequest> items = List.of(item);
-        PreferenceBackUrlsRequest backUrlsRequest = PreferenceBackUrlsRequest.builder()
-                .success(datosPagoDTO.getSuccesUrl()) //Rutas de redirrecion en el frontend
+    private PreferenceBackUrlsRequest crearPreferenceBackUrlsRequest(DatosPagoDTO datosPagoDTO){
+        return  PreferenceBackUrlsRequest.builder()
+                .success(datosPagoDTO.getSuccessUrl()) //Rutas de redirrecion en el frontend
                 .failure(datosPagoDTO.getFailureUrl())
                 .pending(datosPagoDTO.getPendingUrl())
                 .build();
+    }
 
-        PreferenceRequest request = PreferenceRequest.builder()
-                .items(items)
+    private PreferenceRequest crearPreferenceRequest(String externalReference, DatosPagoDTO datosPagoDTO,double total){
+        PreferenceItemRequest item = this.crearPreferenceItemRequest(datosPagoDTO,total);
+        PreferenceBackUrlsRequest backUrlsRequest = this.crearPreferenceBackUrlsRequest(datosPagoDTO);
+        return  PreferenceRequest.builder()
+                .items(List.of(item))
                 .backUrls(backUrlsRequest)
-                .externalReference()
+                .externalReference(externalReference)
                 .autoReturn("approved") //Investigar
                 .build();
-
-        PreferenceClient client = new PreferenceClient();
-        Preference preference = client.create(request);
-        Alquiler
-        Pago pago = new Pago(preference.getId(),,preference.getInitPoint(),total);
-
-
-        return preference.getInitPoint();//url de pago generada a partir de los datos obtenidos
     }
 
 }

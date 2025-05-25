@@ -10,18 +10,11 @@ import lombok.Setter;
 public class DatosPagoDTO {
     @NotBlank
     private String titulo;
-    @Embedded
-    private RangoFecha rangoFecha;
     @NotBlank
-    private String succesUrl;
+    private String successUrl;
     @NotBlank
     private String failureUrl;
     @NotBlank
     private String pendingUrl;
-    @NotBlank
-    private String patente;
 
-    public double calcularTotal(double precioPorDia){
-        return this.getRangoFecha().cantidadDeDias()* precioPorDia;
-    }
 }

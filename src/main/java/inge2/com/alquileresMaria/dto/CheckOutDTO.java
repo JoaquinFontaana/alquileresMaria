@@ -10,4 +10,5 @@ public class CheckOutDTO {
     private DatosPagoDTO datosPagoDTO;
     @Embedded
     private AlquilerDTOCrear alquilerDTO;
+
 }

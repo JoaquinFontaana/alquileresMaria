@@ -14,4 +14,7 @@ public class AlquilerDTOCrear {
     private String patenteAuto;
     private String sucursalEntrega;
     private String sucursalDevolucion;
+    public double calcularTotal(double precioPorDia){
+        return this.getRangoFecha().cantidadDeDias()* precioPorDia;
+    }
 }
