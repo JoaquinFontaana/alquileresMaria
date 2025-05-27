@@ -1,5 +1,6 @@
 package inge2.com.alquileresMaria.model;
 
+import com.mercadopago.resources.preference.Preference;
 import inge2.com.alquileresMaria.model.enums.EstadoPago;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -34,11 +35,11 @@ public class Pago {
     @NotNull
     private LocalDateTime fechaExpiracion;
 
-    public Pago(String preference_id, Alquiler alquiler, String init_point, Double monto) {
-        this.preferenceId = preference_id;
+    public Pago(Preference preference,Alquiler alquiler) {
+        this.preferenceId = preference.getId();
         this.alquiler = alquiler;
-        this.initPoint = init_point;
-        this.monto = monto;
+        this.initPoint = preference.getSandboxInitPoint();
+        this.monto = alquiler.calcularTotal();
         this.estadoPago = EstadoPago.PENDIENTE;
         this.fechaCreacion = LocalDateTime.now();
         //10 minutos tiempo de expiracion

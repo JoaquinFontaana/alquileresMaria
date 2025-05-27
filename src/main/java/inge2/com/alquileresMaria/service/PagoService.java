@@ -16,7 +16,7 @@ public class PagoService {
 
     @Transactional
     public void crearPago(Preference preference, Alquiler alquiler){
-        Pago pago = new Pago(preference.getId(),alquiler,preference.getSandboxInitPoint(),alquiler.calcularTotal());
+        Pago pago = new Pago(preference,alquiler);
         this.pagoRepository.save(pago);
     }
 
