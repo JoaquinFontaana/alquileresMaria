@@ -4,6 +4,7 @@ import inge2.com.alquileresMaria.model.Rol;
 import inge2.com.alquileresMaria.model.Usuario;
 import inge2.com.alquileresMaria.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -15,6 +16,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Service
+@Primary
 public class CustomDetailsService implements UserDetailsService {
     @Autowired
     private UsuarioService usuarioService;
