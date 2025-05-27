@@ -24,7 +24,7 @@ public class SucursalController {
     }
 
     @GetMapping("/listar")
-    public List<Sucursal> listarSucursales(){
+    public List<String> listarSucursales(){
         return service.listarSucursales();
     }
 }

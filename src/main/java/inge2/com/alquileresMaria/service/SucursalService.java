@@ -26,8 +26,11 @@ public class SucursalService {
                 .orElseThrow(() -> new EntityNotFoundException("No existe sucursal en la ciudad " + ciudad));
     }
 
-    public List<Sucursal> listarSucursales(){
-        return this.sucursalRepository.findAll();
+    public List<String> listarSucursales(){
+        return this.sucursalRepository.findAll()
+                .stream()
+                .map(s -> s.getCiudad())
+                .toList();
     }
 
     private void checkNotExistSucursal(Sucursal sucursal){
