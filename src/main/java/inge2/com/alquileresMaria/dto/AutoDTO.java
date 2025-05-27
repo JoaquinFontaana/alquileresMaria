@@ -1,9 +1,9 @@
 package inge2.com.alquileresMaria.dto;
 
 import inge2.com.alquileresMaria.model.Auto;
-import inge2.com.alquileresMaria.model.CategoriaAuto;
-import inge2.com.alquileresMaria.model.EstadoAuto;
-import inge2.com.alquileresMaria.model.Rembolso;
+import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
+import inge2.com.alquileresMaria.model.enums.EstadoAuto;
+import inge2.com.alquileresMaria.model.enums.Rembolso;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;

@@ -1,11 +1,8 @@
 package inge2.com.alquileresMaria.dto;
 
-import inge2.com.alquileresMaria.model.CategoriaAuto;
-import inge2.com.alquileresMaria.model.RangoFecha;
-import inge2.com.alquileresMaria.service.Filter.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
+import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
+import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
+import inge2.com.alquileresMaria.service.filter.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,7 +32,7 @@ public class AutoFilterDTO {
         }
 
         if (this.rangoFechas != null) {
-            filtro = new FechaFilterDecorator(filtro, this.rangoFechas);
+            filtro = new DisponibilidadFilterDecorator(filtro, this.rangoFechas);
         }
 
         if (this.capacidad != null) {

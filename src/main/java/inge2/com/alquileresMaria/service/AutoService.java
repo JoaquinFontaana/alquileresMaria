@@ -3,11 +3,11 @@ package inge2.com.alquileresMaria.service;
 import inge2.com.alquileresMaria.dto.AutoDTO;
 import inge2.com.alquileresMaria.dto.AutoFilterDTO;
 import inge2.com.alquileresMaria.model.Auto;
-import inge2.com.alquileresMaria.model.EstadoAuto;
+import inge2.com.alquileresMaria.model.enums.EstadoAuto;
 import inge2.com.alquileresMaria.model.Sucursal;
 import inge2.com.alquileresMaria.repository.IAutoRepository;
-import inge2.com.alquileresMaria.service.Filter.BaseAutoFilter;
-import inge2.com.alquileresMaria.service.Verfication.VerficacionAutoService;
+import inge2.com.alquileresMaria.service.filter.BaseAutoFilter;
+import inge2.com.alquileresMaria.service.helper.AutoHelperService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,13 +23,13 @@ public class AutoService {
     @Autowired
     private SucursalService sucursalService;
     @Autowired
-    private VerficacionAutoService verficacionAutoService;
+    private AutoHelperService autoHelperService;
     @Autowired
     private AlquilerService serviceAlquiler;
 
     @Transactional
     public void crearAuto(AutoDTO autoDto){
-        this.verficacionAutoService.checkPatenteNotExists(autoDto.getPatente());
+        this.autoHelperService.checkPatenteNotExists(autoDto.getPatente());
 
         Sucursal sucursal = this.sucursalService.findSucursalByCiudad(autoDto.getSucursal());
         Auto auto = new Auto(autoDto,sucursal);
@@ -47,8 +47,8 @@ public class AutoService {
     }
     @Transactional
     public void eliminarAuto(String patente){
-        Auto auto = this.verficacionAutoService.findAutoByPatente(patente);
-        this.verficacionAutoService.checkAutoNotAlquilado(auto);
+        Auto auto = this.autoHelperService.findAutoByPatente(patente);
+        this.autoHelperService.checkAutoNotAlquilado(auto);
 
         serviceAlquiler.cancelarReservas(auto.getReservas());
         auto.setEstado(EstadoAuto.BAJA);
@@ -58,7 +58,7 @@ public class AutoService {
     @Transactional
     public void actualizarAuto(AutoDTO autoActualizado){
         Sucursal sucursal = this.sucursalService.findSucursalByCiudad(autoActualizado.getSucursal());
-        Auto auto = this.verficacionAutoService.findAutoByPatente(autoActualizado.getPatente());
+        Auto auto = this.autoHelperService.findAutoByPatente(autoActualizado.getPatente());
 
         auto.actualizarAuto(autoActualizado,sucursal);
         this.autoRepository.save(auto);

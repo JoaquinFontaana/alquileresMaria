@@ -1,7 +1,7 @@
-package inge2.com.alquileresMaria.service.Filter;
+package inge2.com.alquileresMaria.service.filter;
 
 import inge2.com.alquileresMaria.model.Auto;
-import inge2.com.alquileresMaria.model.CategoriaAuto;
+import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
 
 import java.util.List;
 

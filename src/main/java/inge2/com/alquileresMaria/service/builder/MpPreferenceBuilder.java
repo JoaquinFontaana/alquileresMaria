@@ -1,4 +1,4 @@
-package inge2.com.alquileresMaria.helpers;
+package inge2.com.alquileresMaria.service.builder;
 
 import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
 import com.mercadopago.client.preference.PreferenceItemRequest;

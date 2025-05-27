@@ -1,13 +1,13 @@
 package inge2.com.alquileresMaria.model;
 
 import inge2.com.alquileresMaria.dto.AlquilerDTOCrear;
+import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 @Entity @Getter @Setter
 public class Alquiler {
     @Id
@@ -35,6 +35,7 @@ public class Alquiler {
     public boolean disponibleEnRangoFechas(RangoFecha rango){
         return this.rangoFecha.sinSolapamiento(rango);
     }
+
     public double calcularTotal(){
         return this.auto.getPrecioPorDia() * this.rangoFecha.cantidadDeDias();
     }

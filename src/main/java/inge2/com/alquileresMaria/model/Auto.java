@@ -1,6 +1,10 @@
 package inge2.com.alquileresMaria.model;
 
 import inge2.com.alquileresMaria.dto.AutoDTO;
+import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
+import inge2.com.alquileresMaria.model.enums.EstadoAuto;
+import inge2.com.alquileresMaria.model.enums.Rembolso;
+import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -59,5 +63,8 @@ public class Auto {
         this.categoria = dto.getCategoria();
         this.rembolso = dto.getRembolso();
         this.estado = dto.getEstado();
+    }
+    public boolean disponibleEnRangoFechas(RangoFecha rango){
+        return this.getReservas().stream().allMatch(alquiler -> alquiler.disponibleEnRangoFechas(rango));
     }
 }

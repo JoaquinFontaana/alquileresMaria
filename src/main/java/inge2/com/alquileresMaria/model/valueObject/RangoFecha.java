@@ -1,4 +1,4 @@
-package inge2.com.alquileresMaria.model;
+package inge2.com.alquileresMaria.model.valueObject;
 
 
 import jakarta.persistence.Embeddable;
@@ -31,9 +31,11 @@ public class RangoFecha {
      * por lo que usamos isBefore/isAfter estrictos.
      */
     public boolean sinSolapamiento(RangoFecha rango) {
-        return this.fechaHasta.isBefore(rango.getFechaDesde())
+        return this.fechaHasta.plusDays(1).isBefore(rango.getFechaDesde())
                 || rango.getFechaHasta().isBefore(this.fechaDesde);
     }
+
+
     public int cantidadDeDias(){
         return Period.between(fechaDesde,fechaHasta).getDays();
     }

@@ -1,4 +1,4 @@
-package inge2.com.alquileresMaria.service.Verfication;
+package inge2.com.alquileresMaria.service.helper;
 
 import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.repository.IClienteRepository;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ClienteVerficationService {
+public class ClienteHelperService {
     @Autowired
     private IClienteRepository clienteRepository;
     public void checkNotExistMail(String mail){

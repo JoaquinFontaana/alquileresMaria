@@ -7,14 +7,11 @@ import com.mercadopago.resources.preference.Preference;
 import inge2.com.alquileresMaria.dto.AlquilerDTOCrear;
 import inge2.com.alquileresMaria.dto.CheckOutDTO;
 import inge2.com.alquileresMaria.dto.DatosPagoDTO;
-import inge2.com.alquileresMaria.helpers.MpPreferenceBuilder;
+import inge2.com.alquileresMaria.service.builder.MpPreferenceBuilder;
 import inge2.com.alquileresMaria.model.Alquiler;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 public class CheckOutService {

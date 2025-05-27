@@ -1,4 +1,4 @@
-package inge2.com.alquileresMaria.model;
+package inge2.com.alquileresMaria.model.enums;
 
 public enum EstadoAuto {
     EN_MANTENIMIENTO,

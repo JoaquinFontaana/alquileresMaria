@@ -1,8 +1,8 @@
-package inge2.com.alquileresMaria.service.Verfication;
+package inge2.com.alquileresMaria.service.helper;
 
 import inge2.com.alquileresMaria.model.Auto;
-import inge2.com.alquileresMaria.model.EstadoAuto;
-import inge2.com.alquileresMaria.model.RangoFecha;
+import inge2.com.alquileresMaria.model.enums.EstadoAuto;
+import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
 import inge2.com.alquileresMaria.repository.IAutoRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VerficacionAutoService {
+public class AutoHelperService {
     @Autowired
     private IAutoRepository autoRepository;
 
     public void verificarDisponibilidad(Auto auto, RangoFecha rangoFecha){
-        if(auto.getReservas().stream().anyMatch(alquiler -> !alquiler.disponibleEnRangoFechas(rangoFecha))){
+        if(!auto.disponibleEnRangoFechas(rangoFecha)){
             throw new IllegalStateException("El auto no se encuentra disponible en esas fechas");
         }
     }
