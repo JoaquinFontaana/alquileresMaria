@@ -1,8 +1,10 @@
 package inge2.com.alquileresMaria.service;
 
+import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.client.preference.PreferenceClient;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
+import com.mercadopago.resources.payment.Payment;
 import com.mercadopago.resources.preference.Preference;
 import inge2.com.alquileresMaria.dto.AlquilerDTOCrear;
 import inge2.com.alquileresMaria.dto.CheckOutDTO;
@@ -31,18 +33,25 @@ public class CheckOutService {
 
         Alquiler alquiler = this.alquilerService.crearAlquiler(alquilerDTO);
         PreferenceClient client = new PreferenceClient();
+
         Preference preference = client
-                .create(this.mpPreferenceBuilder
-                        .crearPreferenceRequest(
-                                alquiler.getId().toString(),
-                                datosPagoDTO,
-                                alquiler.calcularTotal()
-                        )
+                .create(this.mpPreferenceBuilder.
+                        crearPreferenceRequest(alquiler, datosPagoDTO)
                 );
 
         pagoService.crearPago(preference,alquiler);
 
-        return preference.getSandboxInitPoint(); //url de pago de prueba generada a partir de los datos obtenidos
+        return preference.getInitPoint(); //url de pago de prueba generada a partir de los datos obtenidos
     }
 
+    public void procesarNotificacionPago(String dataId) throws MPException, MPApiException {
+        PaymentClient paymentClient = new PaymentClient();
+        Payment payment = paymentClient.get(Long.parseLong(dataId));
+
+        String status = payment.getStatus();
+        if(status.equals("approved")) {
+            String alquilerId = payment.getExternalReference();
+            pagoService.registrarCobro(Long.parseLong(alquilerId));
+        }
+    }
 }

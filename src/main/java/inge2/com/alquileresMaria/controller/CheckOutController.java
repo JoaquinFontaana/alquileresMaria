@@ -46,15 +46,13 @@ public class CheckOutController {
     }
 
     //Aca se recibiran las notificaciones referidas a las preference de mercadopago
-    /*@PostMapping("/webhook")
-    public ResponseEntity<String> recibirNotificacion(@RequestParam("type") String type, @RequestParam("data.id") String dataId){
+    @PostMapping("/webhook")
+    public ResponseEntity<String> recibirNotificacion(@RequestParam("type") String type, @RequestParam("data.id") String dataId) throws MPException, MPApiException {
         // Solo procesamos pagos
         if ("payment".equals(type)) {
-            pagoService.procesarNotificacionPago(dataId);
+            checkOutService.procesarNotificacionPago(dataId);
         }
-
         // Responder 200 OK para que MP no reintente
         return ResponseEntity.ok("OK");
     }
-    */
 }

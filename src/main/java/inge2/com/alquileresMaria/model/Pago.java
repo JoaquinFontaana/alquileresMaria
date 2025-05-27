@@ -38,7 +38,7 @@ public class Pago {
     public Pago(Preference preference,Alquiler alquiler) {
         this.preferenceId = preference.getId();
         this.alquiler = alquiler;
-        this.initPoint = preference.getSandboxInitPoint();
+        this.initPoint = preference.getInitPoint();
         this.monto = alquiler.calcularTotal();
         this.estadoPago = EstadoPago.PENDIENTE;
         this.fechaCreacion = LocalDateTime.now();
