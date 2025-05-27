@@ -9,6 +9,7 @@ import com.mercadopago.resources.preference.Preference;
 import inge2.com.alquileresMaria.dto.AlquilerDTOCrear;
 import inge2.com.alquileresMaria.dto.CheckOutDTO;
 import inge2.com.alquileresMaria.dto.DatosPagoDTO;
+import inge2.com.alquileresMaria.model.Pago;
 import inge2.com.alquileresMaria.service.builder.MpPreferenceBuilder;
 import inge2.com.alquileresMaria.model.Alquiler;
 import jakarta.transaction.Transactional;
@@ -39,16 +40,18 @@ public class CheckOutService {
                         crearPreferenceRequest(alquiler, datosPagoDTO)
                 );
 
-        pagoService.crearPago(preference,alquiler);
+        Pago pago = pagoService.crearPago(preference,alquiler);
 
-        return preference.getInitPoint(); //url de pago de prueba generada a partir de los datos obtenidos
+        return pago.getInitPoint(); //url de pago de prueba generada a partir de los datos obtenidos
     }
 
     public void procesarNotificacionPago(String dataId) throws MPException, MPApiException {
+        //Obtener los datos del pago a partir del id
         PaymentClient paymentClient = new PaymentClient();
-        Payment payment = paymentClient.get(Long.parseLong(dataId));
+        Payment payment = paymentClient.get(Long.parseLong(dataId)); //La api de mercadoPago devuelve el payment si es que existe uno con ese id
 
         String status = payment.getStatus();
+        //Si el estado es aprobado se cambia el estado del pago a PAGADO
         if(status.equals("approved")) {
             String alquilerId = payment.getExternalReference();
             pagoService.registrarCobro(Long.parseLong(alquilerId));

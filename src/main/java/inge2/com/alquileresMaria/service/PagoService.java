@@ -17,10 +17,12 @@ public class PagoService {
     private IPagoRepository pagoRepository;
 
     @Transactional
-    public void crearPago(Preference preference, Alquiler alquiler){
+    public Pago crearPago(Preference preference, Alquiler alquiler){
         Pago pago = new Pago(preference,alquiler);
-        this.pagoRepository.save(pago);
+        return this.pagoRepository.save(pago);
     }
+
+    @Transactional
     public void registrarCobro(Long alquilerId){
         Pago pago = this.findPagoByAlquilerId(alquilerId);
         pago.setEstadoPago(EstadoPago.PAGADO);
