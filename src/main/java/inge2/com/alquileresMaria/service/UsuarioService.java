@@ -3,6 +3,7 @@ package inge2.com.alquileresMaria.service;
 import inge2.com.alquileresMaria.model.Usuario;
 import inge2.com.alquileresMaria.repository.IUsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,4 +24,10 @@ public class UsuarioService {
         //Buscar segun el rol, en la tabla empleado o cliente
         return "Hola";
     }
+    public Usuario findByEmail(String mail){
+        return this.usuarioRepository.findByMail(mail)
+                .orElseThrow(() -> new EntityNotFoundException("El usuario con el mail " + mail + " no existe"));
+    }
+
+
 }
