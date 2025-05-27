@@ -1,0 +1,37 @@
+package inge2.com.alquileresMaria.service.builder;
+
+import inge2.com.alquileresMaria.dto.AutoFilterDTO;
+import inge2.com.alquileresMaria.service.filter.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public final class FilterBuilder {
+    @Autowired
+    private BaseAutoFilter baseAutoFilter;
+    /**
+     * Construye la cadena de filtros (IAutoFilter) envolviendo
+     * el baseFilter en los decoradores correspondientes.
+     */
+    public IAutoFilter buildFilter(AutoFilterDTO autoFilterDTO) {
+        IAutoFilter filtro = this.baseAutoFilter;
+
+        if (autoFilterDTO.getNombreSucursal() != null) {
+            filtro = new SucursalFilterDecorator(filtro, autoFilterDTO.getNombreSucursal());
+        }
+
+        if (autoFilterDTO.getRangoFechas() != null) {
+            filtro = new DisponibilidadFilterDecorator(filtro, autoFilterDTO.getRangoFechas());
+        }
+
+        if (autoFilterDTO.getCapacidad() != null) {
+            filtro = new CapacidadFilterDecorator(filtro, autoFilterDTO.getCapacidad());
+        }
+
+        if (autoFilterDTO.getCategorias() != null) {
+            filtro = new CategoriaFilterDecorator(filtro, autoFilterDTO.getCategorias());
+        }
+
+        return filtro;
+    }
+}

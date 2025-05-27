@@ -20,29 +20,4 @@ public class AutoFilterDTO {
         this.categorias = categorias;
     }
 
-    /**
-     * Construye la cadena de filtros (IAutoFilter) envolviendo
-     * el baseFilter en los decoradores correspondientes.
-     */
-    public IAutoFilter buildFilter(IAutoFilter baseFilter) {
-        IAutoFilter filtro = baseFilter;
-
-        if (this.nombreSucursal != null) {
-            filtro = new SucursalFilterDecorator(filtro, this.nombreSucursal);
-        }
-
-        if (this.rangoFechas != null) {
-            filtro = new DisponibilidadFilterDecorator(filtro, this.rangoFechas);
-        }
-
-        if (this.capacidad != null) {
-            filtro = new CapacidadFilterDecorator(filtro, this.capacidad);
-        }
-
-        if (this.categorias != null) {
-            filtro = new CategoriaFilterDecorator(filtro, this.categorias);
-        }
-
-        return filtro;
-    }
 }
