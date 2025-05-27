@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 
 @Service
 public class SucursalService {
@@ -22,6 +24,13 @@ public class SucursalService {
     public Sucursal findSucursalByCiudad(String ciudad) {
         return sucursalRepository.findByCiudad(ciudad)
                 .orElseThrow(() -> new EntityNotFoundException("No existe sucursal en la ciudad " + ciudad));
+    }
+
+    public List<String> listarSucursales(){
+        return this.sucursalRepository.findAll()
+                .stream()
+                .map(s -> s.getCiudad())
+                .toList();
     }
 
     private void checkNotExistSucursal(Sucursal sucursal){
