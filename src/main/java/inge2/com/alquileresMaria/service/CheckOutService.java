@@ -1,10 +1,8 @@
 package inge2.com.alquileresMaria.service;
 
-import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.payment.Payment;
-import com.mercadopago.resources.preference.Preference;
 import inge2.com.alquileresMaria.dto.AlquilerDTOCrear;
 import inge2.com.alquileresMaria.dto.CheckOutAlquilerDTO;
 import inge2.com.alquileresMaria.dto.CheckOutMultaDTO;
@@ -23,8 +21,6 @@ import org.springframework.stereotype.Service;
 public class CheckOutService {
     @Autowired
     private PagoService pagoService;
-    @Autowired
-    private AutoService autoService;
     @Autowired
     private AlquilerService alquilerService;
     @Autowired
@@ -57,8 +53,7 @@ public class CheckOutService {
 
         //Si el estado es approved se cambia el estado del pago a PAGADO
         if(this.checkOutHelperService.checkStatusApproved(payment)) {
-            String alquilerId = payment.getExternalReference();
-            pagoService.registrarCobro(alquilerId);
+            pagoService.registrarCobro(payment.getExternalReference());
         }
     }
     @Transactional
