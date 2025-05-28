@@ -1,6 +1,8 @@
 package inge2.com.alquileresMaria.controller;
 
 import inge2.com.alquileresMaria.exception.ValidationException;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.core.Ordered;
@@ -46,5 +48,13 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleGenericException(RuntimeException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<String> handlerTokenException(JwtException ex){
+        return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<String> handlerExpiredTokenException(ExpiredJwtException ex){
+        return new ResponseEntity<String>("La sesión del token cadudó.", HttpStatus.UNAUTHORIZED);
     }
 }
