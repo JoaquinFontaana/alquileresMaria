@@ -13,6 +13,7 @@ import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.model.Pago;
 import inge2.com.alquileresMaria.service.builder.MpPreferenceBuilder;
 import inge2.com.alquileresMaria.model.Alquiler;
+import inge2.com.alquileresMaria.service.helper.CheckOutHelperService;
 import inge2.com.alquileresMaria.service.helper.ClienteHelperService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class CheckOutService {
     private ClienteHelperService clienteHelperService;
     @Autowired
     private ClienteService clienteService;
+    @Autowired
+    private CheckOutHelperService checkOutHelperService;
 
     @Transactional
     public String registrarAlquiler(CheckOutAlquilerDTO checkOutAlquilerDTO) throws MPException, MPApiException {
@@ -40,45 +43,33 @@ public class CheckOutService {
 
         Alquiler alquiler = this.alquilerService.crearAlquiler(alquilerDTO);
 
-        Preference preference = this.mpPreferenceBuilder.crearPreferenceAlquiler(alquiler,datosPagoDTO);
-
-        Pago pago = pagoService.crearPago(preference,alquiler);
-
+        Pago pago = pagoService.crearPago(this.mpPreferenceBuilder.crearPreferenceAlquiler(alquiler,datosPagoDTO),alquiler);
         return pago.getInitPoint(); //url de pago generada a partir de los datos obtenidos
     }
-
-    public void procesarNotificacionPagoAlquiler(String dataId) throws MPException, MPApiException {
-        Payment payment = this.getPayment(dataId);
-
-        //Si el estado es aprobado se cambia el estado del pago a PAGADO
-        if(this.checkStatusApproved(payment)) {
-            String alquilerId = payment.getExternalReference();
-            pagoService.registrarCobro(Long.parseLong(alquilerId));
-        }
+    public String pagarMulta(CheckOutMultaDTO checkOutMultaDTO) throws MPException, MPApiException {
+        Cliente cliente = this.clienteHelperService.findClienteByEmail(checkOutMultaDTO.getMail());
+        return this.mpPreferenceBuilder.crearPreferenceMulta(cliente, checkOutMultaDTO.getDatosPagoDTO()).getInitPoint();
     }
 
-    public void procesarNotificacionPagoMulta(String dataId) throws MPException, MPApiException {
-        Payment payment = this.getPayment(dataId);
+    @Transactional
+    public void procesarNotificacionPagoAlquiler(String dataId) throws MPException, MPApiException {
+        Payment payment = this.checkOutHelperService.getPayment(dataId);
 
-        //Si el estado es aprobado se cambia el estado del pago a PAGADO
-        if(this.checkStatusApproved(payment)) {
+        //Si el estado es approved se cambia el estado del pago a PAGADO
+        if(this.checkOutHelperService.checkStatusApproved(payment)) {
+            String alquilerId = payment.getExternalReference();
+            pagoService.registrarCobro(alquilerId);
+        }
+    }
+    @Transactional
+    public void procesarNotificacionPagoMulta(String dataId) throws MPException, MPApiException {
+        Payment payment = this.checkOutHelperService.getPayment(dataId);
+
+        //Si el estado es approved se pone la multa en 0
+        if(this.checkOutHelperService.checkStatusApproved(payment)) {
             String clienteId = payment.getExternalReference();
             this.clienteService.registrarPagoMulta(clienteId);
         }
     }
 
-    public String pagarMulta(CheckOutMultaDTO checkOutMultaDTO) throws MPException, MPApiException {
-        Cliente cliente = this.clienteHelperService.findClienteByEmail(checkOutMultaDTO.getMail());
-
-        return this.mpPreferenceBuilder.crearPreferenceMulta(cliente, checkOutMultaDTO.getDatosPagoDTO()).getInitPoint();
-    }
-
-    private Payment getPayment(String dataId) throws MPException, MPApiException {
-        PaymentClient paymentClient = new PaymentClient();
-        return paymentClient.get(Long.parseLong(dataId)); //La api de mercadoPago devuelve el payment si es que existe uno con ese id
-    }
-
-    private boolean checkStatusApproved(Payment payment){
-        return payment.getStatus().equals("approved");
-    }
 }

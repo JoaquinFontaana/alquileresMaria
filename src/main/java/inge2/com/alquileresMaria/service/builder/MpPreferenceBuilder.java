@@ -10,22 +10,27 @@ import com.mercadopago.resources.preference.Preference;
 import inge2.com.alquileresMaria.dto.DatosPagoDTO;
 import inge2.com.alquileresMaria.model.Alquiler;
 import inge2.com.alquileresMaria.model.Cliente;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
 @Component
 public class MpPreferenceBuilder {
+
     @Value("${NGROK_URL}")
     private String publicUrl;
+    @Autowired
+    private PreferenceClient client;
 
     public Preference crearPreferenceMulta(Cliente cliente, DatosPagoDTO datosPagoDTO) throws MPException, MPApiException {
         return this.crearPreference(
                 cliente.getId().toString(),
                 cliente.getMontoMulta(),
                 datosPagoDTO,
-                publicUrl+"/checkOut/notificacion/multa"
+                "/checkOut/notificacion/multa"
         );
     }
     public Preference crearPreferenceAlquiler(Alquiler alquiler, DatosPagoDTO datosPagoDTO) throws MPException, MPApiException {
@@ -33,7 +38,7 @@ public class MpPreferenceBuilder {
                 alquiler.getId().toString(),
                 alquiler.calcularTotal(),
                 datosPagoDTO,
-                publicUrl+"/checkOut/notificacion/alquiler"
+                "/checkOut/notificacion/alquiler"
         );
     }
 
@@ -45,13 +50,12 @@ public class MpPreferenceBuilder {
                 .items(List.of(item))
                 .backUrls(backUrlsRequest)
                 //Para implementar las notificaciones la API debe estar en un dominio accesible en internet
-                .notificationUrl(urlNotificacion)
+                .notificationUrl(publicUrl+urlNotificacion)
                 //Referencia a la tabla Pago guardada en la BD (id del alquiler)
                 .externalReference(externalReference)
                 .autoReturn("approved")
                 .build();
 
-        PreferenceClient client = new PreferenceClient();
         return client.create(preferenceRequest);
     }
 
@@ -72,4 +76,8 @@ public class MpPreferenceBuilder {
                 .build();
     }
 
+    @Bean
+    public PreferenceClient preferenceClient() {
+        return new PreferenceClient();
+    }
 }

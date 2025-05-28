@@ -23,8 +23,8 @@ public class PagoService {
     }
 
     @Transactional
-    public void registrarCobro(Long alquilerId){
-        Pago pago = this.findPagoByAlquilerId(alquilerId);
+    public void registrarCobro(String alquilerId){
+        Pago pago = this.findPagoByAlquilerId(Long.parseLong(alquilerId));
         pago.setEstadoPago(EstadoPago.PAGADO);
         this.actualizarPago(pago);
     }
