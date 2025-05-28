@@ -32,6 +32,10 @@ public final class FilterBuilder {
             filtro = new CategoriaFilterDecorator(filtro, autoFilterDTO.getCategorias());
         }
 
+        if (autoFilterDTO.getEstadoAuto() != null){
+            filtro = new EstadoFilterDecorator(filtro, autoFilterDTO.getEstadoAuto());
+        }
+
         return filtro;
     }
 }
