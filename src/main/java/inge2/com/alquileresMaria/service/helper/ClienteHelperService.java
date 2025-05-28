@@ -22,7 +22,11 @@ public class ClienteHelperService {
         }
     }
     public Cliente findClienteByEmail(String mail){
-        return this.clienteRepository.findClienteByMail(mail)
+        return this.clienteRepository.findByMail(mail)
                 .orElseThrow(() -> new EntityNotFoundException("El cliente con el mail " + mail + " no existe"));
+    }
+    public Cliente findClienteById(Long id){
+        return this.clienteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("El cliente con el id " + id + " no existe"));
     }
 }

@@ -7,8 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MPConfig {
-    //Poner en variable de entorno (token de prueba)
-    @Value("APP_USR-3434904925685691-052413-6cb378c98fb46c7223a3628a9d500b51-2454892997")
+    @Value("${MERCADOPAGO_PROJECT_TOKEN}")
     private String accesToken;
 
     @PostConstruct
