@@ -30,6 +30,12 @@ public class ClienteService {
 
         clienteRepository.save(cliente);
     }
+    @Transactional
+    public void registrarPagoMulta(String idCliente){
+        Cliente cliente = this.clienteHelperService.findClienteById(Long.parseLong(idCliente));
+        cliente.setMontoMulta(0);
+        this.clienteRepository.save(cliente);
+    }
 
 
 }

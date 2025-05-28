@@ -33,10 +33,6 @@ public class PagoService {
         pagoRepository.save(pago);
     }
 
-    private Pago findByPreferenceId(String preferenceId){
-        return pagoRepository.findByPreferenceId(preferenceId)
-                .orElseThrow(() -> new EntityNotFoundException("El pago con el preferenceId " + preferenceId + " no existe"));
-    }
     private Pago findPagoByAlquilerId(Long alquilerId){
         return pagoRepository.findByAlquiler_id(alquilerId)
                 .orElseThrow(() -> new EntityNotFoundException("El pago con el alquilerId " + alquilerId + " no existe"));
