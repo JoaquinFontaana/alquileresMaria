@@ -10,9 +10,7 @@ import com.mercadopago.resources.preference.Preference;
 import inge2.com.alquileresMaria.dto.DatosPagoDTO;
 import inge2.com.alquileresMaria.model.Alquiler;
 import inge2.com.alquileresMaria.model.Cliente;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -22,8 +20,6 @@ public class MpPreferenceBuilder {
 
     @Value("${NGROK_URL}")
     private String publicUrl;
-    @Autowired
-    private PreferenceClient client;
 
     public Preference crearPreferenceMulta(Cliente cliente, DatosPagoDTO datosPagoDTO) throws MPException, MPApiException {
         return this.crearPreference(
@@ -55,7 +51,7 @@ public class MpPreferenceBuilder {
                 .externalReference(externalReference)
                 .autoReturn("approved")
                 .build();
-
+        PreferenceClient client = new PreferenceClient();
         return client.create(preferenceRequest);
     }
 
@@ -74,10 +70,5 @@ public class MpPreferenceBuilder {
                 .failure(datosPagoDTO.getFailureUrl())
                 .pending(datosPagoDTO.getPendingUrl())
                 .build();
-    }
-
-    @Bean
-    public PreferenceClient preferenceClient() {
-        return new PreferenceClient();
     }
 }

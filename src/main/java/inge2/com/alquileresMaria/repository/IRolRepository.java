@@ -7,5 +7,4 @@ import java.util.Optional;
 
 public interface IRolRepository extends JpaRepository<Rol,Long> {
     Optional<Rol> findByNombre(String nombre);
-    Optional<Rol> findByNombreIgnoreCase(String nombre);
 }
