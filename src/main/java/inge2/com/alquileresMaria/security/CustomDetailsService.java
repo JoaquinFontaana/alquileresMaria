@@ -22,8 +22,9 @@ public class CustomDetailsService implements UserDetailsService {
     private UsuarioService usuarioService;
 
     public UserDetails loadUserByUsername (String mail){
-         Usuario user =this.usuarioService.findByEmail(mail);
-         return new User(user.getMail(),user.getPassword(),this.mapRolesToAuthorities(user.getRol()));
+         Usuario user = this.usuarioService.findByEmail(mail);
+         return new UserDetailsImpl(user.getId(), user.getMail(),
+                    user.getPassword(), this.mapRolesToAuthorities(user.getRol()));
     }
     private Collection<GrantedAuthority> mapRolesToAuthorities(Rol rol){
         return Collections.singleton(new SimpleGrantedAuthority(rol.getNombre()));

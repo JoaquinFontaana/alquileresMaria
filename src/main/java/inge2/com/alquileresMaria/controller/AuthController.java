@@ -1,7 +1,9 @@
 package inge2.com.alquileresMaria.controller;
 
+import inge2.com.alquileresMaria.dto.AuthResponseDTO;
 import inge2.com.alquileresMaria.dto.LoginDTO;
 import inge2.com.alquileresMaria.dto.PersonaDTO;
+import inge2.com.alquileresMaria.security.JWTGenerator;
 import inge2.com.alquileresMaria.security.SecurityConfig;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -21,8 +23,11 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private JWTGenerator tokenGenerator;
+
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDTO loginDto) {
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDto.getMail(),
@@ -30,7 +35,8 @@ public class AuthController {
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return ResponseEntity.ok().body("Sesión iniciada con exito");
+        String token =  tokenGenerator.generateToken(authentication);
+        return ResponseEntity.ok().body(new AuthResponseDTO(token));
     }
 
 }
