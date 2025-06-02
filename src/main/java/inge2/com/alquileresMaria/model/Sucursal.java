@@ -16,5 +16,16 @@ public class Sucursal {
     private String ciudad;
     @OneToMany(mappedBy = "sucursal")
     private List<Auto> autos;
+    @OneToMany(mappedBy = "trabajaEnSucursal")
+    private List<Empleado> empleados;
 
+    public Sucursal(String ciudad) {
+        this.ciudad = ciudad;
+        this.empleados = new ArrayList<>();
+        this.autos = new ArrayList<>();
+    }
+
+    public Sucursal() {
+
+    }
 }
