@@ -33,6 +33,8 @@ public class AlquilerHelperService {
     }
     public void checkDisponibilidadConductor(RangoFecha rangoFecha,String licencia){
         this.repository.findAlquilerByLicenciaConductorAndRangoFecha(licencia,rangoFecha.getFechaDesde(),rangoFecha.getFechaHasta())
-                .orElseThrow(() ->  new EntityExistsException("El conductor con licencia " + licencia+  " ya tiene un alquiler en el rango de fecha solicitado"));
+                .ifPresent(a ->{
+                    throw new EntityExistsException("El conductor con licencia " + licencia +  " ya tiene un alquiler en el rango de fecha solicitado");
+                });
     }
 }
