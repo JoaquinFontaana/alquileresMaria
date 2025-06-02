@@ -16,7 +16,7 @@ public class RoleDataLoader {
     @Transactional
     public void loadRoles() {
         createIfNotExists("ADMIN");
-        createIfNotExists("USER");
+        createIfNotExists("EMPLEADO");
         createIfNotExists("CLIENT");
     }
 

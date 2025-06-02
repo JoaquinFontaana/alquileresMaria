@@ -1,6 +1,7 @@
 package inge2.com.alquileresMaria.service;
 
 import inge2.com.alquileresMaria.dto.AlquilerDTOCrear;
+import inge2.com.alquileresMaria.dto.AlquilerDTOListar;
 import inge2.com.alquileresMaria.model.Alquiler;
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.Cliente;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AlquilerService {
@@ -57,6 +59,11 @@ public class AlquilerService {
 
         this.serviceEmail.sendEmailsClientes(this.alquilerHelperService.obtenerClientesDeAlquileres(alquileresPosteriores), subject,body);
     }
-
+    public List<AlquilerDTOListar> obtenerAlquileres() {
+        return this.repository.findAll()
+                .stream()
+                .map(AlquilerDTOListar::new)
+                .collect(Collectors.toList());
+    }
 
 }

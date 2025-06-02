@@ -1,6 +1,7 @@
 package inge2.com.alquileresMaria.service;
 
 
+import inge2.com.alquileresMaria.dto.AlquilerDTOListar;
 import inge2.com.alquileresMaria.dto.PersonaDTO;
 import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.repository.IClienteRepository;
@@ -8,6 +9,8 @@ import inge2.com.alquileresMaria.service.helper.ClienteHelperService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ClienteService {
@@ -36,6 +39,12 @@ public class ClienteService {
         cliente.setMontoMulta(0);
         this.clienteRepository.save(cliente);
     }
-
+    public List<AlquilerDTOListar> listarAlquileres(String email){
+        return this.clienteHelperService.findClienteByEmail(email)
+                .getAlquileres()
+                .stream()
+                .map(AlquilerDTOListar::new)
+                .toList();
+    }
 
 }

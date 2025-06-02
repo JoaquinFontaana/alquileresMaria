@@ -18,16 +18,20 @@ import java.util.List;
 
 @Service
 public class AutoService {
+    private final IAutoRepository autoRepository;
+    private final SucursalService sucursalService;
+    private final AutoHelperService autoHelperService;
+    private final AlquilerService serviceAlquiler;
+    private final FilterBuilder filterBuilder;
+
     @Autowired
-    private IAutoRepository autoRepository;
-    @Autowired
-    private SucursalService sucursalService;
-    @Autowired
-    private AutoHelperService autoHelperService;
-    @Autowired
-    private AlquilerService serviceAlquiler;
-    @Autowired
-    private FilterBuilder filterBuilder;
+    public AutoService(IAutoRepository autoRepository, SucursalService sucursalService, AutoHelperService autoHelperService, AlquilerService serviceAlquiler, FilterBuilder filterBuilder) {
+        this.autoRepository = autoRepository;
+        this.sucursalService = sucursalService;
+        this.autoHelperService = autoHelperService;
+        this.serviceAlquiler = serviceAlquiler;
+        this.filterBuilder = filterBuilder;
+    }
 
     @Transactional
     public void crearAuto(AutoDTO autoDto){
