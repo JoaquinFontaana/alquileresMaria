@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/sucursal")
+@RequestMapping("/admin/sucursal")
 public class SucursalController {
     @Autowired
     private SucursalService service;

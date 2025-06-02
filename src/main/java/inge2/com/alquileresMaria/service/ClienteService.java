@@ -26,7 +26,7 @@ public class ClienteService {
         this.clienteHelperService.checkNotExistDni(clienteDTO.getDni());
 
         clienteDTO.setPassword(encryptService.encryptPassword(clienteDTO.getPassword()));
-        Cliente cliente = new Cliente(clienteDTO,rolService.findRolByNombre("CLIENT"));
+        Cliente cliente = new Cliente(clienteDTO, rolService.findRolByNombre("CLIENT"));
 
         clienteRepository.save(cliente);
     }
