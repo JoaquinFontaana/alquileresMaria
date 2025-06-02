@@ -33,6 +33,7 @@ public class AlquilerService {
     private AlquilerHelperService alquilerHelperService;
     @Transactional
     public Alquiler crearAlquiler(AlquilerDTOCrear alquilerDTO){
+        this.alquilerHelperService.checkDisponibilidadConductor(alquilerDTO.getRangoFecha(),alquilerDTO.getLicenciaConductor());
         Auto auto = this.autoHelperService.findAutoByPatente(alquilerDTO.getPatenteAuto());
         this.autoHelperService.verificarDisponibilidad(auto,alquilerDTO.getRangoFecha());
 
