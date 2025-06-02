@@ -2,8 +2,10 @@ package inge2.com.alquileresMaria.controller;
 
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
-import inge2.com.alquileresMaria.dto.CheckOutDTO;
-import inge2.com.alquileresMaria.service.CheckOutService;
+import inge2.com.alquileresMaria.dto.CheckOutAlquilerDTO;
+import inge2.com.alquileresMaria.dto.CheckOutMultaDTO;
+import inge2.com.alquileresMaria.service.checkOut.CheckOutAlquilerService;
+import inge2.com.alquileresMaria.service.checkOut.CheckOutMultaService;
 import inge2.com.alquileresMaria.service.PagoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 public class CheckOutController {
 
     @Autowired
-    private CheckOutService checkOutService;
+    private CheckOutAlquilerService checkOutAlquilerService;
     @Autowired
-    private PagoService pagoService;
+    private CheckOutMultaService checkOutMultaService;
 
     /*
     ** Ejemplo de peticion
@@ -40,21 +42,30 @@ public class CheckOutController {
       "sucursalDevolucion": "Trelew"
     }
  }   */
-    @PostMapping("/createPreference")
-    public String createPreference(@Valid @RequestBody CheckOutDTO checkOutDTO) throws MPException, MPApiException {
-        return this.checkOutService.createPreference(checkOutDTO); //Url de redireccion del pago
+    @PostMapping("/registrarAlquiler")
+    public String registrarAlquiler(@Valid @RequestBody CheckOutAlquilerDTO checkOutAlquilerDTO) throws MPException, MPApiException {
+        return this.checkOutAlquilerService.registrarAlquiler(checkOutAlquilerDTO); //Url de redireccion del pago
     }
 
-    //Aca se recibiran las notificaciones referidas a las preference de mercadopago
-    /*@PostMapping("/webhook")
-    public ResponseEntity<String> recibirNotificacion(@RequestParam("type") String type, @RequestParam("data.id") String dataId){
-        // Solo procesamos pagos
-        if ("payment".equals(type)) {
-            pagoService.procesarNotificacionPago(dataId);
-        }
-
+    //Aca se recibiran las notificaciones de mercadopago referidas a los alquileres
+    @PostMapping("/notificacion/alquiler")
+    public ResponseEntity<String> recibirNotificacionAlquiler(@RequestParam("type") String type, @RequestParam("data.id") String dataId) throws MPException, MPApiException {
+        checkOutAlquilerService.procesarNotificacion(dataId,type);
         // Responder 200 OK para que MP no reintente
         return ResponseEntity.ok("OK");
-    }*/
+    }
+
+    //Aca se recibiran las notificaciones de mercadopago referidas a las multas
+    @PostMapping("/notificacion/multa")
+    public ResponseEntity<String> recibirNotificacionMulta(@RequestParam("type") String type, @RequestParam("data.id") String dataId) throws MPException, MPApiException {
+            checkOutMultaService.procesarNotificacion(dataId,type);
+        // Responder 200 OK para que MP no reintente
+        return ResponseEntity.ok("OK");
+    }
+
+    @PostMapping("/pagarMulta")
+    public String pagarMulta(@Valid @RequestBody CheckOutMultaDTO checkOutMultaDTO) throws MPException, MPApiException {
+        return this.checkOutMultaService.pagarMulta(checkOutMultaDTO);
+    }
 
 }

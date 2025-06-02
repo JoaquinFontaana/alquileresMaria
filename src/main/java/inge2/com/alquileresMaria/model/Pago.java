@@ -19,8 +19,6 @@ public class Pago {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
-    private String preferenceId;
     @OneToOne(optional = false)
     @JoinColumn(name = "alquiler_id")
     private Alquiler alquiler;
@@ -36,9 +34,8 @@ public class Pago {
     private LocalDateTime fechaExpiracion;
 
     public Pago(Preference preference,Alquiler alquiler) {
-        this.preferenceId = preference.getId();
         this.alquiler = alquiler;
-        this.initPoint = preference.getSandboxInitPoint();
+        this.initPoint = preference.getInitPoint();
         this.monto = alquiler.calcularTotal();
         this.estadoPago = EstadoPago.PENDIENTE;
         this.fechaCreacion = LocalDateTime.now();
