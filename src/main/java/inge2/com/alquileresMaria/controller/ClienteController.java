@@ -34,4 +34,8 @@ public class ClienteController {
     public List<AlquilerDTOListar> listarAlquileres(@RequestParam String email) {
         return this.service.listarAlquileres(email);
     }
+    @GetMapping("/multa")
+    public double multa(@RequestParam String mail){
+        return this.service.getMulta(mail);
+    }
 }

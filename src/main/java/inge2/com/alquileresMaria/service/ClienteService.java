@@ -46,5 +46,7 @@ public class ClienteService {
                 .map(AlquilerDTOListar::new)
                 .toList();
     }
-
+    public double getMulta(String mail){
+        return this.clienteHelperService.findClienteByEmail(mail).getMontoMulta();
+    }
 }
