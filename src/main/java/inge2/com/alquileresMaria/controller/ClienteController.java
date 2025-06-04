@@ -24,19 +24,17 @@ public class ClienteController {
 
     @PostMapping(path = "/registrar")
     public ResponseEntity<String> registrarCliente(@Valid @RequestBody PersonaDTO cliente){
-        // Si falla la validaciónes o existe email/dni, se lanzará una RuntimeException
         service.crearCliente(cliente);
         return ResponseEntity.ok().body("Cliente creado con exito");
 
     }
     @GetMapping("/listar/alquileres")
     public List<AlquilerDTOListar> listarAlquileres() {
-        String mail = authHelperService.getMailOfContext();
-        return this.service.listarAlquileres(mail);
+        return this.service.listarAlquileres(authHelperService.getMailOfContext());
     }
 
     @GetMapping("/multa")
-    public double multa(@RequestParam String mail){
-        return this.service.getMulta(mail);
+    public double multa(){
+        return this.service.getMulta(this.authHelperService.getMailOfContext());
     }
 }
