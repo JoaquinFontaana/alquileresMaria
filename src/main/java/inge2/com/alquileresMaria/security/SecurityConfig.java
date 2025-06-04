@@ -1,5 +1,6 @@
 package inge2.com.alquileresMaria.security;
 
+import inge2.com.alquileresMaria.configuration.CorsConfig;
 import inge2.com.alquileresMaria.service.EncryptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -44,7 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/sucursal/**").hasRole("ADMIN")
                         .requestMatchers("/cliente/registrar").permitAll()
                         .requestMatchers("/cliente/multa").hasRole("CLIENT")
-                        .requestMatchers("/cliente/listar/**").hasAnyRole("CLIENTE","ADMIN")
+                        .requestMatchers("/cliente/listar/**").hasRole("CLIENTE")
                         .requestMatchers("/auth/login").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
