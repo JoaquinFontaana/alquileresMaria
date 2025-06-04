@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -56,5 +57,9 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<String> handlerExpiredTokenException(ExpiredJwtException ex){
         return new ResponseEntity<String>("La sesión del token cadudó.", HttpStatus.UNAUTHORIZED);
+    }
+    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
+    public ResponseEntity<String> handlerCredentialsNotFound(AuthenticationCredentialsNotFoundException ex){
+        return new ResponseEntity<String>("El usuario no esta autenticado no se puede obtener el mail del context", HttpStatus.UNAUTHORIZED);
     }
 }
