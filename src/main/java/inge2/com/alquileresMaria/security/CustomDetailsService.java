@@ -27,6 +27,6 @@ public class CustomDetailsService implements UserDetailsService {
                     user.getPassword(), this.mapRolesToAuthorities(user.getRol()));
     }
     private Collection<GrantedAuthority> mapRolesToAuthorities(Rol rol){
-        return Collections.singleton(new SimpleGrantedAuthority(rol.getNombre()));
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + rol.getNombre()));
     }
 }
