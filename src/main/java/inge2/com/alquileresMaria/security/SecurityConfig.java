@@ -44,6 +44,8 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/sucursal/**").hasRole("ADMIN")
                         .requestMatchers("/cliente/registrar").permitAll()
+                        .requestMatchers("/cliente/multa").hasRole("CLIENT")
+                        .requestMatchers("/cliente/listar/**").hasAnyRole("CLIENTE","ADMIN")
                         .requestMatchers("/auth/login").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());

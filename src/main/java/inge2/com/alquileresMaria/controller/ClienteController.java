@@ -16,12 +16,6 @@ public class ClienteController {
     @Autowired
     private ClienteService service;
 
-    @GetMapping(path = "/")
-    public String hola(){
-        return "Andando";
-    }
-    //Metodo para registrase
-
     @PostMapping(path = "/registrar")
     public ResponseEntity<String> registrarCliente(@Valid @RequestBody PersonaDTO cliente){
         // Si falla la validaciónes o existe email/dni, se lanzará una RuntimeException
