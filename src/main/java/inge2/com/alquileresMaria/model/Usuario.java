@@ -22,4 +22,11 @@ public class Usuario {
     public Usuario(){
 
     }
+
+    public Usuario(String password, String mail, Rol rol) {
+        this.password = password;
+        this.mail = mail;
+        this.rol = rol;
+    }
+
 }
