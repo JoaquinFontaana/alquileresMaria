@@ -23,14 +23,12 @@ public class SecurityConfig {
     private final JWTAuthEntryPoint authEntryPoint;
     private final CustomDetailsService userDetailsService;
     private final EncryptService encryptService;
-    private final CorsConfig corsConfig;
 
     @Autowired
     public SecurityConfig(JWTAuthEntryPoint authEntryPoint, CustomDetailsService userDetailsService, EncryptService encryptService, CorsConfig corsConfig) {
         this.authEntryPoint = authEntryPoint;
         this.userDetailsService = userDetailsService;
         this.encryptService = encryptService;
-        this.corsConfig = corsConfig;
     }
 
     @Bean
