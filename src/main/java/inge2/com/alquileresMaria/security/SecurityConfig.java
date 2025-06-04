@@ -11,32 +11,33 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private JWTAuthEntryPoint authEntryPoint;
+    private final JWTAuthEntryPoint authEntryPoint;
+    private final CustomDetailsService userDetailsService;
+    private final EncryptService encryptService;
+    private final CorsConfig corsConfig;
 
     @Autowired
-    private CustomDetailsService userDetailsService;
-
-    @Autowired
-    private EncryptService encryptService;
+    public SecurityConfig(JWTAuthEntryPoint authEntryPoint, CustomDetailsService userDetailsService, EncryptService encryptService, CorsConfig corsConfig) {
+        this.authEntryPoint = authEntryPoint;
+        this.userDetailsService = userDetailsService;
+        this.encryptService = encryptService;
+        this.corsConfig = corsConfig;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
+                .cors(Customizer.withDefaults())
                 .exceptionHandling( e -> e.authenticationEntryPoint(authEntryPoint))
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
@@ -90,4 +91,6 @@ public class SecurityConfig {
     public JWTAuthenticationFilter jwtAuthenticationFilter(){
         return new JWTAuthenticationFilter();
     }
+
+
 }
