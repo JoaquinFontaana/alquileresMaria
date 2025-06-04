@@ -46,6 +46,7 @@ public class SecurityConfig {
                         .requestMatchers("/cliente/registrar").permitAll()
                         .requestMatchers("/cliente/multa").hasRole("CLIENT")
                         .requestMatchers("/auto/listar").permitAll()
+                        .requestMatchers("/auto/crear").hasRole("ADMIN")
                         .requestMatchers("/cliente/listar/**").hasRole("CLIENT")
                         .requestMatchers("/auth/login").permitAll()
                         .anyRequest().authenticated())
