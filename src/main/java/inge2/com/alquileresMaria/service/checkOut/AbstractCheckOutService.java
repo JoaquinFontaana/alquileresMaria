@@ -4,6 +4,7 @@ import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.payment.Payment;
 import inge2.com.alquileresMaria.service.builder.MpPreferenceBuilder;
+import inge2.com.alquileresMaria.service.helper.AuthHelperService;
 import inge2.com.alquileresMaria.service.helper.CheckOutHelperService;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public abstract class AbstractCheckOutService {
     private CheckOutHelperService checkOutHelper;
     @Autowired
     private MpPreferenceBuilder mpPreferenceBuilder;
+    private AuthHelperService authHelperService;
 
     public void procesarNotificacion(String dataId,String type) throws MPException, MPApiException {
         if (!"payment".equals(type)){

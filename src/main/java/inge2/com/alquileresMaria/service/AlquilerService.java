@@ -34,15 +34,17 @@ public class AlquilerService {
     @Autowired
     private AlquilerHelperService alquilerHelperService;
     @Transactional
-    public Alquiler crearAlquiler(AlquilerDTOCrear alquilerDTO){
+    public Alquiler crearAlquiler(AlquilerDTOCrear alquilerDTO,String mail){
+        this.alquilerHelperService.checkDuracionAlquiler(alquilerDTO.getRangoFecha());
         this.alquilerHelperService.checkDisponibilidadConductor(alquilerDTO.getRangoFecha(),alquilerDTO.getLicenciaConductor());
         Auto auto = this.autoHelperService.findAutoByPatente(alquilerDTO.getPatenteAuto());
         this.autoHelperService.verificarDisponibilidad(auto,alquilerDTO.getRangoFecha());
 
+
         Sucursal entregaSucursal = this.sucursalService.findSucursalByCiudad(alquilerDTO.getSucursalEntrega());
         Sucursal devolucionSucursal = this.sucursalService.findSucursalByCiudad(alquilerDTO.getSucursalDevolucion());
 
-        Cliente cliente = this.clienteHelperService.findClienteByEmail(alquilerDTO.getClienteMail());
+        Cliente cliente = this.clienteHelperService.findClienteByEmail(mail);
         Alquiler alquiler = new Alquiler(alquilerDTO,auto,cliente,devolucionSucursal,entregaSucursal);
 
         return this.repository.save(alquiler);

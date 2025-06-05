@@ -3,10 +3,9 @@ package inge2.com.alquileresMaria.controller;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import inge2.com.alquileresMaria.dto.CheckOutAlquilerDTO;
-import inge2.com.alquileresMaria.dto.CheckOutMultaDTO;
+import inge2.com.alquileresMaria.dto.DatosPagoDTO;
 import inge2.com.alquileresMaria.service.checkOut.CheckOutAlquilerService;
 import inge2.com.alquileresMaria.service.checkOut.CheckOutMultaService;
-import inge2.com.alquileresMaria.service.PagoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +35,6 @@ public class CheckOutController {
         "fechaHasta": "2025-06-15"
       },
       "licenciaConductor": "ABC123456",
-      "clienteMail": "maria.gonzalez@example.com",
       "patenteAuto": "ADF111",
       "sucursalEntrega": "Trelew",
       "sucursalDevolucion": "Trelew"
@@ -64,8 +62,8 @@ public class CheckOutController {
     }
 
     @PostMapping("/pagarMulta")
-    public String pagarMulta(@Valid @RequestBody CheckOutMultaDTO checkOutMultaDTO) throws MPException, MPApiException {
-        return this.checkOutMultaService.pagarMulta(checkOutMultaDTO);
+    public String pagarMulta(@Valid @RequestBody DatosPagoDTO datosPagoDTO) throws MPException, MPApiException {
+        return this.checkOutMultaService.pagarMulta(datosPagoDTO);
     }
 
 }

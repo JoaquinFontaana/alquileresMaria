@@ -25,7 +25,7 @@ public class CheckOutAlquilerService extends AbstractCheckOutService {
 
     @Transactional
     public String registrarAlquiler(CheckOutAlquilerDTO checkOutAlquilerDTO) throws MPException, MPApiException {
-        Alquiler alquiler = this.alquilerService.crearAlquiler(checkOutAlquilerDTO.getAlquilerDTO());
+        Alquiler alquiler = this.alquilerService.crearAlquiler(checkOutAlquilerDTO.getAlquilerDTO(),this.getAuthHelperService().getMailOfContext());
 
         Preference preference = this.getMpPreferenceBuilder().crearPreferenceAlquiler(alquiler,checkOutAlquilerDTO.getDatosPagoDTO());
 

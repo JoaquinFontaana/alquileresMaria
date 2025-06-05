@@ -37,4 +37,9 @@ public class AlquilerHelperService {
                     throw new EntityExistsException("El conductor con licencia " + licencia +  " ya tiene un alquiler en el rango de fecha solicitado");
                 });
     }
+    public void checkDuracionAlquiler(RangoFecha rangoFecha){
+        if(rangoFecha.cantidadDeDias() > 14){
+            throw new IllegalArgumentException("La duracion maxima de un alquiler son 14 dias");
+        }
+    }
 }

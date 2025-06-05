@@ -15,7 +15,7 @@ public class AutoHelperService {
     private IAutoRepository autoRepository;
 
     public void verificarDisponibilidad(Auto auto, RangoFecha rangoFecha){
-        if(!auto.disponibleEnRangoFechas(rangoFecha)){
+        if(auto.getEstado() == EstadoAuto.BAJA || auto.getEstado() == EstadoAuto.EN_MANTENIMIENTO || !auto.disponibleEnRangoFechas(rangoFecha)){
             throw new IllegalStateException("El auto no se encuentra disponible en esas fechas");
         }
     }
