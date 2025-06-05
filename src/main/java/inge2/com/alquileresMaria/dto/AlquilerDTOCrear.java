@@ -11,7 +11,6 @@ public class AlquilerDTOCrear {
     private RangoFecha rangoFecha;
     private String licenciaConductor;
     private String patenteAuto;
-    private String sucursalEntrega;
-    private String sucursalDevolucion;
+    private String sucursal;
 
 }

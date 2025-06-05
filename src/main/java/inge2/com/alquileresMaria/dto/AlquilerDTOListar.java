@@ -17,8 +17,7 @@ public class AlquilerDTOListar {
     private String licenciaConductor;
     private String clienteMail;
     private AutoDTO auto;
-    private String sucursalEntrega;
-    private String sucursalDevolucion;
+    private String sucursal;
     private double monto;
     @Enumerated(EnumType.STRING)
     private EstadoPago estadoPago;
@@ -28,8 +27,7 @@ public class AlquilerDTOListar {
         this.licenciaConductor = alquiler.getLicenciaConductor();
         this.clienteMail = alquiler.getCliente().getMail();
         this.auto = new AutoDTO(alquiler.getAuto());
-        this.sucursalDevolucion = alquiler.getDevolucionEnSucursal().getCiudad();
-        this.sucursalEntrega = alquiler.getEntregaEnSucursal().getCiudad();
+        this.sucursal = alquiler.getSucursal().getCiudad();
         this.estadoPago = alquiler.getPago().getEstadoPago();
         this.monto = alquiler.getPago().getMonto();
     }

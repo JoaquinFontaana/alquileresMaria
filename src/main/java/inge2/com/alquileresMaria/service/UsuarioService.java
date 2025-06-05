@@ -25,8 +25,8 @@ public class UsuarioService {
         this.usuarioRepository.save(new Usuario(encryptedPassword,mail,this.rolService.findRolByNombre("ADMIN")));
     }
 
-    public boolean checkExistsAdmin(){
-        return this.usuarioRepository.findUsuarioByRolNombre("ADMIN").isPresent();
+    public boolean checkNotExistsAdmin(){
+        return this.usuarioRepository.findUsuarioByRolNombre("ADMIN").isEmpty();
     }
     public Usuario findByEmail(String mail) {
         return usuarioRepository.findByMail(mail)

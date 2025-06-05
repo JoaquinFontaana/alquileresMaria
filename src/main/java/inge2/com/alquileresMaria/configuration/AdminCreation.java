@@ -24,7 +24,7 @@ public class AdminCreation {
     @EventListener(ApplicationReadyEvent.class)
     @Transactional
     public void crearAdmin(){
-        if(!this.usuarioService.checkExistsAdmin()){
+        if(this.usuarioService.checkNotExistsAdmin()){
             this.usuarioService.crearAdmin(adminMail,adminPassword);
         }
     }

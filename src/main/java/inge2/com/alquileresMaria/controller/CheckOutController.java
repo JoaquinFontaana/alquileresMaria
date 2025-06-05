@@ -36,8 +36,7 @@ public class CheckOutController {
       },
       "licenciaConductor": "ABC123456",
       "patenteAuto": "ADF111",
-      "sucursalEntrega": "Trelew",
-      "sucursalDevolucion": "Trelew"
+      "sucursal": "Trelew",
     }
  }   */
     @PostMapping("/registrarAlquiler")

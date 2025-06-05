@@ -12,13 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Getter @Setter
 public abstract class AbstractCheckOutService {
-    @Autowired
+
     private CheckOutHelperService checkOutHelper;
-    @Autowired
     private MpPreferenceBuilder mpPreferenceBuilder;
     private AuthHelperService authHelperService;
+    @Autowired
+    public AbstractCheckOutService(CheckOutHelperService checkOutHelper, MpPreferenceBuilder mpPreferenceBuilder, AuthHelperService authHelperService) {
+        this.checkOutHelper = checkOutHelper;
+        this.mpPreferenceBuilder = mpPreferenceBuilder;
+        this.authHelperService = authHelperService;
+    }
 
-    public void procesarNotificacion(String dataId,String type) throws MPException, MPApiException {
+    public void procesarNotificacion(String dataId, String type) throws MPException, MPApiException {
         if (!"payment".equals(type)){
             return;
         }

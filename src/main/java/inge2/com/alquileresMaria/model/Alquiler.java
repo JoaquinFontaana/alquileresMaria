@@ -24,11 +24,8 @@ public class Alquiler {
     @JoinColumn(name = "auto_id")
     private Auto auto;
     @ManyToOne
-    @JoinColumn(name = "devolucion_sucursal_id")
-    private Sucursal devolucionEnSucursal;
-    @ManyToOne
-    @JoinColumn(name = "entrega_sucursal_id")
-    private Sucursal entregaEnSucursal;
+    @JoinColumn(name = "sucursal_id")
+    private Sucursal sucursal;
     @OneToOne(mappedBy = "alquiler")
     private Pago pago;
 
@@ -39,11 +36,10 @@ public class Alquiler {
     public double calcularTotal(){
         return this.auto.getPrecioPorDia() * this.rangoFecha.cantidadDeDias();
     }
-    public Alquiler (AlquilerDTOCrear alquilerDTOCrear,Auto auto,Cliente cliente,Sucursal devolucionEnSucursal,Sucursal entregaEnSucursal){
+    public Alquiler (AlquilerDTOCrear alquilerDTOCrear,Auto auto,Cliente cliente,Sucursal sucursal){
         this.auto = auto;
         this.cliente = cliente;
-        this.devolucionEnSucursal = devolucionEnSucursal;
-        this.entregaEnSucursal = entregaEnSucursal;
+        this.sucursal = sucursal;
         this.licenciaConductor = alquilerDTOCrear.getLicenciaConductor();
         this.rangoFecha = alquilerDTOCrear.getRangoFecha();
     }

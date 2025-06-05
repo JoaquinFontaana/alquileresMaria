@@ -43,6 +43,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/sucursal/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/sucursal/listar").permitAll()
                         .requestMatchers("/cliente/registrar").permitAll()
                         .requestMatchers("/cliente/multa").hasRole("CLIENT")
                         .requestMatchers("/auto/listar").permitAll()

@@ -28,5 +28,6 @@ public class Cliente extends Persona {
     public Cliente (PersonaDTO dto, Rol rol){
         super(dto,rol);
         this.alquileres = new ArrayList<>();
+        this.montoMulta = 0;
     }
 }
