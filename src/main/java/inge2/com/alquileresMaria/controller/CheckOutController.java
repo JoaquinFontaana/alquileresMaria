@@ -6,6 +6,7 @@ import inge2.com.alquileresMaria.dto.CheckOutAlquilerDTO;
 import inge2.com.alquileresMaria.dto.DatosPagoDTO;
 import inge2.com.alquileresMaria.service.checkOut.CheckOutAlquilerService;
 import inge2.com.alquileresMaria.service.checkOut.CheckOutMultaService;
+import inge2.com.alquileresMaria.service.helper.AuthHelperService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,35 +16,51 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/checkOut")
 public class CheckOutController {
 
+    private final CheckOutAlquilerService checkOutAlquilerService;
+    private final CheckOutMultaService checkOutMultaService;
+    private final AuthHelperService authHelperService;
     @Autowired
-    private CheckOutAlquilerService checkOutAlquilerService;
-    @Autowired
-    private CheckOutMultaService checkOutMultaService;
+    public CheckOutController(CheckOutAlquilerService checkOutAlquilerService, CheckOutMultaService checkOutMultaService, AuthHelperService authHelperService) {
+        this.checkOutAlquilerService = checkOutAlquilerService;
+        this.checkOutMultaService = checkOutMultaService;
+        this.authHelperService = authHelperService;
+    }
 
     /*
-    ** Ejemplo de peticion
-    *  {
-    "datosPagoDTO": {
-      "titulo": "Reserva de Auto - 5 días",
-      "successUrl": "https://miapp.com/pago/exito",
-      "failureUrl": "https://miapp.com/pago/fallo",
-      "pendingUrl": "https://miapp.com/pago/pendiente"
-    },
-    "alquilerDTO": {
-      "rangoFecha": {
-        "fechaDesde": "2025-06-10",
-        "fechaHasta": "2025-06-15"
-      },
-      "licenciaConductor": "ABC123456",
-      "patenteAuto": "ADF111",
-      "sucursal": "Trelew",
-    }
- }   */
+        ** Ejemplo de peticion
+        *  {
+        "datosPagoDTO": {
+          "titulo": "Reserva de Auto - 5 días",
+          "successUrl": "https://miapp.com/pago/exito",
+          "failureUrl": "https://miapp.com/pago/fallo",
+          "pendingUrl": "https://miapp.com/pago/pendiente"
+        },
+        "alquilerDTO": {
+          "rangoFecha": {
+            "fechaDesde": "2025-06-10",
+            "fechaHasta": "2025-06-15"
+          },
+          "licenciaConductor": "ABC123456",
+          "patenteAuto": "ADF111",
+          "sucursal": "Trelew",
+        }
+     }   */
     @PostMapping("/cliente/registrarAlquiler")
-    public String registrarAlquiler(@Valid @RequestBody CheckOutAlquilerDTO checkOutAlquilerDTO) throws MPException, MPApiException {
-        return this.checkOutAlquilerService.registrarAlquiler(checkOutAlquilerDTO); //Url de redireccion del pago
+    public String registrarAlquilerCliente(@Valid @RequestBody CheckOutAlquilerDTO checkOutAlquilerDTO) throws MPException, MPApiException {
+        return this.checkOutAlquilerService.registrarAlquiler(checkOutAlquilerDTO,this.authHelperService.getMailOfContext()); //Url de redireccion del pago
     }
 
+    @PostMapping("/cliente/pagarMulta")
+    public String pagarMulta(@Valid @RequestBody DatosPagoDTO datosPagoDTO) throws MPException, MPApiException {
+        return this.checkOutMultaService.pagarMulta(datosPagoDTO);
+    }
+
+    /*
+    @PostMapping("/empleado/registrarAlquiler")
+    public String registrarAlquilerEmpleado(@Valid @RequestBody CheckOutAlquilerDTO checkOutAlquilerDTO) throws MPException, MPApiException {
+        return this.checkOutAlquilerService.registrarAlquiler(checkOutAlquilerDTO,mail);
+    }
+    */
     //Aca se recibiran las notificaciones de mercadopago referidas a los alquileres
     @PostMapping("/notificacion/alquiler")
     public ResponseEntity<String> recibirNotificacionAlquiler(@RequestParam("type") String type, @RequestParam("data.id") String dataId) throws MPException, MPApiException {
@@ -60,9 +77,6 @@ public class CheckOutController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/cliente/pagarMulta")
-    public String pagarMulta(@Valid @RequestBody DatosPagoDTO datosPagoDTO) throws MPException, MPApiException {
-        return this.checkOutMultaService.pagarMulta(datosPagoDTO);
-    }
+
 
 }

@@ -21,18 +21,22 @@ import java.util.stream.Collectors;
 @Service
 public class AlquilerService {
 
-    @Autowired
-    private IAlquilerRepository repository;
-    @Autowired
-    private EmailService serviceEmail;
-    @Autowired
-    private SucursalService sucursalService;
-    @Autowired
-    private AutoHelperService autoHelperService;
-    @Autowired
-    private ClienteHelperService clienteHelperService;
-    @Autowired
-    private AlquilerHelperService alquilerHelperService;
+    private final IAlquilerRepository repository;
+    private final EmailService serviceEmail;
+    private final SucursalService sucursalService;
+    private final AutoHelperService autoHelperService;
+    private final ClienteHelperService clienteHelperService;
+    private final AlquilerHelperService alquilerHelperService;
+
+    public AlquilerService(IAlquilerRepository repository, EmailService serviceEmail, SucursalService sucursalService, AutoHelperService autoHelperService, ClienteHelperService clienteHelperService, AlquilerHelperService alquilerHelperService) {
+        this.repository = repository;
+        this.serviceEmail = serviceEmail;
+        this.sucursalService = sucursalService;
+        this.autoHelperService = autoHelperService;
+        this.clienteHelperService = clienteHelperService;
+        this.alquilerHelperService = alquilerHelperService;
+    }
+
     @Transactional
     public Alquiler crearAlquiler(AlquilerDTOCrear alquilerDTO,String mail){
         this.alquilerHelperService.checkDuracionAlquiler(alquilerDTO.getRangoFecha());

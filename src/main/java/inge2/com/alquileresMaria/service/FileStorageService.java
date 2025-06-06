@@ -33,23 +33,19 @@ public class FileStorageService {
             String extension = "";
             int ultimoPunto = nombreImagen.lastIndexOf('.');
             if (ultimoPunto >= 0) {
-                extension = nombreImagen.substring(ultimoPunto); // e.g. ".jpg"
-                nombreImagen = nombreImagen.substring(0, ultimoPunto); // e.g. "miFoto"
+                extension = nombreImagen.substring(ultimoPunto);
+                nombreImagen = nombreImagen.substring(0, ultimoPunto);
             }
 
-            // BASIC_ISO_DATE da algo como "20250612" en lugar de "2025-06-12".
-            // Si quieres guiones: .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-
-            // 3) Construir el nuevo nombre: por ejemplo "miFoto_20250612.jpg"
             String nuevoNombre = nombreImagen + "_" + LocalTime.now() + extension;
 
-            // 4) Crear carpetas si no existen
+            //Crear carpetas si no existen
             Path uploadPath = Paths.get(carpetaDestino).toAbsolutePath().normalize();
             Files.createDirectories(uploadPath);
 
-            // 5) Guardar el archivo con el nuevo nombre
+
             Path filePath = uploadPath.resolve(nuevoNombre);
-            // Opcional: si ya existiera, podrías agregar un número incremental o un UUID
+
             imagen.transferTo(filePath.toFile());
             return uploadPath.resolve(nuevoNombre).toString();
         }
