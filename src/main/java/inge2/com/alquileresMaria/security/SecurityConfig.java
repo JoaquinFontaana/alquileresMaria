@@ -46,11 +46,11 @@ public class SecurityConfig {
                         .requestMatchers("/cliente/registrar").permitAll()
                         .requestMatchers("/cliente/multa").hasRole("CLIENT")
                         .requestMatchers("/auto/listar").permitAll()
-                        .requestMatchers("/auto/eliminar").hasRole("ADMIN")
+                        .requestMatchers("/auto/eliminar").hasRole("ADMIN") //TODO Mejor estructurar /auto/admin/**
                         .requestMatchers("/auto/crear").hasRole("ADMIN") //TODO Mejor estructurar /auto/admin/**
-                        .requestMatchers("/auto/actualizar").hasRole("ADMIN")
-                        .requestMatchers("/auto/getImagen").permitAll()
-                        .requestMatchers("/auto/categorias").permitAll()
+                        .requestMatchers("/auto/actualizar").hasRole("ADMIN") //TODO Mejor estructurar /auto/admin/**
+                        .requestMatchers("/auto/getImagen").permitAll() //TODO cambiar a /get/imagen
+                        .requestMatchers("/auto/get/**").permitAll()
                         .requestMatchers("/cliente/listar/**").hasRole("CLIENT")
                         .requestMatchers("/checkOut/cliente/**").hasRole("CLIENT")
                         .requestMatchers("/auth/login").permitAll()
