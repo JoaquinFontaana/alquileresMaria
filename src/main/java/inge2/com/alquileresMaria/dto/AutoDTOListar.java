@@ -7,7 +7,6 @@ import lombok.Setter;
 @Getter @Setter
 public class AutoDTOListar extends AutoDTO{
     private String endpointImagen;
-
     public AutoDTOListar(Auto auto) {
         super(auto);
         this.endpointImagen = "/auto/getImagen?patente="+auto.getPatente();

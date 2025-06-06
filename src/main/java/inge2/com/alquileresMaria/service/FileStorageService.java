@@ -1,12 +1,10 @@
 package inge2.com.alquileresMaria.service;
 
-import ch.qos.logback.classic.Logger;
-import org.apache.commons.lang.StringUtils;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;

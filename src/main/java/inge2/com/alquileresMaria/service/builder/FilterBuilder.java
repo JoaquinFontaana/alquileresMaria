@@ -1,9 +1,12 @@
 package inge2.com.alquileresMaria.service.builder;
 
 import inge2.com.alquileresMaria.dto.AutoFilterDTO;
+import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
 import inge2.com.alquileresMaria.service.filter.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Random;
 
 @Component
 public final class FilterBuilder {
@@ -20,8 +23,9 @@ public final class FilterBuilder {
             filtro = new SucursalFilterDecorator(filtro, autoFilterDTO.getNombreSucursal());
         }
 
-        if (autoFilterDTO.getRangoFechas() != null) {
-            filtro = new DisponibilidadFilterDecorator(filtro, autoFilterDTO.getRangoFechas());
+        if (autoFilterDTO.getFechaHasta() != null && autoFilterDTO.getFechaDesde() != null) {
+            RangoFecha rangoFecha =new RangoFecha(autoFilterDTO.getFechaDesde(),autoFilterDTO.getFechaHasta());
+            filtro = new DisponibilidadFilterDecorator(filtro, rangoFecha);
         }
 
         if (autoFilterDTO.getCapacidad() != null) {
