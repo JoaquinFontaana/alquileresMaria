@@ -10,6 +10,8 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Base64;
 
 @Service
@@ -27,11 +29,29 @@ public class FileStorageService {
             if (nombreImagen == null){
                 throw new IllegalArgumentException("La imagen debe tener nombre");
             }
+            // Separar extensión (todo lo que venga después del último punto)
+            String extension = "";
+            int ultimoPunto = nombreImagen.lastIndexOf('.');
+            if (ultimoPunto >= 0) {
+                extension = nombreImagen.substring(ultimoPunto); // e.g. ".jpg"
+                nombreImagen = nombreImagen.substring(0, ultimoPunto); // e.g. "miFoto"
+            }
+
+            // BASIC_ISO_DATE da algo como "20250612" en lugar de "2025-06-12".
+            // Si quieres guiones: .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+
+            // 3) Construir el nuevo nombre: por ejemplo "miFoto_20250612.jpg"
+            String nuevoNombre = nombreImagen + "_" + LocalTime.now() + extension;
+
+            // 4) Crear carpetas si no existen
             Path uploadPath = Paths.get(carpetaDestino).toAbsolutePath().normalize();
             Files.createDirectories(uploadPath);
 
-            imagen.transferTo(uploadPath.resolve(nombreImagen).toFile());
-            return uploadPath.resolve(nombreImagen).toString();
+            // 5) Guardar el archivo con el nuevo nombre
+            Path filePath = uploadPath.resolve(nuevoNombre);
+            // Opcional: si ya existiera, podrías agregar un número incremental o un UUID
+            imagen.transferTo(filePath.toFile());
+            return uploadPath.resolve(nuevoNombre).toString();
         }
         catch (IOException ex){
             throw  new UncheckedIOException("Ocurrio un error al cargar la imagen",ex);

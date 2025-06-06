@@ -41,6 +41,7 @@ public class Auto {
     private Sucursal sucursal;
     @NotBlank(message = "La imagen es obligatoria")
     private String rutaImagen;
+
     public Auto(){
         // Constructor por defecto requerido por Hibernate
     }
