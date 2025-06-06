@@ -5,6 +5,7 @@ import inge2.com.alquileresMaria.dto.AutoDTOCrear;
 import inge2.com.alquileresMaria.dto.AutoDTOListar;
 import inge2.com.alquileresMaria.dto.AutoFilterDTO;
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
+import inge2.com.alquileresMaria.model.enums.EstadoAuto;
 import inge2.com.alquileresMaria.service.AutoService;
 import inge2.com.alquileresMaria.service.FileStorageService;
 import jakarta.validation.Valid;
@@ -56,6 +57,11 @@ public class AutoController {
     @GetMapping("/categorias")
     public List<CategoriaAuto> getCategorias(){
         return List.of(CategoriaAuto.values());
+    }
+
+    @GetMapping("/estados")
+    public List<EstadoAuto> getEstados(){
+        return List.of(EstadoAuto.values());
     }
     /**
      * Lista los autos disponibles aplicando filtros combinados (todos opcionales).
