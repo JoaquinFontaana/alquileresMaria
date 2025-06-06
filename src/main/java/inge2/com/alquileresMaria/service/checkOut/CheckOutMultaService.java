@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CheckOutMultaService extends AbstractCheckOutService {
 
-    private ClienteHelperService clienteHelperService;
-    private ClienteService clienteService;
+    private final ClienteHelperService clienteHelperService;
+    private final ClienteService clienteService;
     @Autowired
     public CheckOutMultaService(CheckOutHelperService checkOutHelper, MpPreferenceBuilder mpPreferenceBuilder, AuthHelperService authHelperService, ClienteHelperService clienteHelperService, ClienteService clienteService) {
         super(checkOutHelper, mpPreferenceBuilder, authHelperService);

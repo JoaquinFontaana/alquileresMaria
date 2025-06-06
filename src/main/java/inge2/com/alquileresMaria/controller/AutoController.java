@@ -1,11 +1,14 @@
 package inge2.com.alquileresMaria.controller;
 
 import inge2.com.alquileresMaria.dto.AutoDTO;
+import inge2.com.alquileresMaria.dto.AutoDTOCrear;
+import inge2.com.alquileresMaria.dto.AutoDTOListar;
 import inge2.com.alquileresMaria.dto.AutoFilterDTO;
 import inge2.com.alquileresMaria.service.AutoService;
+import inge2.com.alquileresMaria.service.FileStorageService;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,24 +18,28 @@ import java.util.List;
 @RequestMapping("/auto")
 public class AutoController {
 
-    @Autowired
-    private AutoService service;
+    private final AutoService autoService;
+
+
+    public AutoController(AutoService autoService) {
+        this.autoService = autoService;
+    }
 
     @PutMapping("/eliminar")
     public ResponseEntity<String> eliminarAuto(@RequestParam String patente){
-        this.service.eliminarAuto(patente);
+        this.autoService.eliminarAuto(patente);
         return ResponseEntity.ok("Auto eliminado con exito");
     }
 
-    @PostMapping("/crear")
-    public ResponseEntity<String> crearAuto(@Valid @RequestBody AutoDTO autoDto){
-        this.service.crearAuto(autoDto);
+    @PostMapping(path = "/crear", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> crearAuto(@Valid @ModelAttribute AutoDTOCrear autoDto){
+        this.autoService.crearAuto(autoDto);
         return ResponseEntity.ok("Auto creado con exito");
     }
 
     @PutMapping("/actualizar")
-    public ResponseEntity<String> actualizarAuto(@Valid @RequestBody AutoDTO autoActualizado){
-        this.service.actualizarAuto(autoActualizado);
+    public ResponseEntity<String> actualizarAuto(@Valid @RequestBody AutoDTOCrear autoActualizado){
+        this.autoService.actualizarAuto(autoActualizado);
         return ResponseEntity.ok("Auto actualizado con exito");
     }
 
@@ -60,7 +67,7 @@ public class AutoController {
             description = "Permite filtrar autos por nombre de sucursal, rango de fechas, capacidad mínima y categorías. Todos los filtros son opcionales y se combinan con lógica AND."
     )*/
     @GetMapping("/listar")
-    public List<AutoDTO> listarAutos(@ModelAttribute AutoFilterDTO opcionesFiltrado){
-        return this.service.listarAutos(opcionesFiltrado);
+    public List<AutoDTOListar> listarAutos(@ModelAttribute AutoFilterDTO opcionesFiltrado){
+        return this.autoService.listarAutos(opcionesFiltrado);
     }
 }

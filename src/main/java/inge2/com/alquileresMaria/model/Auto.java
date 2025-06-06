@@ -1,6 +1,7 @@
 package inge2.com.alquileresMaria.model;
 
 import inge2.com.alquileresMaria.dto.AutoDTO;
+import inge2.com.alquileresMaria.dto.AutoDTOCrear;
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
 import inge2.com.alquileresMaria.model.enums.EstadoAuto;
 import inge2.com.alquileresMaria.model.enums.Rembolso;
@@ -28,7 +29,6 @@ public class Auto {
     private String modelo;
     @Positive(message = "El precio por dia debe ser positivo")
     private double precioPorDia;
-    //ToDO Poner un atributo imagen
     @Enumerated(EnumType.STRING)
     private CategoriaAuto categoria;
     @Enumerated(EnumType.STRING)
@@ -40,18 +40,27 @@ public class Auto {
     @ManyToOne(optional = false)
     @JoinColumn(name = "sucursal_id")
     private Sucursal sucursal;
-
+    @NotBlank(message = "La imagen es obligatoria")
+    private String rutaImagen;
     public Auto(){
         // Constructor por defecto requerido por Hibernate
     }
 
-    public Auto(AutoDTO dto, Sucursal sucursal) {
+
+    public Auto(AutoDTO dto, Sucursal sucursal, String rutaImagen) {
         this.asignarDTOaAuto(dto);
         this.sucursal = sucursal;
+        this.rutaImagen = rutaImagen;
     }
+
     public void actualizarAuto(AutoDTO dto, Sucursal sucursal){
         this.asignarDTOaAuto(dto);
         this.sucursal = sucursal;
+    }
+    public void actualizarAutoImagen(AutoDTO dto, Sucursal sucursal,String rutaImagen){
+        this.asignarDTOaAuto(dto);
+        this.sucursal = sucursal;
+        this.rutaImagen = rutaImagen;
     }
 
     private void asignarDTOaAuto(AutoDTO dto){

@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter @Setter
 public class AutoDTO {
@@ -46,5 +47,6 @@ public class AutoDTO {
         this.rembolso = auto.getRembolso();
         this.estado = auto.getEstado();
         this.sucursal = auto.getSucursal().getCiudad();
+
     }
 }
