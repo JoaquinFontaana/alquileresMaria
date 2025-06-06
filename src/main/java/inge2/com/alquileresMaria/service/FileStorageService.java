@@ -70,4 +70,15 @@ public class FileStorageService {
         } catch (IOException ignored) {
         }
     }
+    public byte[] leerImagenComoBytes(String ruta) {
+        try {
+            Path path = Paths.get(ruta).toAbsolutePath().normalize();
+            if(!Files.exists(path)){
+                throw new RuntimeException("La imagen del auto no existe: " + ruta);
+            }
+            return Files.readAllBytes(path);
+        } catch (IOException e) {
+            throw new UncheckedIOException("Error al leer la imagen", e);
+        }
+    }
 }

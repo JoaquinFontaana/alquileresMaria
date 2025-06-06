@@ -7,6 +7,8 @@ import inge2.com.alquileresMaria.dto.AutoFilterDTO;
 import inge2.com.alquileresMaria.service.AutoService;
 import inge2.com.alquileresMaria.service.FileStorageService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +44,13 @@ public class AutoController {
         this.autoService.actualizarAuto(autoActualizado);
         return ResponseEntity.ok("Auto actualizado con exito");
     }
-
+    @GetMapping("/getImagen")
+    public ResponseEntity<byte[]> getImagen(@NotBlank @RequestParam String patente){
+        byte[] data = this.autoService.obtenerImagenAuto(patente);
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(data);
+    }
     /**
      * Lista los autos disponibles aplicando filtros combinados (todos opcionales).
      * <p>Los filtros se envían como parámetros de query, y se combinan con lógica AND.</p>

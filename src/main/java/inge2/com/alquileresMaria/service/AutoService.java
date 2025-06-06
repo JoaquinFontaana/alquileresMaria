@@ -53,7 +53,7 @@ public class AutoService {
         return filter
                 .listar()
                 .stream()
-                .map(auto -> new AutoDTOListar(auto,fileStorageService.leerImagenComoBase64(auto.getRutaImagen())))
+                .map(auto -> new AutoDTOListar(auto))
                 .toList();
     }
     @Transactional
@@ -78,5 +78,9 @@ public class AutoService {
             auto.actualizarAuto(autoActualizado,sucursal);
         }
         this.autoRepository.save(auto);
+    }
+    public byte[] obtenerImagenAuto(String patente){
+        String rutaImagen =this.autoHelperService.findAutoByPatente(patente).getRutaImagen();
+        return this.fileStorageService.leerImagenComoBytes(rutaImagen);
     }
 }
