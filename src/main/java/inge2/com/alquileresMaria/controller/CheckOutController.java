@@ -39,7 +39,7 @@ public class CheckOutController {
       "sucursal": "Trelew",
     }
  }   */
-    @PostMapping("/registrarAlquiler")
+    @PostMapping("/cliente/registrarAlquiler")
     public String registrarAlquiler(@Valid @RequestBody CheckOutAlquilerDTO checkOutAlquilerDTO) throws MPException, MPApiException {
         return this.checkOutAlquilerService.registrarAlquiler(checkOutAlquilerDTO); //Url de redireccion del pago
     }
@@ -60,7 +60,7 @@ public class CheckOutController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/pagarMulta")
+    @PostMapping("/cliente/pagarMulta")
     public String pagarMulta(@Valid @RequestBody DatosPagoDTO datosPagoDTO) throws MPException, MPApiException {
         return this.checkOutMultaService.pagarMulta(datosPagoDTO);
     }

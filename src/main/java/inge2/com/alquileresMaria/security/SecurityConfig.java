@@ -42,18 +42,17 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/sucursal/**").hasRole("ADMIN")
                         .requestMatchers("/admin/sucursal/listar").permitAll()
                         .requestMatchers("/cliente/registrar").permitAll()
                         .requestMatchers("/cliente/multa").hasRole("CLIENT")
                         .requestMatchers("/auto/listar").permitAll()
-                        .requestMatchers("/auto/eliminar").hasRole("EMPLEADO")
-                        .requestMatchers("/auto/crear").hasRole("ADMIN")
+                        .requestMatchers("/auto/eliminar").hasRole("ADMIN")
+                        .requestMatchers("/auto/crear").hasRole("ADMIN") //TODO Mejor estructurar /auto/admin/**
                         .requestMatchers("/auto/actualizar").hasRole("ADMIN")
                         .requestMatchers("/auto/getImagen").permitAll()
+                        .requestMatchers("/auto/categorias").permitAll()
                         .requestMatchers("/cliente/listar/**").hasRole("CLIENT")
-                        .requestMatchers("/checkOut/pagarMulta").hasRole("CLIENT")
-                        .requestMatchers("/checkOut/registrarAlquiler").hasRole("CLIENT")
+                        .requestMatchers("/checkOut/cliente/**").hasRole("CLIENT")
                         .requestMatchers("/auth/login").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
