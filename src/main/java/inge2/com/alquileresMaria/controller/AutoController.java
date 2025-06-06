@@ -4,6 +4,7 @@ import inge2.com.alquileresMaria.dto.AutoDTO;
 import inge2.com.alquileresMaria.dto.AutoDTOCrear;
 import inge2.com.alquileresMaria.dto.AutoDTOListar;
 import inge2.com.alquileresMaria.dto.AutoFilterDTO;
+import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
 import inge2.com.alquileresMaria.service.AutoService;
 import inge2.com.alquileresMaria.service.FileStorageService;
 import jakarta.validation.Valid;
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -50,6 +52,10 @@ public class AutoController {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(data);
+    }
+    @GetMapping("/categorias")
+    public List<CategoriaAuto> getCategorias(){
+        return List.of(CategoriaAuto.values());
     }
     /**
      * Lista los autos disponibles aplicando filtros combinados (todos opcionales).

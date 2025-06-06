@@ -1,7 +1,6 @@
 package inge2.com.alquileresMaria.model;
 
 import inge2.com.alquileresMaria.dto.AutoDTO;
-import inge2.com.alquileresMaria.dto.AutoDTOCrear;
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
 import inge2.com.alquileresMaria.model.enums.EstadoAuto;
 import inge2.com.alquileresMaria.model.enums.Rembolso;
@@ -74,7 +73,7 @@ public class Auto {
         this.estado = dto.getEstado();
     }
     public boolean disponibleEnRangoFechas(RangoFecha rango){
-        return this.getReservas().stream().allMatch(alquiler -> alquiler.disponibleEnRangoFechas(rango));
+        return this.getReservas().stream().allMatch(alquiler -> alquiler.sinSolapamiento(rango));
     }
     public boolean disponibleParaMostrar(){
         return this.getEstado().equals(EstadoAuto.DISPONIBLE);

@@ -14,6 +14,7 @@ public class Alquiler {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
+    @Embedded
     private RangoFecha rangoFecha;
     @NotBlank(message = "La licencia del conductor es obligatoria")
     private String licenciaConductor;
@@ -29,7 +30,7 @@ public class Alquiler {
     @OneToOne(mappedBy = "alquiler")
     private Pago pago;
 
-    public boolean disponibleEnRangoFechas(RangoFecha rango){
+    public boolean sinSolapamiento(RangoFecha rango){
         return this.rangoFecha.sinSolapamiento(rango);
     }
 
@@ -46,5 +47,4 @@ public class Alquiler {
     public Alquiler(){
 
     }
-    //Calcular total
 }
