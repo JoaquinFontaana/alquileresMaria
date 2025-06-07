@@ -16,7 +16,7 @@ public class AlquilerDTOListar {
     private RangoFecha rangoFecha;
     private String licenciaConductor;
     private String clienteMail;
-    private AutoDTO auto;
+    private AutoDTOListar auto;
     private String sucursal;
     private double monto;
     @Enumerated(EnumType.STRING)
@@ -26,7 +26,7 @@ public class AlquilerDTOListar {
         this.rangoFecha = alquiler.getRangoFecha();
         this.licenciaConductor = alquiler.getLicenciaConductor();
         this.clienteMail = alquiler.getCliente().getMail();
-        this.auto = new AutoDTO(alquiler.getAuto());
+        this.auto = new AutoDTOListar(alquiler.getAuto());
         this.sucursal = alquiler.getSucursal().getCiudad();
         this.estadoPago = alquiler.getPago().getEstadoPago();
         this.monto = alquiler.getPago().getMonto();

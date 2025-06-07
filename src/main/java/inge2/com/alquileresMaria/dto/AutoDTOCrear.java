@@ -7,7 +7,7 @@ import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 @Getter @Setter
 public class AutoDTOCrear extends AutoDTO{
-    @NotNull
+
     private MultipartFile imagen;
 
     public AutoDTOCrear(Auto auto, MultipartFile imagen) {

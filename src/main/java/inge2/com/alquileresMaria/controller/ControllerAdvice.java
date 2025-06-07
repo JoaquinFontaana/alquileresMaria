@@ -58,7 +58,7 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<String> handlerExpiredTokenException(ExpiredJwtException ex){
-        return new ResponseEntity<String>("La sesión del token cadudó.", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<String>("La sesión del token caducó.", HttpStatus.UNAUTHORIZED);
     }
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
     public ResponseEntity<String> handlerCredentialsNotFound(AuthenticationCredentialsNotFoundException ex){
@@ -67,5 +67,9 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UncheckedIOException.class)
     public ResponseEntity<String> ioExceptionHandler(IOException ex){
         return new ResponseEntity<>(ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> ilegalArgumentHandler(IllegalArgumentException ex){
+        return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
     }
 }

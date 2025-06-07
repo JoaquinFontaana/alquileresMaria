@@ -32,7 +32,7 @@ public class AutoController {
     }
 
     @PutMapping("/eliminar")
-    public ResponseEntity<String> eliminarAuto(@RequestParam String patente){
+    public ResponseEntity<String> eliminarAuto(@RequestParam @NotBlank  String patente){
         this.autoService.eliminarAuto(patente);
         return ResponseEntity.ok("Auto eliminado con exito");
     }
