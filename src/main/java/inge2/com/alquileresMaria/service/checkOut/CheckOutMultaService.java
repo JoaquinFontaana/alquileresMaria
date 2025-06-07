@@ -24,7 +24,7 @@ public class CheckOutMultaService extends AbstractCheckOutService {
         this.clienteService = clienteService;
     }
 
-    public String pagarMulta(DatosPagoDTO datosPagoDTO) throws MPException, MPApiException {
+    public String pagarMulta(DatosPagoDTO datosPagoDTO) {
         Cliente cliente = this.clienteHelperService.findClienteByEmail(this.getAuthHelperService().getMailOfContext());
         if(cliente.getMontoMulta() == 0){
             throw new IllegalStateException("El monto de la multa es 0, no hay multa a pagar");

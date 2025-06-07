@@ -10,6 +10,8 @@ import com.mercadopago.resources.preference.Preference;
 import inge2.com.alquileresMaria.dto.DatosPagoDTO;
 import inge2.com.alquileresMaria.model.Alquiler;
 import inge2.com.alquileresMaria.model.Cliente;
+import org.apache.logging.log4j.util.InternalException;
+import org.apache.maven.InternalErrorException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +23,7 @@ public class MpPreferenceBuilder {
     @Value("${NGROK_URL}")
     private String publicUrl;
 
-    public Preference crearPreferenceMulta(Cliente cliente, DatosPagoDTO datosPagoDTO) throws MPException, MPApiException {
+    public Preference crearPreferenceMulta(Cliente cliente, DatosPagoDTO datosPagoDTO){
         return this.crearPreference(
                 cliente.getId().toString(),
                 cliente.getMontoMulta(),
@@ -29,30 +31,35 @@ public class MpPreferenceBuilder {
                 "/checkOut/notificacion/multa"
         );
     }
-    public Preference crearPreferenceAlquiler(Alquiler alquiler, DatosPagoDTO datosPagoDTO) throws MPException, MPApiException {
-        return this.crearPreference(
-                alquiler.getId().toString(),
-                alquiler.calcularTotal(),
-                datosPagoDTO,
-                "/checkOut/notificacion/alquiler"
-        );
+    public Preference crearPreferenceAlquiler(Alquiler alquiler, DatosPagoDTO datosPagoDTO) {
+            return this.crearPreference(
+                    alquiler.getId().toString(),
+                    alquiler.calcularTotal(),
+                    datosPagoDTO,
+                    "/checkOut/notificacion/alquiler"
+            );
     }
 
-    private Preference crearPreference(String externalReference, Double monto, DatosPagoDTO datosPagoDTO, String urlNotificacion) throws MPException, MPApiException {
-        PreferenceItemRequest item = this.crearPreferenceItemRequest(datosPagoDTO,monto);
-        PreferenceBackUrlsRequest backUrlsRequest = this.crearPreferenceBackUrlsRequest(datosPagoDTO);
+    private Preference crearPreference(String externalReference, Double monto, DatosPagoDTO datosPagoDTO, String urlNotificacion){
+        try {
+            PreferenceItemRequest item = this.crearPreferenceItemRequest(datosPagoDTO, monto);
+            PreferenceBackUrlsRequest backUrlsRequest = this.crearPreferenceBackUrlsRequest(datosPagoDTO);
 
-        PreferenceRequest preferenceRequest =  PreferenceRequest.builder()
-                .items(List.of(item))
-                .backUrls(backUrlsRequest)
-                //Para implementar las notificaciones la API debe estar en un dominio accesible en internet
-                .notificationUrl(publicUrl+urlNotificacion)
-                //Referencia a la tabla Pago guardada en la BD (id del alquiler)
-                .externalReference(externalReference)
-                .autoReturn("approved")
-                .build();
-        PreferenceClient client = new PreferenceClient();
-        return client.create(preferenceRequest);
+            PreferenceRequest preferenceRequest = PreferenceRequest.builder()
+                    .items(List.of(item))
+                    .backUrls(backUrlsRequest)
+                    //Para implementar las notificaciones la API debe estar en un dominio accesible en internet
+                    .notificationUrl(publicUrl + urlNotificacion)
+                    //Referencia a la tabla Pago guardada en la BD (id del alquiler)
+                    .externalReference(externalReference)
+                    .autoReturn("approved")
+                    .build();
+            PreferenceClient client = new PreferenceClient();
+            return client.create(preferenceRequest);
+        }
+        catch (MPApiException | MPException ex){
+            throw new RuntimeException ("Ocurrio un error interno" + ex.getMessage());
+        }
     }
 
     private PreferenceItemRequest crearPreferenceItemRequest(DatosPagoDTO datosPagoDTO, double total){

@@ -25,34 +25,39 @@ public class FileStorageService {
             throw new IllegalArgumentException("La imagen esta vacia");
         }
         try {
-            String nombreImagen = imagen.getOriginalFilename();
-            if (nombreImagen == null){
-                throw new IllegalArgumentException("La imagen debe tener nombre");
-            }
-            // Separar extensión (todo lo que venga después del último punto)
-            String extension = "";
-            int ultimoPunto = nombreImagen.lastIndexOf('.');
-            if (ultimoPunto >= 0) {
-                extension = nombreImagen.substring(ultimoPunto);
-                nombreImagen = nombreImagen.substring(0, ultimoPunto);
-            }
-
-            String nuevoNombre = nombreImagen + "_" + LocalTime.now() + extension;
+            String nombre = getNombre(imagen);
 
             //Crear carpetas si no existen
             Path uploadPath = Paths.get(carpetaDestino).toAbsolutePath().normalize();
             Files.createDirectories(uploadPath);
 
 
-            Path filePath = uploadPath.resolve(nuevoNombre);
+            Path filePath = uploadPath.resolve(nombre);
 
             imagen.transferTo(filePath.toFile());
-            return uploadPath.resolve(nuevoNombre).toString();
+            return uploadPath.resolve(nombre).toString();
         }
         catch (IOException ex){
             throw  new UncheckedIOException("Ocurrio un error al cargar la imagen",ex);
         }
     }
+
+    private static String getNombre(MultipartFile imagen) {
+        String nombreImagen = imagen.getOriginalFilename();
+        if (nombreImagen == null){
+            throw new IllegalArgumentException("La imagen debe tener nombre");
+        }
+
+        String extension = "";
+        int ultimoPunto = nombreImagen.lastIndexOf('.');
+        if (ultimoPunto >= 0) {
+            extension = nombreImagen.substring(ultimoPunto);
+            nombreImagen = nombreImagen.substring(0, ultimoPunto);
+        }
+
+        return nombreImagen + "_" + LocalTime.now() + extension;
+    }
+
     public String leerImagenComoBase64(String rutaAbsoluta) {
         try {
             Path ruta = Paths.get(rutaAbsoluta).normalize();

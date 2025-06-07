@@ -23,7 +23,7 @@ public abstract class AbstractCheckOutService {
         this.authHelperService = authHelperService;
     }
 
-    public void procesarNotificacion(String dataId, String type) throws MPException, MPApiException {
+    public void procesarNotificacion(String dataId, String type) {
         if (!"payment".equals(type)){
             return;
         }
