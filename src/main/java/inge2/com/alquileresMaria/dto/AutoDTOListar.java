@@ -9,7 +9,7 @@ public class AutoDTOListar extends AutoDTO{
     private String endpointImagen;
     public AutoDTOListar(Auto auto) {
         super(auto);
-        this.endpointImagen = "/auto/getImagen?patente="+auto.getPatente();
+        this.endpointImagen = "/auto/get/imagen?patente="+auto.getPatente();
     }
 
     public AutoDTOListar() {

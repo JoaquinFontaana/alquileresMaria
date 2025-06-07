@@ -48,7 +48,7 @@ public class AutoController {
         this.autoService.actualizarAuto(autoActualizado);
         return ResponseEntity.ok("Auto actualizado con exito");
     }
-    @GetMapping("/getImagen")
+    @GetMapping("/get/imagen")
     public ResponseEntity<byte[]> getImagen(@NotBlank @RequestParam String patente){
         byte[] data = this.autoService.obtenerImagenAuto(patente);
         return ResponseEntity.ok()

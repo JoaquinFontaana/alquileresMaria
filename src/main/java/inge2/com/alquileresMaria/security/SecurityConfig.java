@@ -49,7 +49,6 @@ public class SecurityConfig {
                         .requestMatchers("/auto/eliminar").hasRole("ADMIN") //TODO Mejor estructurar /auto/admin/**
                         .requestMatchers("/auto/crear").hasRole("ADMIN") //TODO Mejor estructurar /auto/admin/**
                         .requestMatchers("/auto/actualizar").hasRole("ADMIN") //TODO Mejor estructurar /auto/admin/**
-                        .requestMatchers("/auto/getImagen").permitAll() //TODO cambiar a /get/imagen
                         .requestMatchers("/auto/get/**").permitAll()
                         .requestMatchers("/cliente/listar/**").hasRole("CLIENT")
                         .requestMatchers("/checkOut/cliente/**").hasRole("CLIENT")
