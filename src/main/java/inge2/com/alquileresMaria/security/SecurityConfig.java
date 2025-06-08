@@ -55,6 +55,7 @@ public class SecurityConfig {
                         .requestMatchers("/checkOut/notificacion/**").permitAll()
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/usuario/**").permitAll()
+                        .requestMatchers("/auth/dobleAutenticacion").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
