@@ -6,15 +6,25 @@ import inge2.com.alquileresMaria.model.Pago;
 import inge2.com.alquileresMaria.model.enums.EstadoPago;
 import inge2.com.alquileresMaria.repository.IPagoRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.TransactionScoped;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+
 @Service
 public class PagoService {
 
-    @Autowired
-    private IPagoRepository pagoRepository;
+    private final AlquilerService alquilerService;
+    private final IPagoRepository pagoRepository;
+
+    public PagoService(IPagoRepository pagoRepository, AlquilerService alquilerService) {
+        this.pagoRepository = pagoRepository;
+        this.alquilerService = alquilerService;
+    }
 
     @Transactional
     public Pago crearPago(Preference preference, Alquiler alquiler){
@@ -36,5 +46,15 @@ public class PagoService {
     private Pago findPagoByAlquilerId(Long alquilerId){
         return pagoRepository.findByAlquiler_id(alquilerId)
                 .orElseThrow(() -> new EntityNotFoundException("El pago con el alquilerId " + alquilerId + " no existe"));
+    }
+    @Transactional
+    public void deletePagosPendientes(){
+        List<Pago> pagos = this.pagoRepository.findPagosExpirados(LocalDateTime.now(), EstadoPago.PENDIENTE);
+        this.alquilerService.eliminarAlquileresVencidos(
+                pagos.stream()
+                .map(Pago::getAlquiler)
+                .toList()
+        );
+        this.pagoRepository.deleteAll(pagos);
     }
 }
