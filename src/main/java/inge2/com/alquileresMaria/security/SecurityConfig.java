@@ -53,6 +53,7 @@ public class SecurityConfig {
                         .requestMatchers("/cliente/listar/**").hasRole("CLIENT")
                         .requestMatchers("/checkOut/cliente/**").hasRole("CLIENT")
                         .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/usuario/**").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

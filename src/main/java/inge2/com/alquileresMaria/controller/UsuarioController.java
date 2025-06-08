@@ -6,11 +6,10 @@ import inge2.com.alquileresMaria.service.helper.ClienteHelperService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/usuario")
 public class UsuarioController {
     private final UsuarioService service;
 
@@ -20,7 +19,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/recuperarPassword")
-    public ResponseEntity<String> recuperarPassword(@Valid @RequestBody String mail){
+    public ResponseEntity<String> recuperarPassword(@RequestParam String mail){
         this.service.recuperarPassword(mail);
         return ResponseEntity.ok().body("Contraseña autogenerada enviada al mail");
     }

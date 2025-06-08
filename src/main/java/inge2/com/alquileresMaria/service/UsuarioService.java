@@ -40,8 +40,7 @@ public class UsuarioService {
     }
 
     public void recuperarPassword(String mail){
-        Usuario user = usuarioRepository.findByMail(mail)
-                .orElseThrow(()-> new EntityNotFoundException("El usuario con mail "+ mail + " no existe"));
+        Usuario user = this.findByEmail(mail);
         String password = passwordGenerator.generatePassword();
         emailService.sendNewPassword(password, mail);
         user.modificarPassword(encryptService.encryptPassword(password));
