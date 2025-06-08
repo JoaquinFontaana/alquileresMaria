@@ -2,6 +2,7 @@ package inge2.com.alquileresMaria.service;
 
 import inge2.com.alquileresMaria.dto.AlquilerDTOCrear;
 import inge2.com.alquileresMaria.dto.AlquilerDTOListar;
+import inge2.com.alquileresMaria.dto.ReservaDTOCancelar;
 import inge2.com.alquileresMaria.model.Alquiler;
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.Cliente;
@@ -10,6 +11,7 @@ import inge2.com.alquileresMaria.repository.IAlquilerRepository;
 import inge2.com.alquileresMaria.service.helper.AlquilerHelperService;
 import inge2.com.alquileresMaria.service.helper.ClienteHelperService;
 import inge2.com.alquileresMaria.service.helper.AutoHelperService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,6 +75,13 @@ public class AlquilerService {
                 .stream()
                 .map(AlquilerDTOListar::new)
                 .collect(Collectors.toList());
+    }
+
+    public void cancelarReserva(ReservaDTOCancelar reservaDTO){
+        Alquiler reserva = repository.findAlquilerByLicenciaConductorAndRangoFecha(reservaDTO.getLicenciaCliente(), reservaDTO.getFechaDesde(),
+                                reservaDTO.getFechaFin())
+                .orElseThrow(() -> new EntityNotFoundException("No existe una reserva para este cliente, en esta fecha"));
+        this.repository.deleteById(reserva.getId());
     }
 
 }
