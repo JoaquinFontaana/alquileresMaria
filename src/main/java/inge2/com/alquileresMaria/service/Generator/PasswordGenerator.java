@@ -1,7 +1,11 @@
 package inge2.com.alquileresMaria.service.Generator;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
 import java.security.SecureRandom;
 
+@Component
 public class PasswordGenerator {
 
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*";
