@@ -1,5 +1,6 @@
 package inge2.com.alquileresMaria.controller;
 
+import inge2.com.alquileresMaria.dto.AutoDTOActualizar;
 import inge2.com.alquileresMaria.dto.AutoDTOCrear;
 import inge2.com.alquileresMaria.dto.AutoDTOListar;
 import inge2.com.alquileresMaria.dto.AutoFilterDTO;
@@ -40,7 +41,7 @@ public class AutoController {
     }
 
     @PutMapping(path= "/actualizar", consumes =MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> actualizarAuto(@Valid @ModelAttribute AutoDTOCrear autoActualizado){
+    public ResponseEntity<String> actualizarAuto(@Valid @ModelAttribute AutoDTOActualizar autoActualizado){
         this.autoService.actualizarAuto(autoActualizado);
         return ResponseEntity.ok("Auto actualizado con exito");
     }

@@ -1,6 +1,7 @@
 package inge2.com.alquileresMaria.model;
 
 import inge2.com.alquileresMaria.dto.AutoDTO;
+import inge2.com.alquileresMaria.dto.AutoDTOActualizar;
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
 import inge2.com.alquileresMaria.model.enums.EstadoAuto;
 import inge2.com.alquileresMaria.model.enums.Rembolso;
@@ -55,13 +56,25 @@ public class Auto {
         this.rutaImagen = rutaImagen;
     }
 
-    public void actualizarAuto(AutoDTO dto, Sucursal sucursal){
-        this.asignarDTOaAuto(dto);
+    public void actualizarAuto(AutoDTOActualizar dto, Sucursal sucursal){
+        if (dto.getPrecioPorDia() != null) {
+            this.precioPorDia = dto.getPrecioPorDia();
+        }
+        if (dto.getCategoria() != null) {
+            this.categoria = dto.getCategoria();
+        }
+        if (dto.getRembolso() != null) {
+            this.rembolso = dto.getRembolso();
+        }
+        if (dto.getEstado() != null) {
+            this.estado = dto.getEstado();
+        }
         this.sucursal = sucursal;
     }
-    public void actualizarAutoImagen(AutoDTO dto, Sucursal sucursal,String rutaImagen){
-        this.asignarDTOaAuto(dto);
-        this.sucursal = sucursal;
+
+
+    public void actualizarAutoImagen(AutoDTOActualizar dto, Sucursal sucursal,String rutaImagen){
+        this.actualizarAuto(dto,sucursal);
         this.rutaImagen = rutaImagen;
     }
 
