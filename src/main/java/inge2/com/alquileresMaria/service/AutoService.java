@@ -1,9 +1,6 @@
 package inge2.com.alquileresMaria.service;
 
-import inge2.com.alquileresMaria.dto.AutoDTO;
-import inge2.com.alquileresMaria.dto.AutoDTOCrear;
-import inge2.com.alquileresMaria.dto.AutoDTOListar;
-import inge2.com.alquileresMaria.dto.AutoFilterDTO;
+import inge2.com.alquileresMaria.dto.*;
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.enums.EstadoAuto;
 import inge2.com.alquileresMaria.model.Sucursal;
@@ -68,7 +65,7 @@ public class AutoService {
         this.autoRepository.save(auto);
     }
     @Transactional
-    public void actualizarAuto(AutoDTOCrear autoActualizado){
+    public void actualizarAuto(AutoDTOActualizar autoActualizado){
         Sucursal sucursal = this.sucursalService.findSucursalByCiudad(autoActualizado.getSucursal());
         Auto auto = this.autoHelperService.findAutoByPatente(autoActualizado.getPatente());
         if(autoActualizado.getImagen() != null){

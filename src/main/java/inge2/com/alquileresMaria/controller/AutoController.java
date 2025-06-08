@@ -1,5 +1,6 @@
 package inge2.com.alquileresMaria.controller;
 
+import inge2.com.alquileresMaria.dto.AutoDTOActualizar;
 import inge2.com.alquileresMaria.dto.AutoDTOCrear;
 import inge2.com.alquileresMaria.dto.AutoDTOListar;
 import inge2.com.alquileresMaria.dto.AutoFilterDTO;
@@ -28,7 +29,7 @@ public class AutoController {
     }
 
     @PutMapping("/eliminar")
-    public ResponseEntity<String> eliminarAuto(@RequestParam @NotBlank  String patente){
+    public ResponseEntity<String> eliminarAuto(@RequestParam @NotBlank String patente){
         this.autoService.eliminarAuto(patente);
         return ResponseEntity.ok("Auto eliminado con exito");
     }
@@ -39,8 +40,8 @@ public class AutoController {
         return ResponseEntity.ok("Auto creado con exito");
     }
 
-    @PutMapping("/actualizar")
-    public ResponseEntity<String> actualizarAuto(@Valid @RequestBody AutoDTOCrear autoActualizado){
+    @PutMapping(path= "/actualizar", consumes =MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> actualizarAuto(@Valid @ModelAttribute AutoDTOActualizar autoActualizado){
         this.autoService.actualizarAuto(autoActualizado);
         return ResponseEntity.ok("Auto actualizado con exito");
     }

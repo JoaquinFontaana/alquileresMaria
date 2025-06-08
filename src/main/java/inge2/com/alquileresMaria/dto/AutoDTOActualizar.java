@@ -1,6 +1,5 @@
 package inge2.com.alquileresMaria.dto;
 
-import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
 import inge2.com.alquileresMaria.model.enums.EstadoAuto;
 import inge2.com.alquileresMaria.model.enums.Rembolso;
@@ -13,17 +12,11 @@ import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter @Setter
-public abstract class AutoDTO {
+public class AutoDTOActualizar {
     @NotBlank(message = "La patente es obligatoria")
     private String patente;
-    @Positive(message = "La capacidad debe ser mayor a cero")
-    private int capacidad;
-    @NotBlank(message = "La marca es obligatoria")
-    private String marca;
-    @NotBlank(message = "El modelo es obligatorio")
-    private String modelo;
     @Positive(message = "El precio por dia debe ser positivo")
-    private double precioPorDia;
+    private Double precioPorDia;
     @Enumerated(EnumType.STRING)
     private CategoriaAuto categoria;
     @Enumerated(EnumType.STRING)
@@ -32,20 +25,6 @@ public abstract class AutoDTO {
     private EstadoAuto estado;
     @NotBlank(message = "La sucursal es obligatoria")
     private String sucursal;
-
-    public AutoDTO(){
-        
-    }
-    public AutoDTO(Auto auto) {
-        this.patente = auto.getPatente();
-        this.capacidad = auto.getCapacidad();
-        this.marca = auto.getMarca();
-        this.modelo = auto.getModelo();
-        this.precioPorDia = auto.getPrecioPorDia();
-        this.categoria = auto.getCategoria();
-        this.rembolso = auto.getRembolso();
-        this.estado = auto.getEstado();
-        this.sucursal = auto.getSucursal().getCiudad();
-
-    }
+    private MultipartFile imagen;
 }
+

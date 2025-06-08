@@ -1,7 +1,6 @@
 package inge2.com.alquileresMaria.dto;
 
 import inge2.com.alquileresMaria.model.Auto;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
