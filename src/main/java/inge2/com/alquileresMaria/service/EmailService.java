@@ -32,4 +32,11 @@ public class EmailService {
         clientes.stream()
                 .forEach(cliente -> this.sendEmail(cliente.getMail(),subject,body));
     }
+
+    @Async
+    public void sendNewPassword(String password, String mail){
+        String subject = "Recuperar Contraseña";
+        String body = "Su nueva contraseña es: "+ password;
+        this.sendEmail(mail, subject, body);
+    }
 }

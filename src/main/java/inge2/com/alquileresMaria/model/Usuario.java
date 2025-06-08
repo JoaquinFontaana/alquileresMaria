@@ -29,4 +29,8 @@ public class Usuario {
         this.rol = rol;
     }
 
+    public void modificarPassword(String password){
+        this.password = password;
+    }
+
 }
