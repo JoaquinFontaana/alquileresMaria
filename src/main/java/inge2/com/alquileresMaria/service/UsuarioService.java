@@ -8,6 +8,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Random;
+
 @Service
 public class UsuarioService {
     private final IUsuarioRepository usuarioRepository;
@@ -15,6 +18,8 @@ public class UsuarioService {
     private final EncryptService encryptService;
     private final PasswordGenerator passwordGenerator;
     private final EmailService emailService;
+    private final Random random = new Random();
+    private final List<Integer> codigos = List.of(1234, 5678, 9012, 3456, 7890);
     @Autowired
     public UsuarioService(RolService rolService, IUsuarioRepository usuarioRepository, EncryptService encryptService,
                           PasswordGenerator passwordGenerator, EmailService emailService) {
@@ -45,5 +50,16 @@ public class UsuarioService {
         emailService.sendNewPassword(password, mail);
         user.modificarPassword(encryptService.encryptPassword(password));
         usuarioRepository.save(user);
+    }
+
+    public void sendDobleAutenticacion(String mail){
+        Usuario user = this.findByEmail(mail);
+        if (user.isAdmin()){
+            this.emailService.sendDobleAutenticacionAdmin(mail, codigos.get(random.nextInt(codigos.size())));
+        }
+    }
+
+    public boolean confirmarCodigo(int cod){
+        return this.codigos.contains(cod);
     }
 }

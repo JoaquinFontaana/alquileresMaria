@@ -39,4 +39,11 @@ public class EmailService {
         String body = "Su nueva contraseña es: "+ password;
         this.sendEmail(mail, subject, body);
     }
+
+    @Async
+    public void sendDobleAutenticacionAdmin(String mail, int cod){
+        String subject = "Doble autenticación";
+        String body = "El código es: " + cod;
+        this.sendEmail(mail, subject, body);
+    }
 }

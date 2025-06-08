@@ -33,4 +33,8 @@ public class Usuario {
         this.password = password;
     }
 
+    public boolean isAdmin(){
+        return this.getRol().equals("ADMIN");
+    }
+
 }
