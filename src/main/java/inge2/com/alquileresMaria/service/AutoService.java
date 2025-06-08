@@ -38,6 +38,7 @@ public class AutoService {
 
     @Transactional
     public void crearAuto(AutoDTOCrear autoDto){
+        this.fileStorageService.checkImagen(autoDto.getImagen());
         this.autoHelperService.checkPatenteNotExists(autoDto.getPatente());
 
         Sucursal sucursal = this.sucursalService.findSucursalByCiudad(autoDto.getSucursal());

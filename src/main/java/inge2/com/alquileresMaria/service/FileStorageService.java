@@ -1,6 +1,7 @@
 package inge2.com.alquileresMaria.service;
 
 
+import inge2.com.alquileresMaria.dto.AutoDTOCrear;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -98,6 +99,11 @@ public class FileStorageService {
             return Files.readAllBytes(path);
         } catch (IOException e) {
             throw new UncheckedIOException("Error al leer la imagen", e);
+        }
+    }
+    public void checkImagen(MultipartFile imagen) {
+        if (imagen == null || imagen.isEmpty()) {
+            throw new IllegalArgumentException("Para crear un auto la imagen es obligatoria");
         }
     }
 }

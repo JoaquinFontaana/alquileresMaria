@@ -1,6 +1,5 @@
 package inge2.com.alquileresMaria.controller;
 
-import inge2.com.alquileresMaria.dto.AutoDTO;
 import inge2.com.alquileresMaria.dto.AutoDTOCrear;
 import inge2.com.alquileresMaria.dto.AutoDTOListar;
 import inge2.com.alquileresMaria.dto.AutoFilterDTO;
@@ -8,16 +7,13 @@ import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
 import inge2.com.alquileresMaria.model.enums.EstadoAuto;
 import inge2.com.alquileresMaria.model.enums.Rembolso;
 import inge2.com.alquileresMaria.service.AutoService;
-import inge2.com.alquileresMaria.service.FileStorageService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -26,7 +22,7 @@ public class AutoController {
 
     private final AutoService autoService;
 
-
+    @Autowired
     public AutoController(AutoService autoService) {
         this.autoService = autoService;
     }
