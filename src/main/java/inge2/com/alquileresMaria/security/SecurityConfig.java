@@ -52,6 +52,7 @@ public class SecurityConfig {
                         .requestMatchers("/auto/get/**").permitAll()
                         .requestMatchers("/cliente/listar/**").hasRole("CLIENT")
                         .requestMatchers("/checkOut/cliente/**").hasRole("CLIENT")
+                        .requestMatchers("/checkOut/notificacion/**").permitAll()
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/usuario/**").permitAll()
                         .anyRequest().authenticated())

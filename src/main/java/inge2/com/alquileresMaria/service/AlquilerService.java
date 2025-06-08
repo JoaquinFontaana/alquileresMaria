@@ -66,6 +66,10 @@ public class AlquilerService {
 
         this.serviceEmail.sendEmailsClientes(this.alquilerHelperService.obtenerClientesDeAlquileres(alquileresPosteriores), subject,body);
     }
+    @Transactional
+    public void eliminarAlquileresVencidos(List<Alquiler> alquileres){
+        this.repository.deleteAllById(alquileres.stream().map(Alquiler::getId).toList());
+    }
     public List<AlquilerDTOListar> obtenerAlquileres() {
         return this.repository.findAll()
                 .stream()
