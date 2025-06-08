@@ -2,6 +2,8 @@ package inge2.com.alquileresMaria.model.valueObject;
 
 
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +12,11 @@ import java.time.Period;
 
 @Embeddable @Getter @Setter
 public class RangoFecha {
+    @FutureOrPresent(message = "La fecha debe ser en el presente o futuro")
     private LocalDate fechaDesde;
+    @FutureOrPresent(message = "La fecha debe ser en el presente o futuro")
     private LocalDate fechaHasta;
+
     public RangoFecha(){
 
     }

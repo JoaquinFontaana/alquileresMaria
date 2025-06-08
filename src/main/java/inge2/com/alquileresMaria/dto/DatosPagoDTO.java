@@ -6,13 +6,13 @@ import lombok.Setter;
 
 @Getter @Setter
 public class DatosPagoDTO {
-    @NotBlank
+    @NotBlank(message = "El titulo de la transaccion es obligatorio")
     private String titulo;
-    @NotBlank
+    @NotBlank(message = "Las rutas de redireccion son obligatorias")
     private String successUrl;
-    @NotBlank
+    @NotBlank(message = "Las rutas de redireccion son obligatorias")
     private String failureUrl;
-    @NotBlank
+    @NotBlank(message = "Las rutas de redireccion son obligatorias")
     private String pendingUrl;
 
 }

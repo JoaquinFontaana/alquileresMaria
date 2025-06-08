@@ -13,21 +13,21 @@ public class Alquiler {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+    @NotNull(message = "El rango de fechas es obligatorio")
     @Embedded
     private RangoFecha rangoFecha;
     @NotBlank(message = "La licencia del conductor es obligatoria")
     private String licenciaConductor;
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "auto_id")
     private Auto auto;
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "sucursal_id")
     private Sucursal sucursal;
-    @OneToOne(mappedBy = "alquiler")
+    @OneToOne(mappedBy = "alquiler", optional = false)
     private Pago pago;
 
     public boolean sinSolapamiento(RangoFecha rango){

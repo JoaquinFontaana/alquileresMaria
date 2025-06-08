@@ -7,6 +7,7 @@ import inge2.com.alquileresMaria.model.enums.Rembolso;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class Auto {
     private String marca;
     @NotBlank(message = "El modelo es obligatorio")
     private String modelo;
+    @NotNull(message = "El precio por dia es obligatorio")
     @Positive(message = "El precio por dia debe ser positivo")
     private double precioPorDia;
     @Enumerated(EnumType.STRING)
