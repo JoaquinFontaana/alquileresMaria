@@ -34,7 +34,7 @@ public class Usuario {
     }
 
     public boolean isAdmin(){
-        return this.getRol().equals("ADMIN");
+        return this.getRol().getNombre().equals("ADMIN");
     }
 
 }
