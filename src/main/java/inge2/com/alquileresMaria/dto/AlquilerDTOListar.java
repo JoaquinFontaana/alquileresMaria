@@ -21,7 +21,7 @@ public class AlquilerDTOListar {
     private double monto;
     @Enumerated(EnumType.STRING)
     private EstadoPago estadoPago;
-
+    private String urlPago;
     public AlquilerDTOListar(Alquiler alquiler){
         this.rangoFecha = alquiler.getRangoFecha();
         this.licenciaConductor = alquiler.getLicenciaConductor();
@@ -30,6 +30,7 @@ public class AlquilerDTOListar {
         this.sucursal = alquiler.getSucursal().getCiudad();
         this.estadoPago = alquiler.getPago().getEstadoPago();
         this.monto = alquiler.getPago().getMonto();
+        this.urlPago = alquiler.getPago().getInitPoint();
     }
     public AlquilerDTOListar(){
 

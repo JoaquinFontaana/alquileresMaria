@@ -68,7 +68,7 @@ public class AlquilerService {
     }
     @Transactional
     public void eliminarAlquileresVencidos(List<Alquiler> alquileres){
-        this.repository.deleteAllById(alquileres.stream().map(Alquiler::getId).toList());
+        this.repository.deleteAll(alquileres);
     }
     public List<AlquilerDTOListar> obtenerAlquileres() {
         return this.repository.findAll()

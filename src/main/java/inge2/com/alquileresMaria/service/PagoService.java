@@ -36,12 +36,9 @@ public class PagoService {
     public void registrarCobro(String alquilerId){
         Pago pago = this.findPagoByAlquilerId(Long.parseLong(alquilerId));
         pago.setEstadoPago(EstadoPago.PAGADO);
-        this.actualizarPago(pago);
+        this.pagoRepository.save(pago);
     }
 
-    private void actualizarPago(Pago pago){
-        pagoRepository.save(pago);
-    }
 
     private Pago findPagoByAlquilerId(Long alquilerId){
         return pagoRepository.findByAlquiler_id(alquilerId)
@@ -55,6 +52,5 @@ public class PagoService {
                 .map(Pago::getAlquiler)
                 .toList()
         );
-        this.pagoRepository.deleteAll(pagos);
     }
 }
