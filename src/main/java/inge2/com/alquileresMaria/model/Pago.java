@@ -39,8 +39,7 @@ public class Pago {
         this.monto = alquiler.calcularTotal();
         this.estadoPago = EstadoPago.PENDIENTE;
         this.fechaCreacion = LocalDateTime.now();
-        //10 minutos tiempo de expiracion
-        this.fechaExpiracion = this.fechaCreacion.plusMinutes(10);
+        this.fechaExpiracion = this.fechaCreacion.plusMinutes(5);
     }
     public Pago(){
 

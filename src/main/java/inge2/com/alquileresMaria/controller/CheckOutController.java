@@ -4,6 +4,7 @@ import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import inge2.com.alquileresMaria.dto.CheckOutAlquilerDTO;
 import inge2.com.alquileresMaria.dto.DatosPagoDTO;
+import inge2.com.alquileresMaria.service.PagoService;
 import inge2.com.alquileresMaria.service.checkOut.CheckOutAlquilerService;
 import inge2.com.alquileresMaria.service.checkOut.CheckOutMultaService;
 import inge2.com.alquileresMaria.service.helper.AuthHelperService;
@@ -19,11 +20,13 @@ public class CheckOutController {
     private final CheckOutAlquilerService checkOutAlquilerService;
     private final CheckOutMultaService checkOutMultaService;
     private final AuthHelperService authHelperService;
+    private PagoService pagoService;
     @Autowired
-    public CheckOutController(CheckOutAlquilerService checkOutAlquilerService, CheckOutMultaService checkOutMultaService, AuthHelperService authHelperService) {
+    public CheckOutController(CheckOutAlquilerService checkOutAlquilerService, CheckOutMultaService checkOutMultaService, AuthHelperService authHelperService, PagoService pagoService) {
         this.checkOutAlquilerService = checkOutAlquilerService;
         this.checkOutMultaService = checkOutMultaService;
         this.authHelperService = authHelperService;
+        this.pagoService = pagoService;
     }
 
     /*
@@ -76,7 +79,10 @@ public class CheckOutController {
         // Responder 200 OK para que MP no reintente
         return ResponseEntity.ok("OK");
     }
-
+    @GetMapping("/eliminar")
+    public void eliminar(){
+        this.pagoService.deletePagosPendientes();
+    }
 
 
 }

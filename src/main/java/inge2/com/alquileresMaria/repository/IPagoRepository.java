@@ -17,7 +17,7 @@ public interface IPagoRepository extends JpaRepository<Pago,Long> {
     @Query("""
     SELECT p
     FROM Pago p
-    WHERE p.fechaExpiracion >= :time
+    WHERE p.fechaExpiracion <= :time
     AND p.estadoPago = :estadoPago
     """)
     List<Pago> findPagosExpirados(

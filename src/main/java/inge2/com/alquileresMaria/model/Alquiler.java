@@ -27,7 +27,12 @@ public class Alquiler {
     @ManyToOne(optional = false)
     @JoinColumn(name = "sucursal_id")
     private Sucursal sucursal;
-    @OneToOne(mappedBy = "alquiler", optional = false)
+    @OneToOne(
+            mappedBy = "alquiler",
+            optional = false,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private Pago pago;
 
     public boolean sinSolapamiento(RangoFecha rango){
