@@ -36,6 +36,7 @@ public class AuthController {
                 )
         );
         this.userService.sendDobleAutenticacion(loginDto.getMail());
+        System.out.println("Paso la verficacion de admin");
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token =  tokenGenerator.generateToken(authentication);
         return ResponseEntity.ok().body(new AuthResponseDTO(token));

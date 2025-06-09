@@ -14,7 +14,7 @@ public class AlquileresScheduled {
         this.pagoService = pagoService;
     }
 
-    @Scheduled(fixedDelay = 600000*5)
+    @Scheduled(fixedDelay = 600000*15)
     public void deletePagosPendientes(){
         this.pagoService.deletePagosPendientes();
     }
