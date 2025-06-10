@@ -60,6 +60,11 @@ public class UsuarioService {
     }
 
     public boolean confirmarCodigo(int cod){
-        return this.codigos.contains(cod);
+        if(this.codigos.contains(cod)){
+            return true;
+        }
+        else{
+            throw new RuntimeException("Codigo incorrecto");
+        }
     }
 }
