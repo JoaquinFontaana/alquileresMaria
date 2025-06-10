@@ -11,15 +11,15 @@ import java.time.LocalDate;
 public class ReservaDTOCancelar {
     @NotNull(message = "La fecha de fin es obligatoria")
     private LocalDate fechaFin;
-    @NotNull(message = "La fecha de fin es obligatoria")
+    @NotNull(message = "La fecha de inicio es obligatoria")
     @FutureOrPresent(message = "La reserva no puede ya haber pasado")
     private LocalDate fechaDesde;
     @NotNull(message = "La licencia del conductor es obligatoria")
     private String licencia;
 
-    public ReservaDTOCancelar(LocalDate fechaDesde, LocalDate fechaFin, String licenciaCliente) {
+    public ReservaDTOCancelar(LocalDate fechaDesde, LocalDate fechaFin, String licencia) {
         this.fechaDesde = fechaDesde;
-        this.licencia = licenciaCliente;
+        this.licencia = licencia;
         this.fechaFin  =fechaFin;
     }
 
