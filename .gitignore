@@ -33,3 +33,8 @@ build/
 
 ### VS Code ###
 .vscode/
+/frontend/.idea/.gitignore
+/frontend/.idea/frontend.iml
+/frontend/.idea/misc.xml
+/frontend/.idea/modules.xml
+/frontend/.idea/vcs.xml

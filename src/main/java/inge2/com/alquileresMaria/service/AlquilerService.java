@@ -60,7 +60,7 @@ public class AlquilerService {
         this.repository.deleteAllById(this.alquilerHelperService.obtenerIdsDeAlquileres(alquileresPosteriores));
 
         String subject = "Su auto reservado ya no se encuentra disponible";
-        String body = "Ofrecer opcion de rembolso o cambiar de auto";
+        String body = "Puede solicitar el rembolso total del alquiler o cambiar a un auto similar sin cargo";
 
         this.serviceEmail.sendEmailsClientes(this.alquilerHelperService.obtenerClientesDeAlquileres(alquileresPosteriores), subject,body);
     }

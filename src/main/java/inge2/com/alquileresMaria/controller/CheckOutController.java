@@ -79,6 +79,4 @@ public class CheckOutController {
         // Responder 200 OK para que MP no reintente
         return ResponseEntity.ok("OK");
     }
-
-
 }
