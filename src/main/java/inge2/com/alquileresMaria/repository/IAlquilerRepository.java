@@ -14,8 +14,8 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     SELECT a
     FROM Alquiler a
     WHERE a.licenciaConductor = :licencia
-      AND a.rangoFecha.fechaDesde >= :fechaDesde
-      AND a.rangoFecha.fechaDesde <= :fechaHasta
+        AND a.rangoFecha.fechaDesde <= :fechaHasta
+        AND a.rangoFecha.fechaHasta >= :fechaDesde
     """)
     Optional<Alquiler> findAlquilerByLicenciaConductorAndRangoFecha (
             @Param("licencia") String licenciaConductor,
