@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public interface IPagoRepository extends JpaRepository<Pago,Long> {
     AND p.estadoPago = :estadoPago
     """)
     List<Pago> findPagosExpirados(
-            @Param("time") LocalDateTime time,
+            @Param("time") OffsetDateTime time,
             @Param("estadoPago") EstadoPago estadoPago
     );
 }

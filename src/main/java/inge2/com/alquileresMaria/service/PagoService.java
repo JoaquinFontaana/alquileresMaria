@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
@@ -46,7 +48,7 @@ public class PagoService {
     }
     @Transactional
     public void deletePagosPendientes(){
-        List<Pago> pagos = this.pagoRepository.findPagosExpirados(LocalDateTime.now(), EstadoPago.PENDIENTE);
+        List<Pago> pagos = this.pagoRepository.findPagosExpirados(OffsetDateTime.now(ZoneOffset.UTC), EstadoPago.PENDIENTE);
         this.alquilerService.eliminarAlquileresVencidos(
                 pagos.stream()
                 .map(Pago::getAlquiler)

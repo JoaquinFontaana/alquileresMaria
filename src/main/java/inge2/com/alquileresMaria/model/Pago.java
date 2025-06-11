@@ -12,6 +12,7 @@ import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.temporal.TemporalUnit;
 
 @Entity @Getter @Setter
@@ -29,22 +30,19 @@ public class Pago {
     @Enumerated(EnumType.STRING) @NotNull
     private EstadoPago estadoPago;
     @NotNull
-    private LocalDateTime fechaCreacion;
+    private OffsetDateTime fechaCreacion;
     @NotNull
-    private LocalDateTime fechaExpiracion;
+    private OffsetDateTime fechaExpiracion;
 
     public Pago(Preference preference,Alquiler alquiler) {
         this.alquiler = alquiler;
         this.initPoint = preference.getInitPoint();
         this.monto = alquiler.calcularTotal();
         this.estadoPago = EstadoPago.PENDIENTE;
-        this.fechaCreacion = LocalDateTime.now();
+        this.fechaCreacion = preference.getDateCreated();
         this.fechaExpiracion = this.fechaCreacion.plusMinutes(15);
     }
     public Pago(){
 
-    }
-    public boolean estaExpirado() {
-        return LocalDateTime.now().isAfter(this.fechaExpiracion);
     }
 }

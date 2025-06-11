@@ -10,12 +10,12 @@ import com.mercadopago.resources.preference.Preference;
 import inge2.com.alquileresMaria.dto.DatosPagoDTO;
 import inge2.com.alquileresMaria.model.Alquiler;
 import inge2.com.alquileresMaria.model.Cliente;
-import org.apache.logging.log4j.util.InternalException;
-import org.apache.maven.InternalErrorException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 @Component
 public class MpPreferenceBuilder {
@@ -53,6 +53,8 @@ public class MpPreferenceBuilder {
                     //Referencia a la tabla Pago guardada en la BD (id del alquiler)
                     .externalReference(externalReference)
                     .autoReturn("approved")
+                    .expirationDateFrom(OffsetDateTime.now(ZoneOffset.UTC))
+                    .expirationDateTo(OffsetDateTime.now(ZoneOffset.UTC).plusMinutes(15))
                     .build();
             PreferenceClient client = new PreferenceClient();
             return client.create(preferenceRequest);
