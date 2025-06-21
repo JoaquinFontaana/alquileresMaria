@@ -1,5 +1,6 @@
 package inge2.com.alquileresMaria.service.validators;
 
+import inge2.com.alquileresMaria.dto.alquiler.ReservaDTOCancelar;
 import inge2.com.alquileresMaria.model.Alquiler;
 import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
@@ -74,5 +75,10 @@ public class AlquilerHelperService {
         String body = "Se ha cancelado su reserva";
 
         this.serviceEmail.sendEmailsClientes(this.obtenerClientesDeAlquileres(alquileres), subject,body);
+    }
+    public Alquiler findyByConductorRangoFechas(ReservaDTOCancelar reservaDTO){
+        return repository.findAlquilerByLicenciaConductorAndRangoFecha(reservaDTO.getLicencia(), reservaDTO.getFechaDesde(),
+                        reservaDTO.getFechaFin())
+                .orElseThrow(() -> new EntityNotFoundException("No existe una reserva para este cliente, en esta fecha"));
     }
 }

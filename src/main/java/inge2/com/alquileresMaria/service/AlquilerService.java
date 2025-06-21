@@ -10,7 +10,6 @@ import inge2.com.alquileresMaria.repository.IAlquilerRepository;
 import inge2.com.alquileresMaria.service.validators.AlquilerHelperService;
 import inge2.com.alquileresMaria.service.validators.ClienteHelperService;
 import inge2.com.alquileresMaria.service.validators.AutoHelperService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -71,8 +70,6 @@ public class AlquilerService {
         );
     }
 
-
-
     public List<AlquilerDTOListar> listarAlquileres() {
         return this.repository.findAll()
                 .stream()
@@ -82,11 +79,12 @@ public class AlquilerService {
 
     @Transactional
     public void cancelarReserva(ReservaDTOCancelar reservaDTO){
-        Alquiler reserva = repository.findAlquilerByLicenciaConductorAndRangoFecha(reservaDTO.getLicencia(), reservaDTO.getFechaDesde(),
-                                reservaDTO.getFechaFin())
-                .orElseThrow(() -> new EntityNotFoundException("No existe una reserva para este cliente, en esta fecha"));
+        Alquiler reserva = this.alquilerHelperService.findyByConductorRangoFechas(reservaDTO);
+
         reserva.setEstadoAlquiler(EstadoAlquiler.CANCELADO);
+
         this.rembolsoService.crearRembolso(reserva);
+
         this.repository.save(reserva);
     }
 
