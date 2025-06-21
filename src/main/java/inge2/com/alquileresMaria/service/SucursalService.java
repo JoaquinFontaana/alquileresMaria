@@ -1,5 +1,6 @@
 package inge2.com.alquileresMaria.service;
 
+import inge2.com.alquileresMaria.dto.user.EmpleadoDTO;
 import inge2.com.alquileresMaria.model.Sucursal;
 import inge2.com.alquileresMaria.repository.ISucursalRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -29,7 +30,15 @@ public class SucursalService {
     public List<String> listarSucursales(){
         return this.sucursalRepository.findAll()
                 .stream()
-                .map(s -> s.getCiudad())
+                .map(Sucursal::getCiudad)
+                .toList();
+    }
+
+    public List<EmpleadoDTO> listarEmpleadosSucursal(String ciudad){
+        return this.findSucursalByCiudad(ciudad)
+                .getEmpleados()
+                .stream()
+                .map(EmpleadoDTO::new)
                 .toList();
     }
 

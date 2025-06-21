@@ -2,7 +2,7 @@ package inge2.com.alquileresMaria.service.builder;
 
 import inge2.com.alquileresMaria.dto.auto.AutoFilterDTO;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
-import inge2.com.alquileresMaria.service.filter.*;
+import inge2.com.alquileresMaria.service.filter.auto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

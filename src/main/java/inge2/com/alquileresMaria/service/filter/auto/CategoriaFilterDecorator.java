@@ -1,4 +1,4 @@
-package inge2.com.alquileresMaria.service.filter;
+package inge2.com.alquileresMaria.service.filter.auto;
 
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;

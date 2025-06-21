@@ -9,7 +9,7 @@ import inge2.com.alquileresMaria.model.enums.EstadoAuto;
 import inge2.com.alquileresMaria.model.Sucursal;
 import inge2.com.alquileresMaria.repository.IAutoRepository;
 import inge2.com.alquileresMaria.service.builder.FilterBuilder;
-import inge2.com.alquileresMaria.service.filter.IAutoFilter;
+import inge2.com.alquileresMaria.service.filter.auto.IAutoFilter;
 import inge2.com.alquileresMaria.service.validators.AutoHelperService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

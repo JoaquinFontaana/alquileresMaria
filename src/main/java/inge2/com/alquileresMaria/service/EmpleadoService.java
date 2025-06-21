@@ -23,6 +23,7 @@ public class EmpleadoService {
     private final RolService rolService;
     private final EncryptService encryptService;
     private final EmailService emailService;
+
     @Autowired
     public EmpleadoService(IEmpleadoRepository repository, EmpleadoHelperService empleadoHelper, SucursalService sucursalService, RolService rolService, EncryptService encryptService, EmailService emailService) {
         this.repository = repository;
@@ -48,6 +49,7 @@ public class EmpleadoService {
 
         this.repository.save(empleado);
     }
+
     public List<EmpleadoDTO> listarEmpleados(){
         return this.repository.findAll().stream().map(EmpleadoDTO::new).toList();
     }
