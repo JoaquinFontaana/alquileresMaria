@@ -1,6 +1,7 @@
 package inge2.com.alquileresMaria.model;
 
-import inge2.com.alquileresMaria.dto.PersonaDTO;
+import inge2.com.alquileresMaria.dto.user.EmpleadoDTO;
+import inge2.com.alquileresMaria.dto.user.PersonaDTOPassword;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
@@ -20,7 +21,7 @@ public abstract class Persona extends Usuario {
     @Size(min = 8, max = 9, message = "El dni debe tener 8 o 9 caracteres")
     private String dni;
 
-    public Persona(PersonaDTO dto, Rol rol) {
+    public Persona(PersonaDTOPassword dto, Rol rol) {
         this.nombre = dto.getNombre();
         this.apellido = dto.getApellido();
         this.dni = dto.getDni();
@@ -28,6 +29,15 @@ public abstract class Persona extends Usuario {
         this.setRol(rol);
         this.setPassword(dto.getPassword());
     }
+    public Persona(EmpleadoDTO dto, Rol rol, String password) {
+        this.nombre = dto.getNombre();
+        this.apellido = dto.getApellido();
+        this.dni = dto.getDni();
+        this.setMail(dto.getMail());
+        this.setRol(rol);
+        this.setPassword(password);
+    }
+
     public Persona(){
         super();
     }

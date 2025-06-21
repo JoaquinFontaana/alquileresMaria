@@ -1,9 +1,8 @@
 package inge2.com.alquileresMaria.model;
 
-import inge2.com.alquileresMaria.dto.PersonaDTO;
+import inge2.com.alquileresMaria.dto.user.PersonaDTOPassword;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,7 +24,7 @@ public class Cliente extends Persona {
         this.montoMulta = 0;
     }
 
-    public Cliente (PersonaDTO dto, Rol rol){
+    public Cliente (PersonaDTOPassword dto, Rol rol){
         super(dto,rol);
         this.alquileres = new ArrayList<>();
         this.montoMulta = 0;

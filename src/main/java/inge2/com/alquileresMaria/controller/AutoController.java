@@ -1,9 +1,9 @@
 package inge2.com.alquileresMaria.controller;
 
-import inge2.com.alquileresMaria.dto.AutoDTOActualizar;
-import inge2.com.alquileresMaria.dto.AutoDTOCrear;
-import inge2.com.alquileresMaria.dto.AutoDTOListar;
-import inge2.com.alquileresMaria.dto.AutoFilterDTO;
+import inge2.com.alquileresMaria.dto.auto.AutoDTOActualizar;
+import inge2.com.alquileresMaria.dto.auto.AutoDTOCrear;
+import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
+import inge2.com.alquileresMaria.dto.auto.AutoFilterDTO;
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
 import inge2.com.alquileresMaria.model.enums.EstadoAuto;
 import inge2.com.alquileresMaria.model.enums.Rembolso;

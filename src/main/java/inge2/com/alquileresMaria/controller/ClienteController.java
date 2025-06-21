@@ -1,9 +1,9 @@
 package inge2.com.alquileresMaria.controller;
 
-import inge2.com.alquileresMaria.dto.AlquilerDTOListar;
-import inge2.com.alquileresMaria.dto.PersonaDTO;
+import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOListar;
+import inge2.com.alquileresMaria.dto.user.PersonaDTOPassword;
 import inge2.com.alquileresMaria.service.ClienteService;
-import inge2.com.alquileresMaria.service.helper.AuthHelperService;
+import inge2.com.alquileresMaria.service.validators.AuthHelperService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class ClienteController {
     }
 
     @PostMapping(path = "/registrar")
-    public ResponseEntity<String> registrarCliente(@Valid @RequestBody PersonaDTO cliente){
+    public ResponseEntity<String> registrarCliente(@Valid @RequestBody PersonaDTOPassword cliente){
         service.crearCliente(cliente);
         return ResponseEntity.ok().body("Cliente creado con exito");
 

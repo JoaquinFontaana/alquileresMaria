@@ -1,5 +1,6 @@
-package inge2.com.alquileresMaria.dto;
+package inge2.com.alquileresMaria.dto.alquiler;
 
+import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
 import inge2.com.alquileresMaria.model.*;
 import inge2.com.alquileresMaria.model.enums.EstadoPago;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;

@@ -1,4 +1,4 @@
-package inge2.com.alquileresMaria.dto;
+package inge2.com.alquileresMaria.dto.user;
 
 import inge2.com.alquileresMaria.model.Persona;
 import jakarta.persistence.Column;
@@ -21,8 +21,6 @@ public class PersonaDTO {
     @NotBlank(message = "El DNI es obligatorio")
     @Size(min = 8, max = 9, message = "El dni debe tener 8 o 9 caracteres")
     private String dni;
-    @NotBlank(message = "La contraseña es obligatoria")
-    private String password;
 
     public PersonaDTO(Persona persona) {
         this.nombre = persona.getNombre();

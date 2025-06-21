@@ -1,4 +1,4 @@
-package inge2.com.alquileresMaria.dto;
+package inge2.com.alquileresMaria.dto.alquiler;
 
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
 import jakarta.persistence.Embedded;

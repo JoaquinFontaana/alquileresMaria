@@ -1,4 +1,4 @@
-package inge2.com.alquileresMaria.dto;
+package inge2.com.alquileresMaria.dto.alquiler;
 
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;

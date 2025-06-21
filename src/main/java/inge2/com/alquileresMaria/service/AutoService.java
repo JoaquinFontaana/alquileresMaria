@@ -1,14 +1,16 @@
 package inge2.com.alquileresMaria.service;
 
-import inge2.com.alquileresMaria.dto.*;
+import inge2.com.alquileresMaria.dto.auto.AutoDTOActualizar;
+import inge2.com.alquileresMaria.dto.auto.AutoDTOCrear;
+import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
+import inge2.com.alquileresMaria.dto.auto.AutoFilterDTO;
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.enums.EstadoAuto;
 import inge2.com.alquileresMaria.model.Sucursal;
 import inge2.com.alquileresMaria.repository.IAutoRepository;
 import inge2.com.alquileresMaria.service.builder.FilterBuilder;
-import inge2.com.alquileresMaria.service.filter.BaseAutoFilter;
 import inge2.com.alquileresMaria.service.filter.IAutoFilter;
-import inge2.com.alquileresMaria.service.helper.AutoHelperService;
+import inge2.com.alquileresMaria.service.validators.AutoHelperService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

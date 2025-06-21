@@ -1,4 +1,4 @@
-package inge2.com.alquileresMaria.dto;
+package inge2.com.alquileresMaria.dto.user;
 
 import inge2.com.alquileresMaria.model.Empleado;
 import jakarta.validation.constraints.NotNull;

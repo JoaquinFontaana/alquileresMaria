@@ -7,7 +7,7 @@ import inge2.com.alquileresMaria.dto.DatosPagoDTO;
 import inge2.com.alquileresMaria.service.PagoService;
 import inge2.com.alquileresMaria.service.checkOut.CheckOutAlquilerService;
 import inge2.com.alquileresMaria.service.checkOut.CheckOutMultaService;
-import inge2.com.alquileresMaria.service.helper.AuthHelperService;
+import inge2.com.alquileresMaria.service.validators.AuthHelperService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

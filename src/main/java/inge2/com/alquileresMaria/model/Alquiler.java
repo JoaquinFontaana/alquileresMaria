@@ -1,6 +1,6 @@
 package inge2.com.alquileresMaria.model;
 
-import inge2.com.alquileresMaria.dto.AlquilerDTOCrear;
+import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOCrear;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

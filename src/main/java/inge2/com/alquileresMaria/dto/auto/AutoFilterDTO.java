@@ -1,11 +1,7 @@
-package inge2.com.alquileresMaria.dto;
+package inge2.com.alquileresMaria.dto.auto;
 
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
 import inge2.com.alquileresMaria.model.enums.EstadoAuto;
-import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
-import inge2.com.alquileresMaria.service.filter.*;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Embedded;
 import lombok.Getter;
 import lombok.Setter;
 

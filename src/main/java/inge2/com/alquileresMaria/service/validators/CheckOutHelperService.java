@@ -1,4 +1,4 @@
-package inge2.com.alquileresMaria.service.helper;
+package inge2.com.alquileresMaria.service.validators;
 
 import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.exceptions.MPApiException;

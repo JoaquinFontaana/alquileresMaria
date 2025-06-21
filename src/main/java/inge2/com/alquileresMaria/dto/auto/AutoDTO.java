@@ -1,4 +1,4 @@
-package inge2.com.alquileresMaria.dto;
+package inge2.com.alquileresMaria.dto.auto;
 
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
@@ -10,7 +10,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
 @Getter @Setter
 public abstract class AutoDTO {

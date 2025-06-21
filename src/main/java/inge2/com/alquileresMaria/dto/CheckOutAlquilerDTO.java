@@ -1,5 +1,6 @@
 package inge2.com.alquileresMaria.dto;
 
+import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOCrear;
 import jakarta.persistence.Embedded;
 import lombok.Getter;
 import lombok.Setter;

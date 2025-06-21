@@ -18,7 +18,6 @@ public class AlquileresScheduled {
 
     @Scheduled(fixedDelay = 600000*15) @EventListener(ApplicationReadyEvent.class)
     public void deletePagosPendientes(){
-        System.out.println("Se ejecuta");
         this.pagoService.deletePagosPendientes();
     }
 }

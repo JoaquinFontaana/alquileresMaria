@@ -1,7 +1,6 @@
 package inge2.com.alquileresMaria.model;
 
-import inge2.com.alquileresMaria.dto.EmpleadoDTO;
-import inge2.com.alquileresMaria.dto.PersonaDTO;
+import inge2.com.alquileresMaria.dto.user.EmpleadoDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,8 +11,8 @@ public class Empleado extends Persona {
     @JoinColumn(name = "sucursal_id")
     private Sucursal trabajaEnSucursal;
 
-    public Empleado(EmpleadoDTO empleadoDTO, Sucursal trabajaEnSucursal,Rol rol) {
-        super((PersonaDTO) empleadoDTO,rol);
+    public Empleado(EmpleadoDTO empleadoDTO, Sucursal trabajaEnSucursal,Rol rol, String password) {
+        super(empleadoDTO,rol,password);
         this.trabajaEnSucursal = trabajaEnSucursal;
     }
     public Empleado(){

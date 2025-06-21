@@ -1,6 +1,5 @@
-package inge2.com.alquileresMaria.service.Generator;
+package inge2.com.alquileresMaria.service.generator;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;

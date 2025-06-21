@@ -2,9 +2,7 @@ package inge2.com.alquileresMaria.controller;
 
 import inge2.com.alquileresMaria.dto.AuthResponseDTO;
 import inge2.com.alquileresMaria.dto.LoginDTO;
-import inge2.com.alquileresMaria.dto.PersonaDTO;
 import inge2.com.alquileresMaria.security.JWTGenerator;
-import inge2.com.alquileresMaria.security.SecurityConfig;
 import inge2.com.alquileresMaria.service.UsuarioService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -36,7 +34,6 @@ public class AuthController {
                 )
         );
         this.userService.sendDobleAutenticacion(loginDto.getMail());
-        System.out.println("Paso la verficacion de admin");
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token =  tokenGenerator.generateToken(authentication);
         return ResponseEntity.ok().body(new AuthResponseDTO(token));

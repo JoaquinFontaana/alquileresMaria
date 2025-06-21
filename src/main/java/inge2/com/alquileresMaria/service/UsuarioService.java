@@ -2,7 +2,7 @@ package inge2.com.alquileresMaria.service;
 
 import inge2.com.alquileresMaria.model.Usuario;
 import inge2.com.alquileresMaria.repository.IUsuarioRepository;
-import inge2.com.alquileresMaria.service.Generator.PasswordGenerator;
+import inge2.com.alquileresMaria.service.generator.PasswordGenerator;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +53,7 @@ public class UsuarioService {
     }
 
     public void sendDobleAutenticacion(String mail){
-        Usuario user = this.findByEmail(mail);
-        if (user.isAdmin()){
+        if (this.findByEmail(mail).isAdmin()){
             this.emailService.sendDobleAutenticacionAdmin(mail, codigos.get(random.nextInt(codigos.size())));
         }
     }

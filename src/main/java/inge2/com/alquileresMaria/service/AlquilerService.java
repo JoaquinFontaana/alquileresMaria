@@ -1,16 +1,16 @@
 package inge2.com.alquileresMaria.service;
 
-import inge2.com.alquileresMaria.dto.AlquilerDTOCrear;
-import inge2.com.alquileresMaria.dto.AlquilerDTOListar;
-import inge2.com.alquileresMaria.dto.ReservaDTOCancelar;
+import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOCrear;
+import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOListar;
+import inge2.com.alquileresMaria.dto.alquiler.ReservaDTOCancelar;
 import inge2.com.alquileresMaria.model.Alquiler;
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.model.Sucursal;
 import inge2.com.alquileresMaria.repository.IAlquilerRepository;
-import inge2.com.alquileresMaria.service.helper.AlquilerHelperService;
-import inge2.com.alquileresMaria.service.helper.ClienteHelperService;
-import inge2.com.alquileresMaria.service.helper.AutoHelperService;
+import inge2.com.alquileresMaria.service.validators.AlquilerHelperService;
+import inge2.com.alquileresMaria.service.validators.ClienteHelperService;
+import inge2.com.alquileresMaria.service.validators.AutoHelperService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;

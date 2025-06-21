@@ -1,4 +1,4 @@
-package inge2.com.alquileresMaria.service.helper;
+package inge2.com.alquileresMaria.service.validators;
 
 import inge2.com.alquileresMaria.model.Alquiler;
 import inge2.com.alquileresMaria.model.Cliente;

@@ -1,7 +1,6 @@
 package inge2.com.alquileresMaria.service;
 
 
-import inge2.com.alquileresMaria.dto.AutoDTOCrear;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,7 +10,6 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Base64;
 
@@ -59,27 +57,7 @@ public class FileStorageService {
         return nombreImagen + "_" + LocalTime.now() + extension;
     }
 
-    public String leerImagenComoBase64(String rutaAbsoluta) {
-        try {
-            Path ruta = Paths.get(rutaAbsoluta).normalize();
-            if (!Files.exists(ruta) || Files.isDirectory(ruta)) {
-                return null; // O lanzar excepción, según tu criterio
-            }
-            // Detecta el tipo MIME (p.ej. "image/jpeg")
-            String mimeType = Files.probeContentType(ruta);
-            if (mimeType == null) {
-                mimeType = "application/octet-stream";
-            }
 
-            byte[] bytes = Files.readAllBytes(ruta);
-            String base64 = Base64.getEncoder().encodeToString(bytes);
-
-            return "data:" + mimeType + ";base64," + base64;
-        } catch (IOException ex) {
-            // Podrías loguear o relanzar RuntimeException según tu política
-            throw new UncheckedIOException("Error leyendo o convertiendo la imagen a Base64: " + rutaAbsoluta, ex);
-        }
-    }
     public void borrarArchivoSiExiste(String rutaAbsoluta) {
         if (rutaAbsoluta == null || rutaAbsoluta.isBlank()) {
             return;
