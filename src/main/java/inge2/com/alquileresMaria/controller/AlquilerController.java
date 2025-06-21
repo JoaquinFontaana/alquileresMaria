@@ -18,7 +18,7 @@ public class AlquilerController {
 
     @GetMapping("/listar")
     public List<AlquilerDTOListar> listar() {
-        return this.alquilerService.obtenerAlquileres();
+        return this.alquilerService.listarAlquileres();
     }
 
 

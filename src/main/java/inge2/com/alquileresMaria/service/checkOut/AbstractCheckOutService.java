@@ -28,8 +28,8 @@ public abstract class AbstractCheckOutService {
         Payment payment = this.checkOutHelper.getPayment(dataId);
         //Si el estado es approved se cambia el estado o valor
         if(this.checkOutHelper.checkStatusApproved(payment)) {
-            this.procesarPagoAprobado(payment.getExternalReference());
+            this.procesarPagoAprobado(payment);
         }
     }
-    public abstract void procesarPagoAprobado(String externalReference);
+    public abstract void procesarPagoAprobado(Payment payment);
 }

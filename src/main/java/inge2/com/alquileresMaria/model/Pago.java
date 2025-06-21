@@ -25,6 +25,7 @@ public class Pago {
     private Alquiler alquiler;
     @NotBlank
     private String initPoint;
+    private Long paymentId;
     @Positive(message = "El monto del pago debe ser positivo") @NotNull
     private Double monto;
     @Enumerated(EnumType.STRING) @NotNull
@@ -42,6 +43,7 @@ public class Pago {
         this.fechaCreacion = preference.getDateCreated();
         this.fechaExpiracion = this.fechaCreacion.plusMinutes(15);
     }
+
     public Pago(){
 
     }

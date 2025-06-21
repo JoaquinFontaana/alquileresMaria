@@ -91,6 +91,7 @@ public class Auto {
     public boolean disponibleEnRangoFechas(RangoFecha rango){
         return this.getReservas().stream().allMatch(alquiler -> alquiler.sinSolapamiento(rango));
     }
+
     public boolean disponibleParaMostrar(){
         return this.getEstado().equals(EstadoAuto.DISPONIBLE);
     }

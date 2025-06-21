@@ -2,6 +2,7 @@ package inge2.com.alquileresMaria.service.checkOut;
 
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
+import com.mercadopago.resources.payment.Payment;
 import com.mercadopago.resources.preference.Preference;
 import inge2.com.alquileresMaria.dto.CheckOutAlquilerDTO;
 import inge2.com.alquileresMaria.model.Alquiler;
@@ -27,8 +28,8 @@ public class CheckOutAlquilerService extends AbstractCheckOutService {
     }
 
     @Override
-    public void procesarPagoAprobado(String externalReference) {
-        this.pagoService.registrarCobro(externalReference);
+    public void procesarPagoAprobado(Payment payment) {
+        this.pagoService.registrarCobro(payment);
     }
 
     @Transactional

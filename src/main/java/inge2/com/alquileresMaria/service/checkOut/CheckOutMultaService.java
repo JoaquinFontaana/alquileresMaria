@@ -1,5 +1,6 @@
 package inge2.com.alquileresMaria.service.checkOut;
 
+import com.mercadopago.resources.payment.Payment;
 import inge2.com.alquileresMaria.dto.DatosPagoDTO;
 import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.service.ClienteService;
@@ -31,7 +32,7 @@ public class CheckOutMultaService extends AbstractCheckOutService {
     }
 
     @Override
-    public void procesarPagoAprobado(String externalReference) {
-        this.clienteService.registrarPagoMulta(externalReference);
+    public void procesarPagoAprobado(Payment payment) {
+        this.clienteService.registrarPagoMulta(payment.getExternalReference());
     }
 }

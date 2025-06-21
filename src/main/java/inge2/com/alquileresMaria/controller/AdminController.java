@@ -24,7 +24,7 @@ public class AdminController {
         this.clienteService = clienteService;
     }
 
-    @PostMapping(path = "/empleado/registrar")
+    @PostMapping("/empleado/registrar")
     public ResponseEntity<String> crearEmpleado(@RequestBody @Valid EmpleadoDTO empleadoDTO){
         this.empleadoService.crearEmpleado(empleadoDTO);
         return new ResponseEntity<String>("Empleado registrado con exito", HttpStatus.CREATED);

@@ -3,10 +3,9 @@ package inge2.com.alquileresMaria.service;
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOCrear;
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOListar;
 import inge2.com.alquileresMaria.dto.alquiler.ReservaDTOCancelar;
-import inge2.com.alquileresMaria.model.Alquiler;
-import inge2.com.alquileresMaria.model.Auto;
-import inge2.com.alquileresMaria.model.Cliente;
-import inge2.com.alquileresMaria.model.Sucursal;
+import inge2.com.alquileresMaria.model.*;
+import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
+import inge2.com.alquileresMaria.model.enums.EstadoPago;
 import inge2.com.alquileresMaria.repository.IAlquilerRepository;
 import inge2.com.alquileresMaria.service.validators.AlquilerHelperService;
 import inge2.com.alquileresMaria.service.validators.ClienteHelperService;
@@ -16,25 +15,27 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class AlquilerService {
 
     private final IAlquilerRepository repository;
-    private final EmailService serviceEmail;
+
     private final SucursalService sucursalService;
     private final AutoHelperService autoHelperService;
     private final ClienteHelperService clienteHelperService;
     private final AlquilerHelperService alquilerHelperService;
+    private final RembolsoService rembolsoService;
 
-    public AlquilerService(IAlquilerRepository repository, EmailService serviceEmail, SucursalService sucursalService, AutoHelperService autoHelperService, ClienteHelperService clienteHelperService, AlquilerHelperService alquilerHelperService) {
+    public AlquilerService(IAlquilerRepository repository, SucursalService sucursalService, AutoHelperService autoHelperService, ClienteHelperService clienteHelperService, AlquilerHelperService alquilerHelperService, RembolsoService rembolsoService) {
         this.repository = repository;
-        this.serviceEmail = serviceEmail;
         this.sucursalService = sucursalService;
         this.autoHelperService = autoHelperService;
         this.clienteHelperService = clienteHelperService;
         this.alquilerHelperService = alquilerHelperService;
+        this.rembolsoService = rembolsoService;
     }
 
     @Transactional
@@ -57,29 +58,36 @@ public class AlquilerService {
     public void cancelarReservas(List<Alquiler> alquileres){
         //Solo mandar mails a clientes con reservas futuras verificar que la fecha no sea menor a la actual
         List<Alquiler> alquileresPosteriores = this.alquilerHelperService.filtrarAlquileresPosteriores(alquileres);
-        this.repository.deleteAllById(this.alquilerHelperService.obtenerIdsDeAlquileres(alquileresPosteriores));
-
-        String subject = "Su auto reservado ya no se encuentra disponible";
-        String body = "Puede solicitar el rembolso total del alquiler o cambiar a un auto similar sin cargo";
-
-        this.serviceEmail.sendEmailsClientes(this.alquilerHelperService.obtenerClientesDeAlquileres(alquileresPosteriores), subject,body);
+        this.alquilerHelperService.rembolsarReservasPagadas(alquileresPosteriores
+                .stream()
+                .filter(a -> a.getPago().getEstadoPago().equals(EstadoPago.PAGADO))
+                .toList()
+        );
+        this.alquilerHelperService.eliminarAlquileres(
+                alquileresPosteriores
+                        .stream()
+                        .filter(a -> a.getPago().getEstadoPago().equals(EstadoPago.PENDIENTE))
+                        .toList()
+        );
     }
-    @Transactional
-    public void eliminarAlquileresVencidos(List<Alquiler> alquileres){
-        this.repository.deleteAll(alquileres);
-    }
-    public List<AlquilerDTOListar> obtenerAlquileres() {
+
+
+
+    public List<AlquilerDTOListar> listarAlquileres() {
         return this.repository.findAll()
                 .stream()
                 .map(AlquilerDTOListar::new)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
+    @Transactional
     public void cancelarReserva(ReservaDTOCancelar reservaDTO){
         Alquiler reserva = repository.findAlquilerByLicenciaConductorAndRangoFecha(reservaDTO.getLicencia(), reservaDTO.getFechaDesde(),
                                 reservaDTO.getFechaFin())
                 .orElseThrow(() -> new EntityNotFoundException("No existe una reserva para este cliente, en esta fecha"));
-        this.repository.deleteById(reserva.getId());
+        reserva.setEstadoAlquiler(EstadoAlquiler.CANCELADO);
+        this.rembolsoService.crearRembolso(reserva);
+        this.repository.save(reserva);
     }
 
 }

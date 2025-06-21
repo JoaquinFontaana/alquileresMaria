@@ -1,6 +1,7 @@
 package inge2.com.alquileresMaria.model;
 
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOCrear;
+import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -34,6 +35,8 @@ public class Alquiler {
             orphanRemoval = true
     )
     private Pago pago;
+    @NotNull @Enumerated(EnumType.STRING)
+    private EstadoAlquiler estadoAlquiler;
 
     public boolean sinSolapamiento(RangoFecha rango){
         return this.rangoFecha.sinSolapamiento(rango);
@@ -42,12 +45,18 @@ public class Alquiler {
     public double calcularTotal(){
         return this.auto.getPrecioPorDia() * this.rangoFecha.cantidadDeDias();
     }
+
+    public double calcularRembolso(){
+        return this.auto.getRembolso().calcularRembolso(this.calcularTotal());
+    }
+
     public Alquiler (AlquilerDTOCrear alquilerDTOCrear,Auto auto,Cliente cliente,Sucursal sucursal){
         this.auto = auto;
         this.cliente = cliente;
         this.sucursal = sucursal;
         this.licenciaConductor = alquilerDTOCrear.getLicenciaConductor();
         this.rangoFecha = alquilerDTOCrear.getRangoFecha();
+        this.estadoAlquiler = EstadoAlquiler.CONFIRMACION_PENDIENTE;
     }
     public Alquiler(){
 
