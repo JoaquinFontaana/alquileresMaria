@@ -11,8 +11,6 @@ import inge2.com.alquileresMaria.service.RembolsoService;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.hibernate.annotations.NotFound;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -76,9 +74,10 @@ public class AlquilerHelperService {
 
         this.serviceEmail.sendEmailsClientes(this.obtenerClientesDeAlquileres(alquileres), subject,body);
     }
-    public Alquiler findyByConductorRangoFechas(ReservaDTOCancelar reservaDTO){
+    public Alquiler findByConductorRangoFechas(ReservaDTOCancelar reservaDTO){
         return repository.findAlquilerByLicenciaConductorAndRangoFecha(reservaDTO.getLicencia(), reservaDTO.getFechaDesde(),
                         reservaDTO.getFechaFin())
                 .orElseThrow(() -> new EntityNotFoundException("No existe una reserva para este cliente, en esta fecha"));
     }
 }
+

@@ -2,7 +2,7 @@ package inge2.com.alquileresMaria.dto.auto;
 
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
 import inge2.com.alquileresMaria.model.enums.EstadoAuto;
-import inge2.com.alquileresMaria.model.enums.Rembolso;
+import inge2.com.alquileresMaria.model.enums.TiposRembolso;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
@@ -20,7 +20,7 @@ public class AutoDTOActualizar {
     @Enumerated(EnumType.STRING)
     private CategoriaAuto categoria;
     @Enumerated(EnumType.STRING)
-    private Rembolso rembolso;
+    private TiposRembolso rembolso;
     @Enumerated(EnumType.STRING)
     private EstadoAuto estado;
     @NotBlank(message = "La sucursal es obligatoria")

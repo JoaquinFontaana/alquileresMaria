@@ -6,7 +6,7 @@ import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
 import inge2.com.alquileresMaria.dto.auto.AutoFilterDTO;
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
 import inge2.com.alquileresMaria.model.enums.EstadoAuto;
-import inge2.com.alquileresMaria.model.enums.Rembolso;
+import inge2.com.alquileresMaria.model.enums.TiposRembolso;
 import inge2.com.alquileresMaria.service.AutoService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -63,8 +63,8 @@ public class AutoController {
     }
 
     @GetMapping("/get/rembolsos")
-    public List<Rembolso> getRembolsos(){
-        return List.of(Rembolso.values());
+    public List<TiposRembolso> getRembolsos(){
+        return List.of(TiposRembolso.values());
     }
     /**
      * Lista los autos disponibles aplicando filtros combinados (todos opcionales).

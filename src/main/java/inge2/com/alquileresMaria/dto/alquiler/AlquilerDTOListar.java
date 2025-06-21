@@ -4,6 +4,7 @@ import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
 import inge2.com.alquileresMaria.model.*;
 import inge2.com.alquileresMaria.model.enums.EstadoPago;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -11,7 +12,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-
 public class AlquilerDTOListar {
     @Embedded
     private RangoFecha rangoFecha;
@@ -23,6 +23,7 @@ public class AlquilerDTOListar {
     @Enumerated(EnumType.STRING)
     private EstadoPago estadoPago;
     private String urlPago;
+
     public AlquilerDTOListar(Alquiler alquiler){
         this.rangoFecha = alquiler.getRangoFecha();
         this.licenciaConductor = alquiler.getLicenciaConductor();

@@ -4,7 +4,7 @@ import inge2.com.alquileresMaria.dto.auto.AutoDTO;
 import inge2.com.alquileresMaria.dto.auto.AutoDTOActualizar;
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
 import inge2.com.alquileresMaria.model.enums.EstadoAuto;
-import inge2.com.alquileresMaria.model.enums.Rembolso;
+import inge2.com.alquileresMaria.model.enums.TiposRembolso;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -34,7 +34,7 @@ public class Auto {
     @Enumerated(EnumType.STRING)
     private CategoriaAuto categoria;
     @Enumerated(EnumType.STRING)
-    private Rembolso rembolso;
+    private TiposRembolso rembolso;
     @Enumerated(EnumType.STRING)
     private EstadoAuto estado;
     @OneToMany(mappedBy = "auto")

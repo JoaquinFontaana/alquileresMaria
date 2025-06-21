@@ -19,16 +19,20 @@ public class Rembolso {
     @OneToOne(optional = false)
     @JoinColumn(name = "alquiler_id")
     private Alquiler alquilerRembolsado;
-
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
     public Rembolso(Alquiler alquilerRembolsado) {
         this.fechaRembolso = LocalDate.now();
         this.montoRembolsado = alquilerRembolsado.calcularRembolso();
         this.alquilerRembolsado = alquilerRembolsado;
+        this.cliente = alquilerRembolsado.getCliente();
     }
     public Rembolso(Alquiler alquilerRembolsado,double montoRembolsado) {
         this.fechaRembolso = LocalDate.now();
         this.montoRembolsado = montoRembolsado;
         this.alquilerRembolsado = alquilerRembolsado;
+        this.cliente = alquilerRembolsado.getCliente();
     }
 
     public Rembolso() {

@@ -1,6 +1,6 @@
 package inge2.com.alquileresMaria.model.enums;
 
-public enum Rembolso {
+public enum TiposRembolso {
     SIN_REMBOLSO(0.0),
     REMBOLSO_PARCIAL(0.25),
     REMBOLSO_MEDIO(0.50),
@@ -8,7 +8,7 @@ public enum Rembolso {
 
     private final double porcentaje;
 
-    Rembolso(double porcentaje) {
+    TiposRembolso(double porcentaje) {
         this.porcentaje = porcentaje;
     }
 

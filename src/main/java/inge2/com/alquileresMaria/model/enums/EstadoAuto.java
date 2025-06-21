@@ -5,5 +5,4 @@ public enum EstadoAuto {
     ALQUILADO,
     DISPONIBLE,
     BAJA;
-
 }

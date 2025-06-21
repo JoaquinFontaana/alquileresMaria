@@ -1,6 +1,7 @@
 package inge2.com.alquileresMaria.service;
 
 
+import inge2.com.alquileresMaria.dto.RembolsoDTO;
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOListar;
 import inge2.com.alquileresMaria.dto.user.PersonaDTO;
 import inge2.com.alquileresMaria.dto.user.PersonaDTOPassword;
@@ -73,5 +74,13 @@ public class ClienteService {
 
     public double getMulta(String mail){
         return this.clienteHelperService.findClienteByEmail(mail).getMontoMulta();
+    }
+
+    public List<RembolsoDTO> listarRembolsos(String mail){
+        return this.clienteHelperService.findClienteByEmail(mail)
+                .getRembolsos()
+                .stream()
+                .map(RembolsoDTO::new)
+                .toList();
     }
 }

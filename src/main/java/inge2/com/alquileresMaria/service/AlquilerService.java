@@ -79,7 +79,7 @@ public class AlquilerService {
 
     @Transactional
     public void cancelarReserva(ReservaDTOCancelar reservaDTO){
-        Alquiler reserva = this.alquilerHelperService.findyByConductorRangoFechas(reservaDTO);
+        Alquiler reserva = this.alquilerHelperService.findByConductorRangoFechas(reservaDTO);
 
         reserva.setEstadoAlquiler(EstadoAlquiler.CANCELADO);
 

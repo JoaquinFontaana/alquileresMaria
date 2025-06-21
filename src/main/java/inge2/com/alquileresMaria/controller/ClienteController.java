@@ -1,7 +1,9 @@
 package inge2.com.alquileresMaria.controller;
 
+import inge2.com.alquileresMaria.dto.RembolsoDTO;
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOListar;
 import inge2.com.alquileresMaria.dto.user.PersonaDTOPassword;
+import inge2.com.alquileresMaria.model.Rembolso;
 import inge2.com.alquileresMaria.service.ClienteService;
 import inge2.com.alquileresMaria.service.validators.AuthHelperService;
 import jakarta.validation.Valid;
@@ -32,7 +34,10 @@ public class ClienteController {
     public List<AlquilerDTOListar> listarAlquileres() {
         return this.service.listarAlquileres(authHelperService.getMailOfContext());
     }
-
+    @GetMapping("/listar/rembolsos")
+    public List<RembolsoDTO> listarRembolsos(){
+        return this.service.listarRembolsos(this.authHelperService.getMailOfContext());
+    }
     @GetMapping("/multa")
     public double multa(){
         return this.service.getMulta(this.authHelperService.getMailOfContext());

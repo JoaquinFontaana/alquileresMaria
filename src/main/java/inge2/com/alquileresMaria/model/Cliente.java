@@ -16,12 +16,15 @@ public class Cliente extends Persona {
 
     @OneToMany(mappedBy = "cliente")
     private List<Alquiler> alquileres;
+    @OneToMany(mappedBy = "cliente")
+    private List<Rembolso> rembolsos;
     @Min(value = 0)
     private double montoMulta;
 
     public Cliente() {
         super();
         this.alquileres = new ArrayList<>();
+        this.rembolsos = new ArrayList<>();
         this.montoMulta = 0;
     }
 
@@ -33,6 +36,7 @@ public class Cliente extends Persona {
     public Cliente (PersonaDTO dto, Rol rol, String password){
         super(dto,rol,password);
         this.alquileres = new ArrayList<>();
+        this.rembolsos = new ArrayList<>();
         this.montoMulta = 0;
     }
 }
