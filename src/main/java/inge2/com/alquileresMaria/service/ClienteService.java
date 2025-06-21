@@ -59,13 +59,18 @@ public class ClienteService {
         this.clienteRepository.save(cliente);
     }
 
-    public List<AlquilerDTOListar> listarAlquileres(String email){
-        return this.clienteHelperService.findClienteByEmail(email)
+    public List<AlquilerDTOListar> listarAlquileres(String mail){
+        return this.clienteHelperService.findClienteByEmail(mail)
                 .getAlquileres()
                 .stream()
                 .map(AlquilerDTOListar::new)
                 .toList();
     }
+
+    public List<PersonaDTO> listarClientes(){
+        return this.clienteRepository.findAll().stream().map(PersonaDTO::new).toList();
+    }
+
     public double getMulta(String mail){
         return this.clienteHelperService.findClienteByEmail(mail).getMontoMulta();
     }

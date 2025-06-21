@@ -12,6 +12,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EmpleadoService {
 
@@ -39,12 +41,15 @@ public class EmpleadoService {
 
         Empleado empleado = new Empleado(
                 dto,
-                this.sucursalService.findSucursalByCiudad(dto.getNombreSucursalTrabaja()),
+                this.sucursalService.findSucursalByCiudad(dto.getTrabajaEnSucursal()),
                 rolService.findRolByNombre("EMPLEADO"),
                 encryptService.encryptPassword(this.emailService.sendContraseñaAutoGenerada(dto.getMail()))
         );
 
         this.repository.save(empleado);
+    }
+    public List<EmpleadoDTO> listarEmpleados(){
+        return this.repository.findAll().stream().map(EmpleadoDTO::new).toList();
     }
 
 }

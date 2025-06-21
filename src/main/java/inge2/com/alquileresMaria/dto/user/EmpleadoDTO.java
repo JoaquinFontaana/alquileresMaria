@@ -8,11 +8,13 @@ import lombok.Setter;
 @Getter @Setter
 public class EmpleadoDTO extends PersonaDTO{
     @NotNull(message = "La sucursal donde trabaja el empleado es obligatoria, ingresa el nombre")
-    private String nombreSucursalTrabaja;
+    private String trabajaEnSucursal;
 
     public EmpleadoDTO(Empleado empleado){
         super(empleado);
-        this.nombreSucursalTrabaja = empleado.getTrabajaEnSucursal().getCiudad();
+        this.trabajaEnSucursal = empleado.getTrabajaEnSucursal().getCiudad();
     }
-
+    public EmpleadoDTO(){
+        super();
+    }
 }
