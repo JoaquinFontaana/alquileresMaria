@@ -1,6 +1,8 @@
 package inge2.com.alquileresMaria.service;
 
+import inge2.com.alquileresMaria.dto.user.PersonaDTO;
 import inge2.com.alquileresMaria.model.Cliente;
+import inge2.com.alquileresMaria.service.generator.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,8 +14,13 @@ import java.util.List;
 @Service
 public class EmailService {
 
-    @Autowired
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
+    private final PasswordGenerator passwordGenerator;
+
+    public EmailService(JavaMailSender mailSender, PasswordGenerator passwordGenerator) {
+        this.mailSender = mailSender;
+        this.passwordGenerator = passwordGenerator;
+    }
 
     @Async
     public void sendEmail(String to, String subject, String body){
@@ -45,5 +52,10 @@ public class EmailService {
         String subject = "Doble autenticación";
         String body = "El código es: " + cod;
         this.sendEmail(mail, subject, body);
+    }
+    public String sendContraseñaAutoGenerada(String mail){
+        String password = this.passwordGenerator.generatePassword();
+        this.sendEmail(mail,"Contraseña de su nueva cuenta en Alquileres maria","Contraseña: "+ password);
+        return password;
     }
 }

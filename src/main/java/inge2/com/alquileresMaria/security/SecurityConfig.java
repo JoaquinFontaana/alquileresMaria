@@ -58,6 +58,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/usuario/**").permitAll()
                         .requestMatchers("/auth/dobleAutenticacion").hasRole("ADMIN")
+                        .requestMatchers("/empleado/**").hasRole("EMPLEADO")
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

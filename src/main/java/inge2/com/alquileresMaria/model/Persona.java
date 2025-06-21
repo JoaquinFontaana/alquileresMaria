@@ -1,6 +1,6 @@
 package inge2.com.alquileresMaria.model;
 
-import inge2.com.alquileresMaria.dto.user.EmpleadoDTO;
+import inge2.com.alquileresMaria.dto.user.PersonaDTO;
 import inge2.com.alquileresMaria.dto.user.PersonaDTOPassword;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
@@ -29,7 +29,7 @@ public abstract class Persona extends Usuario {
         this.setRol(rol);
         this.setPassword(dto.getPassword());
     }
-    public Persona(EmpleadoDTO dto, Rol rol, String password) {
+    public Persona(PersonaDTO dto, Rol rol, String password) {
         this.nombre = dto.getNombre();
         this.apellido = dto.getApellido();
         this.dni = dto.getDni();

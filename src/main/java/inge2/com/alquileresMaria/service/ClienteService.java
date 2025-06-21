@@ -2,6 +2,7 @@ package inge2.com.alquileresMaria.service;
 
 
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOListar;
+import inge2.com.alquileresMaria.dto.user.PersonaDTO;
 import inge2.com.alquileresMaria.dto.user.PersonaDTOPassword;
 import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.repository.IClienteRepository;
@@ -14,31 +15,50 @@ import java.util.List;
 
 @Service
 public class ClienteService {
-    @Autowired
-    private EncryptService encryptService;
-    @Autowired
-    private IClienteRepository clienteRepository;
-    @Autowired
-    private RolService rolService ;
-    @Autowired
-    private ClienteHelperService clienteHelperService;
+
+    private final EncryptService encryptService;
+    private final IClienteRepository clienteRepository;
+    private final RolService rolService ;
+    private final ClienteHelperService clienteHelperService;
+    private final EmailService emailService;
+
+    public ClienteService(EncryptService encryptService, IClienteRepository clienteRepository, RolService rolService, ClienteHelperService clienteHelperService, EmailService emailService) {
+        this.encryptService = encryptService;
+        this.clienteRepository = clienteRepository;
+        this.rolService = rolService;
+        this.clienteHelperService = clienteHelperService;
+        this.emailService = emailService;
+    }
 
     @Transactional
     public void crearCliente(PersonaDTOPassword clienteDTO){
-        this.clienteHelperService.checkNotExistMail(clienteDTO.getMail());
-        this.clienteHelperService.checkNotExistDni(clienteDTO.getDni());
+        this.clienteHelperService.checkNotExistsCliente(clienteDTO);
 
         clienteDTO.setPassword(encryptService.encryptPassword(clienteDTO.getPassword()));
         Cliente cliente = new Cliente(clienteDTO, rolService.findRolByNombre("CLIENT"));
 
         clienteRepository.save(cliente);
     }
+
+    @Transactional
+    public void registrarClientePresencial(PersonaDTO clienteDTO){
+        this.clienteHelperService.checkNotExistsCliente(clienteDTO);
+
+        Cliente cliente = new Cliente(
+                clienteDTO,
+                rolService.findRolByNombre("CLIENT"),
+                encryptService.encryptPassword(this.emailService.sendContraseñaAutoGenerada(clienteDTO.getMail()))
+        );
+        this.clienteRepository.save(cliente);
+    }
+
     @Transactional
     public void registrarPagoMulta(String idCliente){
         Cliente cliente = this.clienteHelperService.findClienteById(Long.parseLong(idCliente));
         cliente.setMontoMulta(0);
         this.clienteRepository.save(cliente);
     }
+
     public List<AlquilerDTOListar> listarAlquileres(String email){
         return this.clienteHelperService.findClienteByEmail(email)
                 .getAlquileres()
