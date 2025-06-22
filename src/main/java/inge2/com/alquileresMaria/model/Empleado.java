@@ -16,12 +16,11 @@ public class Empleado extends Persona {
         if(empleadoDTO.getNuevoMail() != null){
             this.setMail(empleadoDTO.getNuevoMail());
         }
+        super.actualizarDatos(empleadoDTO);
     }
 
     public void actualizarDatos(EmpleadoDTOActualizar empleadoDTO,Sucursal sucursal){
-        if(empleadoDTO.getNuevoMail() != null){
-            this.setMail(empleadoDTO.getNuevoMail());
-        }
+        this.actualizarDatos(empleadoDTO);
         this.setTrabajaEnSucursal(sucursal);
     }
 
