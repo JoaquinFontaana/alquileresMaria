@@ -4,6 +4,7 @@ import inge2.com.alquileresMaria.dto.user.EmpleadoDTO;
 import inge2.com.alquileresMaria.model.Sucursal;
 import inge2.com.alquileresMaria.service.SucursalService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +27,7 @@ public class SucursalController {
 
 
     @GetMapping("/admin/empleados")
-    public List<EmpleadoDTO> listarEmpleados(@Valid @RequestParam String ciudad){
+    public List<EmpleadoDTO> listarEmpleados(@NotBlank @RequestParam String ciudad){
         return this.service.listarEmpleadosSucursal(ciudad);
     }
 

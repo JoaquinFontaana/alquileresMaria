@@ -21,6 +21,18 @@ public abstract class Persona extends Usuario {
     @Size(min = 8, max = 9, message = "El dni debe tener 8 o 9 caracteres")
     private String dni;
 
+    public void actualizarDatos(PersonaDTO personaDTO){
+        if(personaDTO.getDni() != null){
+            this.setDni(personaDTO.getDni());
+        }
+        if(personaDTO.getApellido() != null){
+            this.setApellido(personaDTO.getApellido());
+        }
+        if(personaDTO.getNombre() != null){
+            this.setNombre(personaDTO.getNombre());
+        }
+    }
+
     public Persona(PersonaDTOPassword dto, Rol rol) {
         this.nombre = dto.getNombre();
         this.apellido = dto.getApellido();

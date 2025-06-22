@@ -2,6 +2,7 @@ package inge2.com.alquileresMaria.controller;
 
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOListar;
 import inge2.com.alquileresMaria.dto.user.EmpleadoDTO;
+import inge2.com.alquileresMaria.dto.user.EmpleadoDTOActualizar;
 import inge2.com.alquileresMaria.dto.user.PersonaDTO;
 import inge2.com.alquileresMaria.service.ClienteService;
 import inge2.com.alquileresMaria.service.EmpleadoService;
@@ -28,6 +29,12 @@ public class AdminController {
     public ResponseEntity<String> crearEmpleado(@RequestBody @Valid EmpleadoDTO empleadoDTO){
         this.empleadoService.crearEmpleado(empleadoDTO);
         return new ResponseEntity<String>("Empleado registrado con exito", HttpStatus.CREATED);
+    }
+
+    @PutMapping("/empleado/actualizar")
+    public ResponseEntity<String> actualizarDatosEmpleado(@RequestBody EmpleadoDTOActualizar empleadoDTO){
+        this.empleadoService.actualizarEmpleado(empleadoDTO);
+        return new ResponseEntity<String>("Empleado actualizado con exito",HttpStatus.OK);
     }
 
     @GetMapping("/listar/empleados")

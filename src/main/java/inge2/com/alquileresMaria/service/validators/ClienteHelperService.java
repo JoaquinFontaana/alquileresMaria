@@ -3,6 +3,7 @@ package inge2.com.alquileresMaria.service.validators;
 import inge2.com.alquileresMaria.dto.user.PersonaDTO;
 import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.repository.IClienteRepository;
+import inge2.com.alquileresMaria.service.UsuarioService;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +13,11 @@ import org.springframework.stereotype.Service;
 public class ClienteHelperService {
 
     private final IClienteRepository clienteRepository;
+    private final UsuarioService usuarioService;
 
-    public ClienteHelperService(IClienteRepository clienteRepository) {
+    public ClienteHelperService(IClienteRepository clienteRepository, UsuarioService usuarioService) {
         this.clienteRepository = clienteRepository;
-    }
-
-    public void checkNotExistMail(String mail){
-        if(clienteRepository.existsByMail(mail)){
-            throw new EntityExistsException("El email " + mail + " ya existe");
-        }
+        this.usuarioService = usuarioService;
     }
 
     public void checkNotExistDni(String dni){
@@ -31,7 +28,7 @@ public class ClienteHelperService {
 
     public void checkNotExistsCliente(PersonaDTO dto){
         this.checkNotExistDni(dto.getDni());
-        this.checkNotExistMail(dto.getMail());
+        this.usuarioService.checkNotExistsMail(dto.getMail());
     }
 
     public Cliente findClienteByEmail(String mail){

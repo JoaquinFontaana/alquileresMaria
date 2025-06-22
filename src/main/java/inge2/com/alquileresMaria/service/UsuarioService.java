@@ -3,6 +3,7 @@ package inge2.com.alquileresMaria.service;
 import inge2.com.alquileresMaria.model.Usuario;
 import inge2.com.alquileresMaria.repository.IUsuarioRepository;
 import inge2.com.alquileresMaria.service.generator.PasswordGenerator;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class UsuarioService {
     private final EmailService emailService;
     private final Random random = new Random();
     private final List<Integer> codigos = List.of(1234, 5678, 9012, 3456, 7890);
+
     @Autowired
     public UsuarioService(RolService rolService, IUsuarioRepository usuarioRepository, EncryptService encryptService,
                           PasswordGenerator passwordGenerator, EmailService emailService) {
@@ -39,9 +41,16 @@ public class UsuarioService {
     public boolean checkNotExistsAdmin(){
         return this.usuarioRepository.findUsuarioByRolNombre("ADMIN").isEmpty();
     }
+
     public Usuario findByEmail(String mail) {
         return usuarioRepository.findByMail(mail)
                 .orElseThrow(()-> new EntityNotFoundException("El usuario con mail "+ mail + " no se encontro"));
+    }
+
+    public void checkNotExistsMail(String mail){
+        if(usuarioRepository.existsByMail(mail)){
+            throw new EntityExistsException("El mail "+ mail + " ya se encuentra registrado");
+        }
     }
 
     public void recuperarPassword(String mail){

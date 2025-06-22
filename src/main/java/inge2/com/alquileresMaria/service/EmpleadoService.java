@@ -1,6 +1,7 @@
 package inge2.com.alquileresMaria.service;
 
 import inge2.com.alquileresMaria.dto.user.EmpleadoDTO;
+import inge2.com.alquileresMaria.dto.user.EmpleadoDTOActualizar;
 import inge2.com.alquileresMaria.dto.user.PersonaDTO;
 import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.model.Empleado;
@@ -37,8 +38,7 @@ public class EmpleadoService {
 
     @Transactional
     public void crearEmpleado(EmpleadoDTO dto){
-        this.empleadoHelper.checkNotExistsDNI(dto.getDni());
-        this.empleadoHelper.checkNotExistsMail(dto.getMail());
+        this.empleadoHelper.checkNotExistsEmpleado(dto);
 
         Empleado empleado = new Empleado(
                 dto,
@@ -48,6 +48,15 @@ public class EmpleadoService {
         );
 
         this.repository.save(empleado);
+    }
+
+    @Transactional
+    public void actualizarEmpleado(EmpleadoDTOActualizar empleadoDTO){
+        Empleado empleado = this.empleadoHelper.findByMail(empleadoDTO.getMail());
+        if(empleadoDTO.getTrabajaEnSucursal() != null){
+            empleado.actualizarDatos(empleadoDTO,this.sucursalService.findSucursalByCiudad(empleadoDTO.getTrabajaEnSucursal()));
+        }
+        empleado.actualizarDatos(empleadoDTO);
     }
 
     public List<EmpleadoDTO> listarEmpleados(){
