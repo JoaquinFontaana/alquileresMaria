@@ -25,10 +25,16 @@ public class EmpleadoHelperService {
             throw new EntityExistsException("El dni " + dni + " ya existe");
         }
     }
+
+    public void checkNotExistMail(String mail){
+        this.usuarioService.checkNotExistsMail(mail);
+    }
+
     public void checkNotExistsEmpleado(PersonaDTO dto){
         this.checkNotExistsDNI(dto.getDni());
         this.usuarioService.checkNotExistsMail(dto.getMail());
     }
+
     public Empleado findByMail(String mail){
         if(mail == null){
             throw new IllegalArgumentException("El mail es obligatorio");

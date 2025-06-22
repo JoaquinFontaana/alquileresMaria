@@ -53,6 +53,12 @@ public class EmpleadoService {
     @Transactional
     public void actualizarEmpleado(EmpleadoDTOActualizar empleadoDTO){
         Empleado empleado = this.empleadoHelper.findByMail(empleadoDTO.getMail());
+        if(empleadoDTO.getNuevoMail() != null){
+            this.empleadoHelper.checkNotExistMail(empleadoDTO.getNuevoMail());
+        }
+        if(empleadoDTO.getDni() != null){
+            this.empleadoHelper.checkNotExistsDNI(empleado.getDni());
+        }
         if(empleadoDTO.getTrabajaEnSucursal() != null){
             empleado.actualizarDatos(empleadoDTO,this.sucursalService.findSucursalByCiudad(empleadoDTO.getTrabajaEnSucursal()));
         }
