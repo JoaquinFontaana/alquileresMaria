@@ -57,12 +57,12 @@ public class EmpleadoService {
             this.empleadoHelper.checkNotExistMail(empleadoDTO.getNuevoMail());
         }
         if(empleadoDTO.getDni() != null){
-            this.empleadoHelper.checkNotExistsDNI(empleado.getDni());
+            this.empleadoHelper.checkNotExistsDNI(empleadoDTO.getDni());
         }
         if(empleadoDTO.getTrabajaEnSucursal() != null){
             empleado.actualizarDatos(empleadoDTO,this.sucursalService.findSucursalByCiudad(empleadoDTO.getTrabajaEnSucursal()));
         }
-        empleado.actualizarDatos(empleadoDTO);
+        else empleado.actualizarDatos(empleadoDTO);
     }
 
     public List<EmpleadoDTO> listarEmpleados(){
