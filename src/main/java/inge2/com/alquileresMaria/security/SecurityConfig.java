@@ -42,15 +42,14 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/admin/sucursal/listar").permitAll()
+                        .requestMatchers("/sucursal/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/sucursal/listar").permitAll()
                         .requestMatchers("/alquiler/cancelarReserva").hasRole("CLIENT")
                         .requestMatchers("/alquiler/listar").hasRole("ADMIN")
                         .requestMatchers("/cliente/registrar").permitAll()
                         .requestMatchers("/cliente/multa").hasRole("CLIENT")
                         .requestMatchers("/auto/listar").permitAll()
-                        .requestMatchers("/auto/eliminar").hasRole("ADMIN") //TODO Mejor estructurar /auto/admin/**
-                        .requestMatchers("/auto/crear").hasRole("ADMIN") //TODO Mejor estructurar /auto/admin/**
-                        .requestMatchers("/auto/actualizar").hasRole("ADMIN") //TODO Mejor estructurar /auto/admin/**
+                        .requestMatchers("/auto/admin/**").hasRole("ADMIN")
                         .requestMatchers("/auto/get/**").permitAll()
                         .requestMatchers("/cliente/listar/**").hasRole("CLIENT")
                         .requestMatchers("/checkOut/cliente/**").hasRole("CLIENT")

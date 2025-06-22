@@ -39,6 +39,7 @@ public class AdminController {
     public List<PersonaDTO> listarClientes(){
         return this.clienteService.listarClientes();
     }
+
     //TODO hacer un filtrado dinamico de alquileres como el de autos con decorator
     @GetMapping("/listar/alquileres")
     public List<AlquilerDTOListar> listarAlquileres(@RequestParam String mail){

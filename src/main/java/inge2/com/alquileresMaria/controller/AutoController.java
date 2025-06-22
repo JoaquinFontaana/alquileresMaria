@@ -28,19 +28,19 @@ public class AutoController {
         this.autoService = autoService;
     }
 
-    @PutMapping("/eliminar")
+    @PutMapping("/admin/eliminar")
     public ResponseEntity<String> eliminarAuto(@RequestParam @NotBlank String patente){
         this.autoService.eliminarAuto(patente);
         return ResponseEntity.ok("Auto eliminado con exito");
     }
 
-    @PostMapping(path = "/crear", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/admin/crear", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> crearAuto(@Valid @ModelAttribute AutoDTOCrear autoDto){
         this.autoService.crearAuto(autoDto);
         return ResponseEntity.ok("Auto creado con exito");
     }
 
-    @PutMapping(path= "/actualizar", consumes =MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(path= "/admin/actualizar", consumes =MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> actualizarAuto(@Valid @ModelAttribute AutoDTOActualizar autoActualizado){
         this.autoService.actualizarAuto(autoActualizado);
         return ResponseEntity.ok("Auto actualizado con exito");
