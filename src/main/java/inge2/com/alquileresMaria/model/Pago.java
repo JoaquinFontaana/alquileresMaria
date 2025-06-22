@@ -29,6 +29,7 @@ public class Pago {
     @Positive(message = "El monto del pago debe ser positivo") @NotNull
     private Double monto;
     @Enumerated(EnumType.STRING) @NotNull
+    @Column(length = 20)
     private EstadoPago estadoPago;
     @NotNull
     private OffsetDateTime fechaCreacion;

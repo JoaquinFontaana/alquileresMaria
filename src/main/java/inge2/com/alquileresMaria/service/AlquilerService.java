@@ -81,10 +81,11 @@ public class AlquilerService {
     public void cancelarReserva(ReservaDTOCancelar reservaDTO){
         Alquiler reserva = this.alquilerHelperService.findByConductorRangoFechas(reservaDTO);
 
-        reserva.setEstadoAlquiler(EstadoAlquiler.CANCELADO);
+        this.alquilerHelperService.checkForCancelacion(reserva);
 
         this.rembolsoService.crearRembolso(reserva);
 
+        reserva.setEstadoAlquiler(EstadoAlquiler.CANCELADO);
         this.repository.save(reserva);
     }
 

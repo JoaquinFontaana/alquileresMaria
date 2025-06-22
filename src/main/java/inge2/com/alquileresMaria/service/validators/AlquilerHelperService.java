@@ -6,6 +6,7 @@ import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
 import inge2.com.alquileresMaria.repository.IAlquilerRepository;
+import inge2.com.alquileresMaria.service.AlquilerService;
 import inge2.com.alquileresMaria.service.EmailService;
 import inge2.com.alquileresMaria.service.RembolsoService;
 import jakarta.persistence.EntityExistsException;
@@ -52,7 +53,7 @@ public class AlquilerHelperService {
             throw new IllegalArgumentException("La duracion maxima de un alquiler son 14 dias");
         }
     }
-    @Transactional
+
     public void rembolsarReservasPagadas(List<Alquiler> alquileres){
         alquileres.forEach(a -> {
             a.setEstadoAlquiler(EstadoAlquiler.CANCELADO);
@@ -65,7 +66,6 @@ public class AlquilerHelperService {
 
         this.serviceEmail.sendEmailsClientes(this.obtenerClientesDeAlquileres(alquileres), subject,body);
     }
-    @Transactional
     public void eliminarAlquileres(List<Alquiler> alquileres){
         this.repository.deleteAll(alquileres);
 
@@ -78,6 +78,12 @@ public class AlquilerHelperService {
         return repository.findAlquilerByLicenciaConductorAndRangoFecha(reservaDTO.getLicencia(), reservaDTO.getFechaDesde(),
                         reservaDTO.getFechaFin())
                 .orElseThrow(() -> new EntityNotFoundException("No existe una reserva para este cliente, en esta fecha"));
+    }
+
+    public void checkForCancelacion(Alquiler reserva){
+        if(reserva.getEstadoAlquiler() != EstadoAlquiler.PENDIENTE){
+            throw new IllegalStateException("La reserva no se puede cancelar en el estado actual en el que se encuentra");
+        }
     }
 }
 

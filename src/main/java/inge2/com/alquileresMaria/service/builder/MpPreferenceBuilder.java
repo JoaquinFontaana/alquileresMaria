@@ -1,14 +1,13 @@
 package inge2.com.alquileresMaria.service.builder;
 
 import com.mercadopago.client.payment.PaymentRefundClient;
-import com.mercadopago.client.payment.PaymentRefundCreateRequest;
 import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
 import com.mercadopago.client.preference.PreferenceClient;
 import com.mercadopago.client.preference.PreferenceItemRequest;
 import com.mercadopago.client.preference.PreferenceRequest;
+import com.mercadopago.core.MPRequestOptions;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
-import com.mercadopago.resources.payment.PaymentRefund;
 import com.mercadopago.resources.preference.Preference;
 import inge2.com.alquileresMaria.dto.DatosPagoDTO;
 import inge2.com.alquileresMaria.model.Alquiler;
@@ -25,7 +24,8 @@ public class MpPreferenceBuilder {
 
     @Value("${NGROK_URL}")
     private String publicUrl;
-
+    @Value("${MERCADOPAGO_ACCESS_TOKEN}")
+    private String accessToken;
     public Preference crearPreferenceMulta(Cliente cliente, DatosPagoDTO datosPagoDTO){
         return this.crearPreference(
                 cliente.getId().toString(),
@@ -86,10 +86,16 @@ public class MpPreferenceBuilder {
     public void rembolsar(double monto,Long paymentId) {
         try {
             PaymentRefundClient client = new PaymentRefundClient();
+            System.out.println(BigDecimal.valueOf(monto));
             client.refund(paymentId, BigDecimal.valueOf(monto));
         }
-        catch (MPApiException | MPException ex){
-            System.err.println("Error al reembolsar: " + ex.getMessage());
+        catch (MPApiException ex){
+            System.err.println("Status: " + ex.getStatusCode());
+            System.err.println("Response body: " + ex.getApiResponse().getContent());
+            throw new RuntimeException("No se pudo procesar el reembolso: " + ex.getApiResponse().getContent(), ex);
+        }
+        catch (MPException ex){
+            System.err.println("Error al : " + ex.getMessage());
             throw new RuntimeException("No se pudo procesar el reembolso.", ex);
         }
     }

@@ -18,14 +18,12 @@ public class RembolsoService {
         this.mpPreferenceBuilder = mpPreferenceBuilder;
         this.rembolsoRepository = rembolsoRepository;
     }
-
     @Transactional
     public void crearRembolso(Alquiler reserva){
         mpPreferenceBuilder.rembolsar(reserva.calcularRembolso(),reserva.getPago().getPaymentId());
         reserva.getPago().setEstadoPago(EstadoPago.REMBOLSADO);
         rembolsoRepository.save(new Rembolso(reserva));
     }
-
     @Transactional
     public void crearRembolsoTotal(Alquiler reserva){
         mpPreferenceBuilder.rembolsar(reserva.calcularTotal(),reserva.getPago().getPaymentId());
