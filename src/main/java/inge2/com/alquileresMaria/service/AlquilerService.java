@@ -1,12 +1,15 @@
 package inge2.com.alquileresMaria.service;
 
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOCrear;
+import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOFilter;
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOListar;
 import inge2.com.alquileresMaria.dto.alquiler.ReservaDTOCancelar;
 import inge2.com.alquileresMaria.model.*;
 import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
 import inge2.com.alquileresMaria.model.enums.EstadoPago;
 import inge2.com.alquileresMaria.repository.IAlquilerRepository;
+import inge2.com.alquileresMaria.service.builder.AlquilerFilterBuilder;
+import inge2.com.alquileresMaria.service.filter.alquiler.AlquilerFilterComponent;
 import inge2.com.alquileresMaria.service.validators.AlquilerHelperService;
 import inge2.com.alquileresMaria.service.validators.ClienteHelperService;
 import inge2.com.alquileresMaria.service.validators.AutoHelperService;
@@ -27,14 +30,16 @@ public class AlquilerService {
     private final ClienteHelperService clienteHelperService;
     private final AlquilerHelperService alquilerHelperService;
     private final RembolsoService rembolsoService;
+    private final AlquilerFilterBuilder filterBuilder;
 
-    public AlquilerService(IAlquilerRepository repository, SucursalService sucursalService, AutoHelperService autoHelperService, ClienteHelperService clienteHelperService, AlquilerHelperService alquilerHelperService, RembolsoService rembolsoService) {
+    public AlquilerService(IAlquilerRepository repository, SucursalService sucursalService, AutoHelperService autoHelperService, ClienteHelperService clienteHelperService, AlquilerHelperService alquilerHelperService, RembolsoService rembolsoService, AlquilerFilterBuilder filterBuilder) {
         this.repository = repository;
         this.sucursalService = sucursalService;
         this.autoHelperService = autoHelperService;
         this.clienteHelperService = clienteHelperService;
         this.alquilerHelperService = alquilerHelperService;
         this.rembolsoService = rembolsoService;
+        this.filterBuilder = filterBuilder;
     }
 
     @Transactional
@@ -70,11 +75,13 @@ public class AlquilerService {
         );
     }
 
-    public List<AlquilerDTOListar> listarAlquileres() {
-        return this.repository.findAll()
+    public List<AlquilerDTOListar> listarAlquileres(AlquilerDTOFilter filtros) {
+        AlquilerFilterComponent filter = filterBuilder.buildFilter(filtros);
+        return filter
+                .getAlquileres()
                 .stream()
-                .map(AlquilerDTOListar::new)
-                .collect(toList());
+                .map( alquiler -> new AlquilerDTOListar(alquiler))
+                .toList();
     }
 
     @Transactional

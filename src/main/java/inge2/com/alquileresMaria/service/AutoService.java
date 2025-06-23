@@ -8,7 +8,7 @@ import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.enums.EstadoAuto;
 import inge2.com.alquileresMaria.model.Sucursal;
 import inge2.com.alquileresMaria.repository.IAutoRepository;
-import inge2.com.alquileresMaria.service.builder.FilterBuilder;
+import inge2.com.alquileresMaria.service.builder.AutoFilterBuilder;
 import inge2.com.alquileresMaria.service.filter.auto.IAutoFilter;
 import inge2.com.alquileresMaria.service.validators.AutoHelperService;
 import jakarta.transaction.Transactional;
@@ -23,15 +23,15 @@ public class AutoService {
     private final SucursalService sucursalService;
     private final AutoHelperService autoHelperService;
     private final AlquilerService serviceAlquiler;
-    private final FilterBuilder filterBuilder;
+    private final AutoFilterBuilder autoFilterBuilder;
     private final FileStorageService fileStorageService;
     @Autowired
-    public AutoService(IAutoRepository autoRepository, SucursalService sucursalService, AutoHelperService autoHelperService, AlquilerService serviceAlquiler, FilterBuilder filterBuilder, FileStorageService fileStorageService) {
+    public AutoService(IAutoRepository autoRepository, SucursalService sucursalService, AutoHelperService autoHelperService, AlquilerService serviceAlquiler, AutoFilterBuilder autoFilterBuilder, FileStorageService fileStorageService) {
         this.autoRepository = autoRepository;
         this.sucursalService = sucursalService;
         this.autoHelperService = autoHelperService;
         this.serviceAlquiler = serviceAlquiler;
-        this.filterBuilder = filterBuilder;
+        this.autoFilterBuilder = autoFilterBuilder;
         this.fileStorageService = fileStorageService;
     }
 
@@ -49,7 +49,7 @@ public class AutoService {
     }
 
     public List<AutoDTOListar> listarAutos(AutoFilterDTO opcionesFiltrado){
-        IAutoFilter filter = this.filterBuilder.buildFilter(opcionesFiltrado);
+        IAutoFilter filter = this.autoFilterBuilder.buildFilter(opcionesFiltrado);
         return filter
                 .listar()
                 .stream()

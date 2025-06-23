@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public final class FilterBuilder {
+public final class AutoFilterBuilder {
     @Autowired
     private BaseAutoFilter baseAutoFilter;
     /**
