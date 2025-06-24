@@ -1,5 +1,6 @@
 package inge2.com.alquileresMaria.service.validators;
 
+import inge2.com.alquileresMaria.dto.user.EmpleadoDTOActualizar;
 import inge2.com.alquileresMaria.dto.user.PersonaDTO;
 import inge2.com.alquileresMaria.model.Empleado;
 import inge2.com.alquileresMaria.repository.IEmpleadoRepository;
@@ -42,4 +43,14 @@ public class EmpleadoHelperService {
         return this.empleadoRepository.findByMail(mail)
                 .orElseThrow(() -> new EntityNotFoundException("El empleado con mail " + mail + " no existe"));
     }
+
+    public void checkDTO(EmpleadoDTOActualizar empleadoDTO){
+        if(empleadoDTO.getNuevoMail() != null){
+            this.checkNotExistMail(empleadoDTO.getNuevoMail());
+        }
+        if(empleadoDTO.getDni() != null){
+            this.checkNotExistsDNI(empleadoDTO.getDni());
+        }
+    }
+
 }

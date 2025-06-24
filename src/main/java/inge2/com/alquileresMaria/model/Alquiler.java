@@ -9,6 +9,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity @Getter @Setter
 public class Alquiler {
     @Id
@@ -50,6 +52,10 @@ public class Alquiler {
 
     public double calcularRembolso(){
         return this.auto.getRembolso().calcularRembolso(this.calcularTotal());
+    }
+
+    public boolean esPosterior(LocalDate fecha){
+        return this.rangoFecha.esPosterior(fecha);
     }
 
     public Alquiler (AlquilerDTOCrear alquilerDTOCrear,Auto auto,Cliente cliente,Sucursal sucursal){

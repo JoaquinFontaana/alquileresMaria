@@ -3,6 +3,7 @@ package inge2.com.alquileresMaria.model;
 import inge2.com.alquileresMaria.dto.auto.AutoDTO;
 import inge2.com.alquileresMaria.dto.auto.AutoDTOActualizar;
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
+import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
 import inge2.com.alquileresMaria.model.enums.EstadoAuto;
 import inge2.com.alquileresMaria.model.enums.TiposRembolso;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
@@ -13,6 +14,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 @Entity
 @Getter @Setter
@@ -89,10 +91,7 @@ public class Auto {
         this.estado = dto.getEstado();
     }
     public boolean disponibleEnRangoFechas(RangoFecha rango){
-        return this.getReservas().stream().allMatch(alquiler -> alquiler.sinSolapamiento(rango));
+        return this.getReservas().stream().filter(alquiler -> alquiler.getEstadoAlquiler() != EstadoAlquiler.CANCELADO).allMatch(alquiler -> alquiler.sinSolapamiento(rango));
     }
 
-    public boolean disponibleParaMostrar(){
-        return this.getEstado().equals(EstadoAuto.DISPONIBLE);
-    }
 }

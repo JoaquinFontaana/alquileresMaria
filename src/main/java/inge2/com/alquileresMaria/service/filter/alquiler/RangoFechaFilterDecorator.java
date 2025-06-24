@@ -7,7 +7,7 @@ import java.util.List;
 
 public class RangoFechaFilterDecorator extends AlquilerDecorator{
 
-    private RangoFecha rangoFecha;
+    private final RangoFecha rangoFecha;
 
     public RangoFechaFilterDecorator(AlquilerFilterComponent alquilerFilterComponent, RangoFecha rangoFecha) {
         super(alquilerFilterComponent);
@@ -17,7 +17,7 @@ public class RangoFechaFilterDecorator extends AlquilerDecorator{
     @Override
     public List<Alquiler> filtrar(List<Alquiler> alquileres) {
         return alquileres.stream()
-                .filter(a -> a.sinSolapamiento(rangoFecha))
+                .filter(a -> !a.sinSolapamiento(rangoFecha))
                 .toList();
     }
 }

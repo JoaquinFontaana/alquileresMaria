@@ -6,12 +6,10 @@ import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
 import inge2.com.alquileresMaria.repository.IAlquilerRepository;
-import inge2.com.alquileresMaria.service.AlquilerService;
 import inge2.com.alquileresMaria.service.EmailService;
 import inge2.com.alquileresMaria.service.RembolsoService;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -32,7 +30,7 @@ public class AlquilerHelperService {
 
     public List<Alquiler> filtrarAlquileresPosteriores(List<Alquiler> alquileres){
         return  alquileres.stream()
-                .filter(alquiler -> alquiler.getRangoFecha().getFechaDesde().isAfter(LocalDate.now()))
+                .filter(alquiler -> alquiler.esPosterior(LocalDate.now()))
                 .toList();
     }
 

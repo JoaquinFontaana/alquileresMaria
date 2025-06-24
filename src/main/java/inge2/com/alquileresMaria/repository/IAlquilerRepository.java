@@ -16,6 +16,7 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     WHERE a.licenciaConductor = :licencia
         AND a.rangoFecha.fechaDesde <= :fechaHasta
         AND a.rangoFecha.fechaHasta >= :fechaDesde
+        AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
     """)
     Optional<Alquiler> findAlquilerByLicenciaConductorAndRangoFecha (
             @Param("licencia") String licenciaConductor,
