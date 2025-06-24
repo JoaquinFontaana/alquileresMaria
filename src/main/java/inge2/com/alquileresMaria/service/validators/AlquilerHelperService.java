@@ -81,7 +81,7 @@ public class AlquilerHelperService {
     }
 
     public void checkForCancelacion(Alquiler reserva){
-        if(reserva.getEstadoAlquiler() != EstadoAlquiler.PENDIENTE){
+        if(reserva.getEstadoAlquiler() != EstadoAlquiler.PENDIENTE && reserva.getEstadoAlquiler() != EstadoAlquiler.CONFIRMACION_PENDIENTE){
             throw new IllegalStateException("La reserva no se puede cancelar en el estado actual en el que se encuentra");
         }
     }

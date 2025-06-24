@@ -90,7 +90,9 @@ public class AlquilerService {
 
         this.alquilerHelperService.checkForCancelacion(reserva);
 
-        this.rembolsoService.crearRembolso(reserva);
+        if(reserva.getEstadoAlquiler() == EstadoAlquiler.PENDIENTE) {
+            this.rembolsoService.crearRembolso(reserva);
+        }
 
         reserva.setEstadoAlquiler(EstadoAlquiler.CANCELADO);
         this.repository.save(reserva);
