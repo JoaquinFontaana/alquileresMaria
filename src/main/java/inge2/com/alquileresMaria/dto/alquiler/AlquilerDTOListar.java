@@ -2,9 +2,9 @@ package inge2.com.alquileresMaria.dto.alquiler;
 
 import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
 import inge2.com.alquileresMaria.model.*;
+import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
 import inge2.com.alquileresMaria.model.enums.EstadoPago;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
-import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -22,6 +22,9 @@ public class AlquilerDTOListar {
     private double monto;
     @Enumerated(EnumType.STRING)
     private EstadoPago estadoPago;
+    @Enumerated(EnumType.STRING)
+    private EstadoAlquiler estadoAlquiler;
+    private RembolsoDTO rembolsoDTO;
     private String urlPago;
 
     public AlquilerDTOListar(Alquiler alquiler){
@@ -33,6 +36,10 @@ public class AlquilerDTOListar {
         this.estadoPago = alquiler.getPago().getEstadoPago();
         this.monto = alquiler.getPago().getMonto();
         this.urlPago = alquiler.getPago().getInitPoint();
+        this.estadoAlquiler = alquiler.getEstadoAlquiler();
+        if(alquiler.getRembolso() != null) {
+            this.rembolsoDTO = new RembolsoDTO(alquiler.getRembolso());
+        }
     }
     public AlquilerDTOListar(){
 

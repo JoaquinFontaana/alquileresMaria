@@ -25,7 +25,6 @@ public class SucursalController {
         return ResponseEntity.ok("Sucursal creada con exito");
     }
 
-
     @GetMapping("/admin/empleados")
     public List<EmpleadoDTO> listarEmpleados(@NotBlank @RequestParam String ciudad){
         return this.service.listarEmpleadosSucursal(ciudad);

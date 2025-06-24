@@ -1,7 +1,7 @@
 package inge2.com.alquileresMaria.service;
 
 
-import inge2.com.alquileresMaria.dto.RembolsoDTO;
+import inge2.com.alquileresMaria.dto.alquiler.RembolsoDTO;
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOListar;
 import inge2.com.alquileresMaria.dto.user.PersonaDTO;
 import inge2.com.alquileresMaria.dto.user.PersonaDTOPassword;
@@ -9,7 +9,6 @@ import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.repository.IClienteRepository;
 import inge2.com.alquileresMaria.service.validators.ClienteHelperService;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

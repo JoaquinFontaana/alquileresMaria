@@ -37,6 +37,8 @@ public class Alquiler {
     private Pago pago;
     @NotNull @Enumerated(EnumType.STRING)
     private EstadoAlquiler estadoAlquiler;
+    @OneToOne(mappedBy = "alquilerRembolsado")
+    private Rembolso rembolso;
 
     public boolean sinSolapamiento(RangoFecha rango){
         return this.rangoFecha.sinSolapamiento(rango);
@@ -57,6 +59,7 @@ public class Alquiler {
         this.licenciaConductor = alquilerDTOCrear.getLicenciaConductor();
         this.rangoFecha = alquilerDTOCrear.getRangoFecha();
         this.estadoAlquiler = EstadoAlquiler.CONFIRMACION_PENDIENTE;
+        this.rembolso = null;
     }
     public Alquiler(){
 

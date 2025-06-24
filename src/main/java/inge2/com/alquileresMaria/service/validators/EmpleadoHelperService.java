@@ -32,7 +32,7 @@ public class EmpleadoHelperService {
 
     public void checkNotExistsEmpleado(PersonaDTO dto){
         this.checkNotExistsDNI(dto.getDni());
-        this.usuarioService.checkNotExistsMail(dto.getMail());
+        this.checkNotExistMail(dto.getMail());
     }
 
     public Empleado findByMail(String mail){
