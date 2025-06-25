@@ -27,14 +27,14 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
 
     // Vehículos más alquilados por sucursal
     @Query("""
-    SELECT a.sucursal,a.auto, COUNT(a)
+    SELECT a.sucursal.ciudad, a.auto, COUNT(a)
     FROM Alquiler a
     WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
         AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
     GROUP BY a.sucursal.ciudad, a.auto
     ORDER BY COUNT(a) DESC
    """)
-    List<Object[]> findMostRentedCarsByBranch();
+    List<Object[]> findMasAlquiladosSucursal();
 
     // Vehículos más alquilados (general)
     @Query("""
@@ -45,7 +45,7 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     GROUP BY a.auto
     ORDER BY COUNT(a) DESC
     """)
-    List<Object[]> findMostRentedCars();
+    List<Object[]> findVehiculosMasAlquilados();
 
     // Categoría más alquilada
     @Query("""
@@ -56,7 +56,7 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     GROUP BY a.auto.categoria
     ORDER BY COUNT(a) DESC
     """)
-    List<Object[]> findMostRentedCategories();
+    List<Object[]> findCategoriasMasAlquiladas();
 
     // Ingresos por sucursal
     @Query("""
@@ -68,7 +68,7 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
     GROUP BY a.sucursal.ciudad
     """)
-    List<Object[]> findIncomeByBranch();
+    List<Object[]> findIngresosSucursales();
 
     // Ingresos en un periodo de tiempo
     @Query("""
@@ -80,7 +80,7 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
         AND a.rangoFecha.fechaDesde <= :fechaInicio
         AND a.rangoFecha.fechaHasta >= :fechaFin
     """)
-    Double findIncomeInPeriod(@Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin);
+    Double findIngresosPeridoTiempo(@Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin);
 
     // Ingresos generales
     @Query("""
@@ -90,7 +90,7 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     FROM Alquiler a
     WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
     """)
-    Double findTotalIncome();
+    Double findIngresosTotales();
 
     // Cliente con más reservas
     @Query("""
@@ -101,6 +101,6 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     GROUP BY a.cliente
     ORDER BY COUNT(a) DESC
     """)
-    List<Object[]> findTopClients();
+    List<Object[]> findTopClientes();
 
 }
