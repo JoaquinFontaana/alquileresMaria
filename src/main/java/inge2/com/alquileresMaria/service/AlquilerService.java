@@ -89,13 +89,14 @@ public class AlquilerService {
         Alquiler reserva = this.alquilerHelperService.findByConductorRangoFechas(reservaDTO);
 
         this.alquilerHelperService.checkForCancelacion(reserva);
-
-        if(reserva.getEstadoAlquiler() == EstadoAlquiler.PENDIENTE) {
-            this.rembolsoService.crearRembolso(reserva);
+        if(reserva.getPago().getEstadoPago() == EstadoPago.PENDIENTE){
+            this.repository.delete(reserva);
         }
-
-        reserva.setEstadoAlquiler(EstadoAlquiler.CANCELADO);
-        this.repository.save(reserva);
+        else {
+            this.rembolsoService.crearRembolso(reserva);
+            reserva.setEstadoAlquiler(EstadoAlquiler.CANCELADO);
+            this.repository.save(reserva);
+        }
     }
 
 }
