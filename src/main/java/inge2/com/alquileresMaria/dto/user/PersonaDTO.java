@@ -27,7 +27,7 @@ public class PersonaDTO {
         this.nombre = persona.getNombre();
         this.apellido = persona.getApellido();
         this.mail = persona.getMail();
-        this.dni = this.getDni();
+        this.dni = persona.getDni();
     }
     public PersonaDTO(){
 
