@@ -3,6 +3,7 @@ package inge2.com.alquileresMaria.controller;
 import inge2.com.alquileresMaria.dto.user.PersonaDTO;
 import inge2.com.alquileresMaria.service.ClienteService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class EmpleadoController {
         return new ResponseEntity<>("Cliente registrado con exito", HttpStatus.CREATED);
     }
     @GetMapping("/existe/cliente")
-    public ResponseEntity<String>  existeCliente(@RequestParam String mail, @RequestParam String dni) {
+    public ResponseEntity<String>  existeCliente(@RequestParam @NotBlank String mail, @RequestParam @NotBlank String dni) {
         this.clienteService.checkNotExistsCliente(mail,dni);
         return new ResponseEntity<>("El cliente no se encuentra registrado", HttpStatus.OK);
     }
