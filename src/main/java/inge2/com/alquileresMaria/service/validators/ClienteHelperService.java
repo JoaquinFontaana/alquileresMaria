@@ -26,9 +26,9 @@ public class ClienteHelperService {
         }
     }
 
-    public void checkNotExistsCliente(PersonaDTO dto){
-        this.checkNotExistDni(dto.getDni());
-        this.usuarioService.checkNotExistsMail(dto.getMail());
+    public void checkNotExistsCliente(String dni,String mail){
+        this.checkNotExistDni(dni);
+        this.usuarioService.checkNotExistsMail(mail);
     }
 
     public Cliente findClienteByEmail(String mail){
@@ -39,4 +39,6 @@ public class ClienteHelperService {
         return this.clienteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("El cliente con el id " + id + " no existe"));
     }
+
+
 }

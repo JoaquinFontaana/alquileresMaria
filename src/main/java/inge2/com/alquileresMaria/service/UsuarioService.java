@@ -53,6 +53,11 @@ public class UsuarioService {
         }
     }
 
+    public boolean checkExistsMail(String mail){
+        return usuarioRepository.existsByMail(mail);
+    }
+
+
     public void recuperarPassword(String mail){
         Usuario user = this.findByEmail(mail);
         String password = passwordGenerator.generatePassword();

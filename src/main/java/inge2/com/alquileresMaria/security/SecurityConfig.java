@@ -54,6 +54,7 @@ public class SecurityConfig {
                         .requestMatchers("/cliente/listar/**").hasRole("CLIENT")
                         .requestMatchers("/checkOut/cliente/**").hasRole("CLIENT")
                         .requestMatchers("/checkOut/notificacion/**").permitAll()
+                        .requestMatchers("/checkOut/empleado/**").hasRole("EMPLEADO")
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/usuario/**").permitAll()
                         .requestMatchers("/auth/dobleAutenticacion").hasRole("ADMIN")

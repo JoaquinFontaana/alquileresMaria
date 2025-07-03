@@ -3,6 +3,7 @@ package inge2.com.alquileresMaria.controller;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import inge2.com.alquileresMaria.dto.CheckOutAlquilerDTO;
+import inge2.com.alquileresMaria.dto.CheckOutAlquilerPresencialDTO;
 import inge2.com.alquileresMaria.dto.DatosPagoDTO;
 import inge2.com.alquileresMaria.service.PagoService;
 import inge2.com.alquileresMaria.service.checkOut.CheckOutAlquilerService;
@@ -50,20 +51,21 @@ public class CheckOutController {
      }   */
     @PostMapping("/cliente/registrarAlquiler")
     public String registrarAlquilerCliente(@Valid @RequestBody CheckOutAlquilerDTO checkOutAlquilerDTO) throws MPException, MPApiException {
-        return this.checkOutAlquilerService.registrarAlquiler(checkOutAlquilerDTO,this.authHelperService.getMailOfContext()); //Url de redireccion del pago
+        return this.checkOutAlquilerService.registrarAlquiler(checkOutAlquilerDTO,this.authHelperService.getMailOfContext());
     }
+
 
     @PostMapping("/cliente/pagarMulta")
     public String pagarMulta(@Valid @RequestBody DatosPagoDTO datosPagoDTO) throws MPException, MPApiException {
         return this.checkOutMultaService.pagarMulta(datosPagoDTO);
     }
 
-    /*
+
     @PostMapping("/empleado/registrarAlquiler")
-    public String registrarAlquilerEmpleado(@Valid @RequestBody CheckOutAlquilerDTO checkOutAlquilerDTO) throws MPException, MPApiException {
-        return this.checkOutAlquilerService.registrarAlquiler(checkOutAlquilerDTO,mail);
+    public String registrarAlquilerEmpleado(@Valid @RequestBody CheckOutAlquilerPresencialDTO checkOutAlquilerDTO) throws MPException, MPApiException {
+        return this.checkOutAlquilerService.registrarAlquiler(checkOutAlquilerDTO,checkOutAlquilerDTO.getMailCliente());
     }
-    */
+
     //Aca se recibiran las notificaciones de mercadopago referidas a los alquileres
     @PostMapping("/notificacion/alquiler")
     public ResponseEntity<String> recibirNotificacionAlquiler(@RequestParam("type") String type, @RequestParam("data.id") String dataId) throws MPException, MPApiException {
