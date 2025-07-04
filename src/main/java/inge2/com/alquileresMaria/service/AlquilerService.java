@@ -3,10 +3,11 @@ package inge2.com.alquileresMaria.service;
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOCrear;
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOFilter;
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOListar;
-import inge2.com.alquileresMaria.dto.alquiler.ReservaDTOCancelar;
+import inge2.com.alquileresMaria.dto.alquiler.ReservaDTOFechaLicencia;
 import inge2.com.alquileresMaria.model.*;
 import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
 import inge2.com.alquileresMaria.model.enums.EstadoPago;
+import inge2.com.alquileresMaria.model.enums.Extra;
 import inge2.com.alquileresMaria.repository.IAlquilerRepository;
 import inge2.com.alquileresMaria.service.builder.AlquilerFilterBuilder;
 import inge2.com.alquileresMaria.service.filter.alquiler.AlquilerFilterComponent;
@@ -84,7 +85,7 @@ public class AlquilerService {
     }
 
     @Transactional
-    public void cancelarReserva(ReservaDTOCancelar reservaDTO){
+    public void cancelarReserva(ReservaDTOFechaLicencia reservaDTO){
         Alquiler reserva = this.alquilerHelperService.findByConductorRangoFechas(reservaDTO);
 
         this.alquilerHelperService.checkForCancelacion(reserva);
@@ -97,5 +98,14 @@ public class AlquilerService {
             this.repository.save(reserva);
         }
     }
+/*
+    @Transactional
+    public void agregarExtra(List<Extra> extras, ReservaDTOFechaLicencia reserva){
+        Alquiler alquiler = this.alquilerHelperService.findByConductorRangoFechas(reserva);
+        alquiler.addExtras(extras);
+        this.repository.save(alquiler);
+    }
+
+ */
 
 }

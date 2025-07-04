@@ -2,6 +2,7 @@ package inge2.com.alquileresMaria.model;
 
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOCrear;
 import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
+import inge2.com.alquileresMaria.model.enums.Extra;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +11,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity @Getter @Setter
 public class Alquiler {
@@ -41,14 +44,21 @@ public class Alquiler {
     private EstadoAlquiler estadoAlquiler;
     @OneToOne(mappedBy = "alquilerRembolsado")
     private Rembolso rembolso;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "alquiler_extras", joinColumns = @JoinColumn(name = "alquiler_id"))
+    @Column(name = "extra")
+    private List<Extra> extras;
 
     public boolean sinSolapamiento(RangoFecha rango){
         return this.rangoFecha.sinSolapamiento(rango);
     }
 
     public double calcularTotal(){
-        return this.auto.getPrecioPorDia() * this.rangoFecha.cantidadDeDias();
+        return (this.auto.getPrecioPorDia() * this.rangoFecha.cantidadDeDias()) + this.calcularExtras();
     }
+
+    public double calcularExtras(){return this.extras.stream().mapToDouble(Extra::getPrecio).sum();}
 
     public double calcularRembolso(){
         return this.auto.getRembolso().calcularRembolso(this.calcularTotal());
@@ -56,6 +66,12 @@ public class Alquiler {
 
     public boolean esPosterior(LocalDate fecha){
         return this.rangoFecha.esPosterior(fecha);
+    }
+
+    public void addExtras(List<Extra> extras){
+        extras.stream()
+                .filter(e -> !this.extras.contains(e))
+                .forEach(e -> this.extras.add(e));
     }
 
     public Alquiler (AlquilerDTOCrear alquilerDTOCrear,Auto auto,Cliente cliente,Sucursal sucursal){
@@ -66,7 +82,10 @@ public class Alquiler {
         this.rangoFecha = alquilerDTOCrear.getRangoFecha();
         this.estadoAlquiler = EstadoAlquiler.CONFIRMACION_PENDIENTE;
         this.rembolso = null;
+        this.extras = new ArrayList<>();
+        this.addExtras(alquilerDTOCrear.getExtras());
     }
+
     public Alquiler(){
 
     }
