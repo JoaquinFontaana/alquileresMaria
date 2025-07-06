@@ -46,6 +46,7 @@ public class SecurityConfig {
                         .requestMatchers("/sucursal/listar").permitAll()
                         .requestMatchers("/alquiler/cancelarReserva").hasRole("CLIENT")
                         .requestMatchers("/alquiler/listar").hasRole("ADMIN")
+                        .requestMatchers("/alquiler/listar").hasRole("EMPLEADO")
                         .requestMatchers("/cliente/registrar").permitAll()
                         .requestMatchers("/cliente/multa").hasRole("CLIENT")
                         .requestMatchers("/auto/listar").permitAll()

@@ -83,5 +83,12 @@ public class AlquilerHelperService {
             throw new IllegalStateException("La reserva no se puede cancelar en el estado actual en el que se encuentra");
         }
     }
+
+    public boolean isToday(Alquiler reserva){
+        if(reserva.isToday()) {
+            return true;
+        }
+        else throw new RuntimeException("El alquiler no es en el dia de la fecha");
+    }
 }
 

@@ -3,7 +3,6 @@ package inge2.com.alquileresMaria.controller;
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOFilter;
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOListar;
 import inge2.com.alquileresMaria.dto.alquiler.ReservaDTOFechaLicencia;
-import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
 import inge2.com.alquileresMaria.model.enums.Extra;
 import inge2.com.alquileresMaria.service.AlquilerService;
 import jakarta.validation.Valid;
@@ -40,5 +39,23 @@ public class AlquilerController {
     public List<Extra> getExtras(){
         return List.of(Extra.values());
     }
+
+    @PostMapping("/entregarAlquiler")
+    public ResponseEntity<String> entregarAlquiler(@Valid  @RequestBody ReservaDTOFechaLicencia reserva){
+        this.alquilerService.iniciarAlquiler(reserva);
+        return ResponseEntity.ok("Alquiler iniciado exitosamente");
+    }
+
+    @PostMapping("/recibirAlquilerCorrecto")
+    public ResponseEntity<String> recibirAlquilerCorrecto(@Valid @RequestBody ReservaDTOFechaLicencia reservaDTO){
+        this.alquilerService.finalizarAlquilerCorrecto(reservaDTO);
+        return ResponseEntity.ok("Alquiler recibido exitosamente");
+    }
+    @PostMapping("/recibirAlquilerMulta")
+    public ResponseEntity<String> recibirAlquilerMulta(@Valid @RequestBody ReservaDTOFechaLicencia reservaDTO, int montoMulta){
+        this.alquilerService.finalizarAlquilerCorrecto(reservaDTO);
+        return ResponseEntity.ok("Alquiler recibido exitosamente");
+    }
+
 
 }

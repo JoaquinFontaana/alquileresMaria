@@ -89,4 +89,20 @@ public class Alquiler {
     public Alquiler(){
 
     }
+
+    public boolean isToday() {
+        return this.getRangoFecha().getFechaDesde().isEqual(LocalDate.now());
+    }
+
+    public void iniciar() {
+        this.setEstadoAlquiler(EstadoAlquiler.EN_USO);
+    }
+
+    public void setClienteMulta(int montoMulta) {
+        this.cliente.setMontoMulta(montoMulta);
+    }
+
+    public void finalizar() {
+        this.setEstadoAlquiler(EstadoAlquiler.FINALIZADO);
+    }
 }

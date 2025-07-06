@@ -7,7 +7,6 @@ import inge2.com.alquileresMaria.dto.alquiler.ReservaDTOFechaLicencia;
 import inge2.com.alquileresMaria.model.*;
 import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
 import inge2.com.alquileresMaria.model.enums.EstadoPago;
-import inge2.com.alquileresMaria.model.enums.Extra;
 import inge2.com.alquileresMaria.repository.IAlquilerRepository;
 import inge2.com.alquileresMaria.service.builder.AlquilerFilterBuilder;
 import inge2.com.alquileresMaria.service.filter.alquiler.AlquilerFilterComponent;
@@ -15,6 +14,7 @@ import inge2.com.alquileresMaria.service.validators.AlquilerHelperService;
 import inge2.com.alquileresMaria.service.validators.ClienteHelperService;
 import inge2.com.alquileresMaria.service.validators.AutoHelperService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -97,6 +97,20 @@ public class AlquilerService {
             reserva.setEstadoAlquiler(EstadoAlquiler.CANCELADO);
             this.repository.save(reserva);
         }
+    }
+
+    public void iniciarAlquiler(@Valid ReservaDTOFechaLicencia reservaDTO){
+        Alquiler reserva = this.alquilerHelperService.findByConductorRangoFechas(reservaDTO);
+        if (this.alquilerHelperService.isToday(reserva)){
+            reserva.iniciar();
+            this.repository.save(reserva);
+        }
+    }
+
+    public void finalizarAlquilerCorrecto(@Valid ReservaDTOFechaLicencia reservaDTO) {
+        Alquiler reserva = this.alquilerHelperService.findByConductorRangoFechas(reservaDTO);
+        reserva.finalizar();
+        this.repository.save(reserva);
     }
 /*
     @Transactional
