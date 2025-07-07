@@ -25,4 +25,7 @@ public class AlquilerDTOFilter {
         this.estadoAlquiler = estadoAlquiler;
         this.fechaDesde = fechaDesde;
     }
+    public AlquilerDTOFilter(){
+
+    }
 }
