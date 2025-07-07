@@ -26,9 +26,13 @@ public class ClienteHelperService {
         }
     }
 
+    public void checkNotExistMail(String mail){
+        this.usuarioService.checkNotExistsMail(mail);
+    }
+
     public void checkNotExistsCliente(String dni,String mail){
         this.checkNotExistDni(dni);
-        this.usuarioService.checkNotExistsMail(mail);
+        this.checkNotExistMail(mail);
     }
 
     public Cliente findClienteByEmail(String mail){
