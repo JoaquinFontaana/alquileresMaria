@@ -32,7 +32,7 @@ public class ClienteService {
 
     @Transactional
     public void crearCliente(PersonaDTOPassword clienteDTO){
-        this.checkNotExistsCliente(clienteDTO.getDni(),clienteDTO.getMail());
+        this.clienteHelperService.checkNotExistsCliente(clienteDTO.getDni(),clienteDTO.getMail());
 
         clienteDTO.setPassword(encryptService.encryptPassword(clienteDTO.getPassword()));
         Cliente cliente = new Cliente(clienteDTO, rolService.findRolByNombre("CLIENT"));
@@ -42,7 +42,7 @@ public class ClienteService {
 
     @Transactional
     public void registrarClientePresencial(PersonaDTO clienteDTO){
-        this.checkNotExistsCliente(clienteDTO.getDni(),clienteDTO.getMail());
+        this.clienteHelperService.checkNotExistsCliente(clienteDTO.getDni(),clienteDTO.getMail());
 
         Cliente cliente = new Cliente(
                 clienteDTO,
@@ -82,7 +82,7 @@ public class ClienteService {
                 .map(RembolsoDTO::new)
                 .toList();
     }
-    public void checkNotExistsCliente(String mail,String dni) {
-        this.clienteHelperService.checkNotExistsCliente(dni, mail);
+    public void checkNotExistsCliente(String mail) {
+        this.clienteHelperService.checkNotExistMail(mail);
     }
 }

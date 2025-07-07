@@ -24,8 +24,8 @@ public class EmpleadoController {
         return new ResponseEntity<>("Cliente registrado con exito", HttpStatus.CREATED);
     }
     @GetMapping("/existe/cliente")
-    public ResponseEntity<String>  existeCliente(@RequestParam @NotBlank String mail, @RequestParam @NotBlank String dni) {
-        this.clienteService.checkNotExistsCliente(mail,dni);
+    public ResponseEntity<String>  existeCliente(@RequestParam @NotBlank String mail) {
+        this.clienteService.checkNotExistsCliente(mail);
         return new ResponseEntity<>("El cliente no se encuentra registrado", HttpStatus.OK);
     }
 }

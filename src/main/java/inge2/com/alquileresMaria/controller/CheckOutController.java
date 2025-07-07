@@ -21,13 +21,11 @@ public class CheckOutController {
     private final CheckOutAlquilerService checkOutAlquilerService;
     private final CheckOutMultaService checkOutMultaService;
     private final AuthHelperService authHelperService;
-    private PagoService pagoService;
     @Autowired
-    public CheckOutController(CheckOutAlquilerService checkOutAlquilerService, CheckOutMultaService checkOutMultaService, AuthHelperService authHelperService, PagoService pagoService) {
+    public CheckOutController(CheckOutAlquilerService checkOutAlquilerService, CheckOutMultaService checkOutMultaService, AuthHelperService authHelperService) {
         this.checkOutAlquilerService = checkOutAlquilerService;
         this.checkOutMultaService = checkOutMultaService;
         this.authHelperService = authHelperService;
-        this.pagoService = pagoService;
     }
 
     /*
@@ -50,25 +48,25 @@ public class CheckOutController {
         }
      }   */
     @PostMapping("/cliente/registrarAlquiler")
-    public String registrarAlquilerCliente(@Valid @RequestBody CheckOutAlquilerDTO checkOutAlquilerDTO) throws MPException, MPApiException {
+    public String registrarAlquilerCliente(@Valid @RequestBody CheckOutAlquilerDTO checkOutAlquilerDTO){
         return this.checkOutAlquilerService.registrarAlquiler(checkOutAlquilerDTO,this.authHelperService.getMailOfContext());
     }
 
 
     @PostMapping("/cliente/pagarMulta")
-    public String pagarMulta(@Valid @RequestBody DatosPagoDTO datosPagoDTO) throws MPException, MPApiException {
+    public String pagarMulta(@Valid @RequestBody DatosPagoDTO datosPagoDTO) {
         return this.checkOutMultaService.pagarMulta(datosPagoDTO);
     }
 
 
     @PostMapping("/empleado/registrarAlquiler")
-    public String registrarAlquilerEmpleado(@Valid @RequestBody CheckOutAlquilerPresencialDTO checkOutAlquilerDTO) throws MPException, MPApiException {
+    public String registrarAlquilerEmpleado(@Valid @RequestBody CheckOutAlquilerPresencialDTO checkOutAlquilerDTO)  {
         return this.checkOutAlquilerService.registrarAlquiler(checkOutAlquilerDTO,checkOutAlquilerDTO.getMailCliente());
     }
 
     //Aca se recibiran las notificaciones de mercadopago referidas a los alquileres
     @PostMapping("/notificacion/alquiler")
-    public ResponseEntity<String> recibirNotificacionAlquiler(@RequestParam("type") String type, @RequestParam("data.id") String dataId) throws MPException, MPApiException {
+    public ResponseEntity<String> recibirNotificacionAlquiler(@RequestParam("type") String type, @RequestParam("data.id") String dataId) {
         checkOutAlquilerService.procesarNotificacion(dataId,type);
         // Responder 200 OK para que MP no reintente
         return ResponseEntity.ok("OK");
@@ -76,7 +74,7 @@ public class CheckOutController {
 
     //Aca se recibiran las notificaciones de mercadopago referidas a las multas
     @PostMapping("/notificacion/multa")
-    public ResponseEntity<String> recibirNotificacionMulta(@RequestParam("type") String type, @RequestParam("data.id") String dataId) throws MPException, MPApiException {
+    public ResponseEntity<String> recibirNotificacionMulta(@RequestParam("type") String type, @RequestParam("data.id") String dataId)  {
             checkOutMultaService.procesarNotificacion(dataId,type);
         // Responder 200 OK para que MP no reintente
         return ResponseEntity.ok("OK");
