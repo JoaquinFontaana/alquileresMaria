@@ -53,7 +53,7 @@ public class AlquilerController {
     }
     @PostMapping("/recibirAlquilerMulta")
     public ResponseEntity<String> recibirAlquilerMulta(@Valid @RequestBody ReservaDTOFechaLicencia reservaDTO, int montoMulta){
-        this.alquilerService.finalizarAlquilerCorrecto(reservaDTO);
+        this.alquilerService.finalizarAlquilerMantenimiento(reservaDTO, montoMulta);
         return ResponseEntity.ok("Alquiler recibido exitosamente");
     }
 

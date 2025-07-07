@@ -112,6 +112,12 @@ public class AlquilerService {
         reserva.finalizar();
         this.repository.save(reserva);
     }
+
+    public void finalizarAlquilerMantenimiento(@Valid ReservaDTOFechaLicencia reservaDTO, int montoMulta) {
+        Alquiler reserva = this.alquilerHelperService.findByConductorRangoFechas(reservaDTO);
+        reserva.finalizarConMantenimiento(montoMulta);
+        this.repository.save(reserva);
+    }
 /*
     @Transactional
     public void agregarExtra(List<Extra> extras, ReservaDTOFechaLicencia reserva){

@@ -2,6 +2,7 @@ package inge2.com.alquileresMaria.model;
 
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOCrear;
 import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
+import inge2.com.alquileresMaria.model.enums.EstadoAuto;
 import inge2.com.alquileresMaria.model.enums.Extra;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
 import jakarta.persistence.*;
@@ -69,6 +70,7 @@ public class Alquiler {
     }
 
     public void addExtras(List<Extra> extras){
+        if (extras == null) return;
         extras.stream()
                 .filter(e -> !this.extras.contains(e))
                 .forEach(e -> this.extras.add(e));
@@ -104,5 +106,11 @@ public class Alquiler {
 
     public void finalizar() {
         this.setEstadoAlquiler(EstadoAlquiler.FINALIZADO);
+    }
+
+    public void finalizarConMantenimiento(int multa) {
+        this.finalizar();
+        this.setClienteMulta(multa);
+        this.auto.setEstado(EstadoAuto.EN_MANTENIMIENTO);
     }
 }
