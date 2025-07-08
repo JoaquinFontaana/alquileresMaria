@@ -28,7 +28,6 @@ public class PagoService {
         this.pagoRepository = pagoRepository;
     }
 
-    @Transactional
     public Pago crearPago(Preference preference, Alquiler alquiler){
         Pago pago = new Pago(preference,alquiler);
         return this.pagoRepository.save(pago);
