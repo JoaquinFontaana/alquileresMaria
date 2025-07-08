@@ -33,7 +33,7 @@ public class AdminController {
 
     //Solo mandar los datos a actualizar y el mail actual del empleado (obligatorio)
     @PutMapping("/empleado/actualizar")
-    public ResponseEntity<String> actualizarDatosEmpleado(@RequestBody EmpleadoDTOActualizar empleadoDTO){
+    public ResponseEntity<String> actualizarDatosEmpleado(@RequestBody @Valid EmpleadoDTOActualizar empleadoDTO){
         this.empleadoService.actualizarEmpleado(empleadoDTO);
         return new ResponseEntity<String>("Empleado actualizado con exito",HttpStatus.OK);
     }

@@ -17,7 +17,6 @@ public class PersonaDTO {
     @NotBlank(message = "El mail es obligatorio")
     @Email(message = "Ingresa un email valido")
     private String mail;
-    @Column(length = 9)
     @NotBlank(message = "El DNI es obligatorio")
     @Size(min = 8, max = 9, message = "El dni debe tener 8 o 9 caracteres")
     private String dni;

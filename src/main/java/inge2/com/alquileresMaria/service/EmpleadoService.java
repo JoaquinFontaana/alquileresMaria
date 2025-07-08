@@ -56,8 +56,8 @@ public class EmpleadoService {
 
         this.empleadoHelper.checkDTO(empleadoDTO);
 
-        if(empleadoDTO.getTrabajaEnSucursal() != null){
-            empleado.actualizarDatos(empleadoDTO,this.sucursalService.findSucursalByCiudad(empleadoDTO.getTrabajaEnSucursal()));
+        if(empleadoDTO.getNuevaSucursal() != null){
+            empleado.actualizarDatos(empleadoDTO,this.sucursalService.findSucursalByCiudad(empleadoDTO.getNuevaSucursal()));
         }
         else empleado.actualizarDatos(empleadoDTO);
     }

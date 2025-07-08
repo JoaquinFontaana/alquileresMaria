@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class EmpleadoDTOActualizar extends EmpleadoDTO{
-    private String nuevoMail;
+public class EmpleadoDTOActualizar extends PersonaDTOActualizar{
+    private String nuevaSucursal;
 
     public EmpleadoDTOActualizar() {
         super();

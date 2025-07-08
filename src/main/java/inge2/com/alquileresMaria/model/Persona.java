@@ -1,6 +1,7 @@
 package inge2.com.alquileresMaria.model;
 
 import inge2.com.alquileresMaria.dto.user.PersonaDTO;
+import inge2.com.alquileresMaria.dto.user.PersonaDTOActualizar;
 import inge2.com.alquileresMaria.dto.user.PersonaDTOPassword;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
@@ -21,15 +22,15 @@ public abstract class Persona extends Usuario {
     @Size(min = 8, max = 9, message = "El dni debe tener 8 o 9 caracteres")
     private String dni;
 
-    public void actualizarDatos(PersonaDTO personaDTO){
-        if(personaDTO.getDni() != null){
-            this.setDni(personaDTO.getDni());
+    public void actualizarDatos(PersonaDTOActualizar personaDTO){
+        if(personaDTO.getNuevoDni() != null){
+            this.setDni(personaDTO.getNuevoDni());
         }
-        if(personaDTO.getApellido() != null){
-            this.setApellido(personaDTO.getApellido());
+        if(personaDTO.getNuevoApellido() != null){
+            this.setApellido(personaDTO.getNuevoApellido());
         }
-        if(personaDTO.getNombre() != null){
-            this.setNombre(personaDTO.getNombre());
+        if(personaDTO.getNuevoNombre() != null){
+            this.setNombre(personaDTO.getNuevoNombre());
         }
     }
 
