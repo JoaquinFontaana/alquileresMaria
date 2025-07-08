@@ -37,9 +37,6 @@ public class EmpleadoHelperService {
     }
 
     public Empleado findByMail(String mail){
-        if(mail == null){
-            throw new IllegalArgumentException("El mail es obligatorio");
-        }
         return this.empleadoRepository.findByMail(mail)
                 .orElseThrow(() -> new EntityNotFoundException("El empleado con mail " + mail + " no existe"));
     }
@@ -48,8 +45,8 @@ public class EmpleadoHelperService {
         if(empleadoDTO.getNuevoMail() != null){
             this.checkNotExistMail(empleadoDTO.getNuevoMail());
         }
-        if(empleadoDTO.getDni() != null){
-            this.checkNotExistsDNI(empleadoDTO.getDni());
+        if(empleadoDTO.getNuevoDni() != null){
+            this.checkNotExistsDNI(empleadoDTO.getNuevoDni());
         }
     }
 

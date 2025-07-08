@@ -60,6 +60,7 @@ public class EmpleadoService {
             empleado.actualizarDatos(empleadoDTO,this.sucursalService.findSucursalByCiudad(empleadoDTO.getNuevaSucursal()));
         }
         else empleado.actualizarDatos(empleadoDTO);
+        this.repository.save(empleado);
     }
 
     public List<EmpleadoDTO> listarEmpleados(){
