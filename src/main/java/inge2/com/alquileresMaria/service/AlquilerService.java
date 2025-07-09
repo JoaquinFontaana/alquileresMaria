@@ -114,6 +114,7 @@ public class AlquilerService {
 
     public void finalizarAlquilerMantenimiento(@Valid ReservaDTOFechaLicencia reservaDTO, int montoMulta) {
         Alquiler reserva = this.alquilerHelperService.findByConductorRangoFechas(reservaDTO);
+        this.cancelarReservas(reserva.getAuto().getReservas());
         reserva.finalizarConMantenimiento(montoMulta);
         this.repository.save(reserva);
     }
