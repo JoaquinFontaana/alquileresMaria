@@ -53,4 +53,9 @@ public class AdminController {
     public List<AlquilerDTOListar> listarAlquileres(@RequestParam String mail){
         return this.clienteService.listarAlquileres(mail);
     }
+    @PutMapping("/empleado/eliminar")
+    public ResponseEntity<String> eliminarEmpleado(@RequestParam String mail){
+        this.empleadoService.eliminarEmpleado(mail);
+        return new ResponseEntity<>("Empleado eliminado con exito", HttpStatus.OK);
+    }
 }

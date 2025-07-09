@@ -2,6 +2,7 @@ package inge2.com.alquileresMaria.model;
 
 import inge2.com.alquileresMaria.dto.user.EmpleadoDTO;
 import inge2.com.alquileresMaria.dto.user.EmpleadoDTOActualizar;
+import inge2.com.alquileresMaria.model.enums.EstadoEmpleado;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +12,10 @@ public class Empleado extends Persona {
     @ManyToOne(optional = false)
     @JoinColumn(name = "sucursal_id")
     private Sucursal trabajaEnSucursal;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EstadoEmpleado estado;
+
 
     public void actualizarDatos(EmpleadoDTOActualizar empleadoDTO){
         if(empleadoDTO.getNuevoMail() != null){
@@ -27,8 +32,13 @@ public class Empleado extends Persona {
     public Empleado(EmpleadoDTO empleadoDTO, Sucursal trabajaEnSucursal,Rol rol, String password) {
         super(empleadoDTO,rol,password);
         this.trabajaEnSucursal = trabajaEnSucursal;
+        this.estado = EstadoEmpleado.ACTIVO;
     }
     public Empleado(){
         super();
+    }
+
+    public void eliminar() {
+        this.estado = EstadoEmpleado.INACTIVO;
     }
 }

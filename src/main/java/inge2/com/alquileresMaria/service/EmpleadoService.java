@@ -67,4 +67,9 @@ public class EmpleadoService {
         return this.repository.findAll().stream().map(EmpleadoDTO::new).toList();
     }
 
+    public void eliminarEmpleado(String mail) {
+        Empleado empleado = this.empleadoHelper.findByMail(mail);
+        empleado.eliminar();
+        this.repository.save(empleado);
+    }
 }
