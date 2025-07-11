@@ -90,5 +90,12 @@ public class AlquilerHelperService {
         }
         else throw new RuntimeException("El alquiler no es en el dia de la fecha");
     }
+
+    public boolean isAvailable(Alquiler reserva) {
+        if (reserva.estaDisponibleRetiro()){
+            return true;
+        }
+        else throw new RuntimeException("El alquiler no esta disponible para retirar");
+    }
 }
 

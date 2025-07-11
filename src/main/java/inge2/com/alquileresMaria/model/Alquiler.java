@@ -113,4 +113,10 @@ public class Alquiler {
         this.setClienteMulta(multa);
         this.auto.setEstado(EstadoAuto.EN_MANTENIMIENTO);
     }
+
+    public boolean isAfter() { return this.getRangoFecha().getFechaDesde().isAfter(LocalDate.now());}
+
+    public boolean estaDisponibleRetiro() {
+        return this.isToday() || this.isAfter();
+    }
 }

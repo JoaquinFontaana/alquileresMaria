@@ -11,13 +11,10 @@ import lombok.Setter;
 public class EmpleadoDTO extends PersonaDTO{
     @NotNull(message = "La sucursal donde trabaja el empleado es obligatoria, ingresa el nombre")
     private String trabajaEnSucursal;
-    @NotBlank
-    private EstadoEmpleado estado;
 
     public EmpleadoDTO(Empleado empleado){
         super(empleado);
         this.trabajaEnSucursal = empleado.getTrabajaEnSucursal().getCiudad();
-        this.estado = EstadoEmpleado.ACTIVO;
     }
     public EmpleadoDTO(){
         super();

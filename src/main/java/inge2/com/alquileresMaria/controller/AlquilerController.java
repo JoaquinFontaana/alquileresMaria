@@ -57,5 +57,10 @@ public class AlquilerController {
         return ResponseEntity.ok("Alquiler recibido exitosamente");
     }
 
+    @GetMapping("/pendientesRetiro")
+    public List<AlquilerDTOListar> listarAlquileresPendientesRetiro(@Valid @RequestParam String sucursal){
+        return this.alquilerService.listarPendientes(sucursal);
+    }
+
 
 }

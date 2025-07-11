@@ -1,6 +1,7 @@
 package inge2.com.alquileresMaria.repository;
 
 import inge2.com.alquileresMaria.model.*;
+import jakarta.validation.Valid;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -103,4 +104,5 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     """)
     List<Object[]> findTopClientes();
 
+    List<Alquiler> findBySucursal_Ciudad(@Valid String ciudad);
 }

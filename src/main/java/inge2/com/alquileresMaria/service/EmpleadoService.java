@@ -2,6 +2,7 @@ package inge2.com.alquileresMaria.service;
 
 import inge2.com.alquileresMaria.dto.user.EmpleadoDTO;
 import inge2.com.alquileresMaria.dto.user.EmpleadoDTOActualizar;
+import inge2.com.alquileresMaria.dto.user.EmpleadoDTOListar;
 import inge2.com.alquileresMaria.dto.user.PersonaDTO;
 import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.model.Empleado;
@@ -63,8 +64,8 @@ public class EmpleadoService {
         this.repository.save(empleado);
     }
 
-    public List<EmpleadoDTO> listarEmpleados(){
-        return this.repository.findAll().stream().map(EmpleadoDTO::new).toList();
+    public List<EmpleadoDTOListar> listarEmpleados(){
+        return this.repository.findAll().stream().map(EmpleadoDTOListar::new).toList();
     }
 
     public void eliminarEmpleado(String mail) {

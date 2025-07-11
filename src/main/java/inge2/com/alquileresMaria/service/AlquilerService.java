@@ -100,7 +100,7 @@ public class AlquilerService {
 
     public void iniciarAlquiler(@Valid ReservaDTOFechaLicencia reservaDTO){
         Alquiler reserva = this.alquilerHelperService.findByConductorRangoFechas(reservaDTO);
-        if (this.alquilerHelperService.isToday(reserva)){
+        if (this.alquilerHelperService.isAvailable(reserva)){
             reserva.iniciar();
             this.repository.save(reserva);
         }
@@ -117,6 +117,14 @@ public class AlquilerService {
         this.cancelarReservas(reserva.getAuto().getReservas());
         reserva.finalizarConMantenimiento(montoMulta);
         this.repository.save(reserva);
+    }
+
+    public List<AlquilerDTOListar> listarPendientes(@Valid String sucursal) {
+        Sucursal ciudad = this.sucursalService.findSucursalByCiudad(sucursal);
+        return this.repository.findBySucursal_Ciudad(ciudad.getCiudad()).stream()
+                .filter(a -> a.estaDisponibleRetiro())
+                .map(a -> new AlquilerDTOListar(a))
+                .toList();
     }
 /*
     @Transactional

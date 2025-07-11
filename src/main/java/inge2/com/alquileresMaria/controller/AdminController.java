@@ -3,6 +3,7 @@ package inge2.com.alquileresMaria.controller;
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOListar;
 import inge2.com.alquileresMaria.dto.user.EmpleadoDTO;
 import inge2.com.alquileresMaria.dto.user.EmpleadoDTOActualizar;
+import inge2.com.alquileresMaria.dto.user.EmpleadoDTOListar;
 import inge2.com.alquileresMaria.dto.user.PersonaDTO;
 import inge2.com.alquileresMaria.service.ClienteService;
 import inge2.com.alquileresMaria.service.EmpleadoService;
@@ -39,7 +40,7 @@ public class AdminController {
     }
 
     @GetMapping("/listar/empleados")
-    public List<EmpleadoDTO> listarEmpleados(){
+    public List<EmpleadoDTOListar> listarEmpleados(){
         return this.empleadoService.listarEmpleados();
     }
 
@@ -56,6 +57,6 @@ public class AdminController {
     @PutMapping("/empleado/eliminar")
     public ResponseEntity<String> eliminarEmpleado(@RequestParam String mail){
         this.empleadoService.eliminarEmpleado(mail);
-        return new ResponseEntity<>("Empleado eliminado con exito", HttpStatus.OK);
+        return new ResponseEntity<String>("Empleado eliminado con exito", HttpStatus.OK);
     }
 }
