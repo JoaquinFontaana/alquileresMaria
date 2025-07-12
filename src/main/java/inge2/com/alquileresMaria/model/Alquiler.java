@@ -51,6 +51,31 @@ public class Alquiler {
     @Column(name = "extra")
     private List<Extra> extras;
 
+    public Alquiler (AlquilerDTOCrear alquilerDTOCrear,Auto auto,Cliente cliente,Sucursal sucursal){
+        this.auto = auto;
+        this.cliente = cliente;
+        this.sucursal = sucursal;
+        this.licenciaConductor = alquilerDTOCrear.getLicenciaConductor();
+        this.rangoFecha = alquilerDTOCrear.getRangoFecha();
+        this.estadoAlquiler = EstadoAlquiler.CONFIRMACION_PENDIENTE;
+        this.rembolso = null;
+        this.extras = new ArrayList<>();
+        this.addExtras(alquilerDTOCrear.getExtras());
+    }
+
+    public Alquiler(){
+
+    }
+
+    public boolean isToday() {
+        return this.getRangoFecha().getFechaDesde().isEqual(LocalDate.now());
+    }
+
+    public void iniciar() {
+        this.setEstadoAlquiler(EstadoAlquiler.EN_USO);
+        this.auto.iniciarAlquiler();
+    }
+
     public boolean sinSolapamiento(RangoFecha rango){
         return this.rangoFecha.sinSolapamiento(rango);
     }
@@ -76,47 +101,27 @@ public class Alquiler {
                 .forEach(e -> this.extras.add(e));
     }
 
-    public Alquiler (AlquilerDTOCrear alquilerDTOCrear,Auto auto,Cliente cliente,Sucursal sucursal){
-        this.auto = auto;
-        this.cliente = cliente;
-        this.sucursal = sucursal;
-        this.licenciaConductor = alquilerDTOCrear.getLicenciaConductor();
-        this.rangoFecha = alquilerDTOCrear.getRangoFecha();
-        this.estadoAlquiler = EstadoAlquiler.CONFIRMACION_PENDIENTE;
-        this.rembolso = null;
-        this.extras = new ArrayList<>();
-        this.addExtras(alquilerDTOCrear.getExtras());
-    }
-
-    public Alquiler(){
-
-    }
-
-    public boolean isToday() {
-        return this.getRangoFecha().getFechaDesde().isEqual(LocalDate.now());
-    }
-
-    public void iniciar() {
-        this.setEstadoAlquiler(EstadoAlquiler.EN_USO);
-    }
-
     public void setClienteMulta(int montoMulta) {
         this.cliente.setMontoMulta(montoMulta);
     }
 
     public void finalizar() {
+        this.auto.finalizarAlquiler();
         this.setEstadoAlquiler(EstadoAlquiler.FINALIZADO);
     }
 
     public void finalizarConMantenimiento(int multa) {
-        this.finalizar();
+        this.setEstadoAlquiler(EstadoAlquiler.FINALIZADO);
         this.setClienteMulta(multa);
-        this.auto.setEstado(EstadoAuto.EN_MANTENIMIENTO);
+        this.auto.ponerEnMantenimiento();
     }
 
     public boolean isAfter() { return this.getRangoFecha().getFechaDesde().isAfter(LocalDate.now());}
 
     public boolean estaDisponibleRetiro() {
         return this.isToday() || this.isAfter();
+    }
+    public boolean checkAutoDisponible() {
+        return this.auto.estaDisponible();
     }
 }

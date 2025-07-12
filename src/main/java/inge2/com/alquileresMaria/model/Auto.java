@@ -93,5 +93,16 @@ public class Auto {
     public boolean disponibleEnRangoFechas(RangoFecha rango){
         return this.getReservas().stream().filter(alquiler -> alquiler.getEstadoAlquiler() != EstadoAlquiler.CANCELADO).allMatch(alquiler -> alquiler.sinSolapamiento(rango));
     }
-
+    public boolean estaDisponible(){
+        return this.estado == EstadoAuto.DISPONIBLE;
+    }
+    public void iniciarAlquiler(){
+        this.estado = EstadoAuto.ALQUILADO;
+    }
+    public void finalizarAlquiler(){
+        this.estado = EstadoAuto.DISPONIBLE;
+    }
+    public void ponerEnMantenimiento(){
+        this.estado = EstadoAuto.EN_MANTENIMIENTO;
+    }
 }

@@ -1,6 +1,6 @@
 package inge2.com.alquileresMaria.service.validators;
 
-import inge2.com.alquileresMaria.dto.alquiler.ReservaDTOFechaLicencia;
+import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOFechaLicencia;
 import inge2.com.alquileresMaria.model.Alquiler;
 import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
@@ -72,7 +72,7 @@ public class AlquilerHelperService {
 
         this.serviceEmail.sendEmailsClientes(this.obtenerClientesDeAlquileres(alquileres), subject,body);
     }
-    public Alquiler findByConductorRangoFechas(ReservaDTOFechaLicencia reservaDTO){
+    public Alquiler findByConductorRangoFechas(AlquilerDTOFechaLicencia reservaDTO){
         return repository.findAlquilerByLicenciaConductorAndRangoFecha(reservaDTO.getLicencia(), reservaDTO.getFechaDesde(),
                         reservaDTO.getFechaFin())
                 .orElseThrow(() -> new EntityNotFoundException("No existe una reserva para este cliente, en esta fecha"));
@@ -91,11 +91,14 @@ public class AlquilerHelperService {
         else throw new RuntimeException("El alquiler no es en el dia de la fecha");
     }
 
-    public boolean isAvailable(Alquiler reserva) {
-        if (reserva.estaDisponibleRetiro()){
-            return true;
-        }
-        else throw new RuntimeException("El alquiler no esta disponible para retirar");
+    public void checkAvailable(Alquiler reserva) {
+        this.checkFechaReserva(reserva);
     }
+    public void checkFechaReserva(Alquiler reserva) {
+        if (!reserva.estaDisponibleRetiro()) {
+            throw new RuntimeException("El alquiler no esta disponible para retirar");
+        }
+    }
+
 }
 

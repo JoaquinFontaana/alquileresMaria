@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Getter @Setter
-public class ReservaDTOFechaLicencia {
+public class AlquilerDTOFechaLicencia {
     @NotNull(message = "La fecha de fin es obligatoria")
     private LocalDate fechaFin;
     @NotNull(message = "La fecha de inicio es obligatoria")
@@ -17,12 +17,12 @@ public class ReservaDTOFechaLicencia {
     @NotNull(message = "La licencia del conductor es obligatoria")
     private String licencia;
 
-    public ReservaDTOFechaLicencia(LocalDate fechaDesde, LocalDate fechaFin, String licencia) {
+    public AlquilerDTOFechaLicencia(LocalDate fechaDesde, LocalDate fechaFin, String licencia) {
         this.fechaDesde = fechaDesde;
         this.licencia = licencia;
         this.fechaFin = fechaFin;
     }
 
-    public ReservaDTOFechaLicencia() {
+    public AlquilerDTOFechaLicencia() {
     }
 }
