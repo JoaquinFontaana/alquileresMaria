@@ -12,7 +12,6 @@ public class AlquilerDTOFechaLicencia {
     @NotNull(message = "La fecha de fin es obligatoria")
     private LocalDate fechaFin;
     @NotNull(message = "La fecha de inicio es obligatoria")
-    @FutureOrPresent(message = "La reserva no puede ya haber pasado")
     private LocalDate fechaDesde;
     @NotNull(message = "La licencia del conductor es obligatoria")
     private String licencia;
