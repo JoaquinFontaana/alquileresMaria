@@ -105,4 +105,8 @@ public class Auto {
     public void ponerEnMantenimiento(){
         this.estado = EstadoAuto.EN_MANTENIMIENTO;
     }
+
+    public boolean enUso() {
+        return this.estado == EstadoAuto.ALQUILADO;
+    }
 }

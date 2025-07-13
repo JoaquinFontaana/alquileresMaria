@@ -124,4 +124,8 @@ public class Alquiler {
     public boolean checkAutoDisponible() {
         return this.auto.estaDisponible();
     }
+
+    public boolean estaEnUso() {
+        return this.auto.enUso();
+    }
 }

@@ -12,6 +12,7 @@ import inge2.com.alquileresMaria.service.validators.AlquilerHelperService;
 import inge2.com.alquileresMaria.service.validators.ClienteHelperService;
 import inge2.com.alquileresMaria.service.validators.AutoHelperService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -117,7 +118,7 @@ public class AlquilerService {
         this.repository.save(reserva);
     }
 
-    public List<AlquilerDTOListar> listarPendientes(String sucursal) {
+    public List<AlquilerDTOListar> listarPendientesEntrega(String sucursal) {
         Sucursal ciudad = this.sucursalService.findSucursalByCiudad(sucursal);
         return this.repository.findBySucursal_Ciudad(ciudad.getCiudad()).stream()
                 .filter(a -> a.estaDisponibleRetiro())
@@ -148,6 +149,14 @@ public class AlquilerService {
         Alquiler alquiler = this.alquilerHelperService.findByConductorRangoFechas(alquilerDTOCambiarAuto);
         alquiler.setAuto(auto);
         this.repository.save(alquiler);
+    }
+
+    public List<AlquilerDTOListar> listarPendientesDevolucion(String sucursal) {
+        Sucursal ciudad = this.sucursalService.findSucursalByCiudad(sucursal);
+        return this.repository.findBySucursal_Ciudad(ciudad.getCiudad()).stream()
+                .filter(a -> a.estaEnUso())
+                .map(a -> new AlquilerDTOListar(a))
+                .toList();
     }
 
 /*

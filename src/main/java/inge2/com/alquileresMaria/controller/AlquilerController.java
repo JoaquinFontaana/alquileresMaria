@@ -59,7 +59,11 @@ public class AlquilerController {
 
     @GetMapping("/empleado/pendientesRetiro")
     public List<AlquilerDTOListar> listarAlquileresPendientesRetiro(@Valid @RequestParam String sucursal){
-        return this.alquilerService.listarPendientes(sucursal);
+        return this.alquilerService.listarPendientesEntrega(sucursal);
+    }
+    @GetMapping("/empleado/pendientesDevolucion")
+    public List<AlquilerDTOListar> listarAlquileresPendientesDevolucion(@Valid @RequestParam String sucursal){
+        return this.alquilerService.listarPendientesDevolucion(sucursal);
     }
     @GetMapping("/empleado/sugerirSimilares")
     public List<AutoDTOListar> sugerirSimilares(@Valid @RequestParam String licenciaConductor, @Valid @RequestParam LocalDate fechaDesde, @Valid @RequestParam LocalDate fechaHasta){
