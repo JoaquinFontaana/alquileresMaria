@@ -1,9 +1,6 @@
 package inge2.com.alquileresMaria.service;
 
-import inge2.com.alquileresMaria.dto.auto.AutoDTO;
-import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
 import inge2.com.alquileresMaria.dto.estadisticas.*;
-import inge2.com.alquileresMaria.dto.user.PersonaDTO;
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
@@ -12,91 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class EstadisticasService {
     @Autowired
     private IAlquilerRepository alquilerRepository;
-
-    // 1. Vehículos más alquilados por sucursal
-    public List<EstadisticaVehiculoSucursalDTO> obtenerVehiculosMasAlquiladosPorSucursalDTO() {
-        List<Object[]> resultados = alquilerRepository.findMasAlquiladosSucursal();
-        List<EstadisticaVehiculoSucursalDTO> dtos = new ArrayList<>();
-
-        for (Object[] fila : resultados) {
-            String sucursal = (String) fila[0];
-            Auto auto = (Auto) fila[1];
-            Long cantidad = (Long) fila[2];
-
-            AutoDTOListar autoDTO = new AutoDTOListar(auto);
-
-            EstadisticaVehiculoSucursalDTO dto = new EstadisticaVehiculoSucursalDTO();
-            dto.setSucursal(sucursal);
-            dto.setAuto(autoDTO);
-            dto.setCantidad(cantidad);
-
-            dtos.add(dto);
-        }
-
-        return dtos;
-    }
-
-    // 2. Vehículos más alquilados (general)
-    public List<EstadisticaVehiculoDTO> obtenerVehiculosMasAlquiladosDTO() {
-        List<Object[]> resultados = alquilerRepository.findVehiculosMasAlquilados();
-        List<EstadisticaVehiculoDTO> dtos = new ArrayList<>();
-
-        for (Object[] fila : resultados) {
-            Auto auto = (Auto) fila[0];
-            Long cantidad = (Long) fila[1];
-
-            AutoDTO autoDTO = new AutoDTOListar(auto);
-
-            EstadisticaVehiculoDTO dto = new EstadisticaVehiculoDTO();
-            dto.setAuto(autoDTO);
-            dto.setCantidad(cantidad);
-
-            dtos.add(dto);
-        }
-
-        return dtos;
-    }
-
-    // 3. Categoría más alquilada
-    public List<EstadisticaCategoriaDTO> obtenerCategoriasMasAlquiladasDTO() {
-        List<Object[]> resultados = alquilerRepository.findCategoriasMasAlquiladas();
-        List<EstadisticaCategoriaDTO> dtos = new ArrayList<>();
-
-        for (Object[] fila : resultados) {
-            CategoriaAuto categoria = (CategoriaAuto) fila[0];
-            Long cantidad = (Long) fila[1];
-
-            EstadisticaCategoriaDTO dto = new EstadisticaCategoriaDTO();
-            dto.setCategoria(categoria);
-            dto.setCantidad(cantidad);
-
-            dtos.add(dto);
-        }
-
-        return dtos;
-    }
-
-    // 4. Ingresos por sucursal
-    public List<EstadisticaIngresoSucursalDTO> obtenerIngresosPorSucursal() {
-        List<Object[]> resultados = alquilerRepository.findIngresosSucursales();
-
-        return resultados.stream()
-                .map(obj -> {
-                    EstadisticaIngresoSucursalDTO dto = new EstadisticaIngresoSucursalDTO();
-                    dto.setSucursal((String) obj[0]);
-                    dto.setIngresos(obj[1] != null ? ((Number) obj[1]).doubleValue() : 0.0);
-                    return dto;
-                })
-                .collect(Collectors.toList());
-    }
 
     // 5. Ingresos en un periodo de tiempo
     public EstadisticaIngresoPeriodoDTO obtenerIngresosPeriodo(LocalDate fechaInicio, LocalDate fechaFin) {
@@ -110,27 +28,64 @@ public class EstadisticasService {
         return dto;
     }
 
-
-    // 6. Ingresos generales
-    public Double obtenerIngresosTotales() {
-        return alquilerRepository.findIngresosTotales();
+    public List<EstadisticaIngresoSucursalCantidadDTO> obtenerIngresosPorSucursal() {
+        return alquilerRepository.findIngresosYCantidadPorSucursal()
+                .stream()
+                .map(obj -> new EstadisticaIngresoSucursalCantidadDTO(
+                        (String) obj[0],
+                        (Double) obj[1],
+                        (Long) obj[2]
+                )).toList();
     }
 
-    // 7. Cliente con más reservas
-    public List<EstadisticaClienteDTO> obtenerTopClientes() {
-        List<Object[]> resultados = alquilerRepository.findTopClientes();
-
-        return resultados.stream()
-                .map(obj -> {
-                    Cliente cliente = (Cliente) obj[0];
-                    Long cantidad = (Long) obj[1];
-
-                    EstadisticaClienteDTO dto = new EstadisticaClienteDTO();
-                    dto.setCliente(new PersonaDTO(cliente));
-                    dto.setCantidadReservas(cantidad);
-                    return dto;
-                })
-                .collect(Collectors.toList());
+    public List<EstadisticaVehiculoSucursalMontoDTO> obtenerVehiculosPorSucursal() {
+        return alquilerRepository.findMasAlquiladosSucursalConMonto()
+                .stream()
+                .map(obj -> new EstadisticaVehiculoSucursalMontoDTO(
+                        (String) obj[0],
+                        (Auto) obj[1],
+                        (Long) obj[2],
+                        (Double) obj[3]
+                )).toList();
     }
 
+    public List<EstadisticaVehiculoMontoDTO> obtenerVehiculosMasAlquilados() {
+        return alquilerRepository.findVehiculosMasAlquiladosConMonto()
+                .stream()
+                .map(obj -> new EstadisticaVehiculoMontoDTO(
+                        (Auto) obj[0],
+                        (Long) obj[1],
+                        (Double) obj[2]
+                )).toList();
+    }
+
+    public List<EstadisticaCategoriaMontoDTO> obtenerCategoriasMasAlquiladas() {
+        return alquilerRepository.findCategoriasMasAlquiladasConMonto()
+                .stream()
+                .map(obj -> new EstadisticaCategoriaMontoDTO(
+                        (CategoriaAuto) obj[0],
+                        (Long) obj[1],
+                        (Double) obj[2]
+                )).toList();
+    }
+
+    public List<EstadisticaClienteMontoDTO> obtenerTopClientes() {
+        return alquilerRepository.findTopClientesConMonto()
+                .stream()
+                .map(obj -> new EstadisticaClienteMontoDTO(
+                        (Cliente) obj[0],
+                        (Long) obj[1],
+                        (Double) obj[2]
+                )).toList();
+    }
+
+    public EstadisticaIngresoResumenDTO obtenerResumenIngresos() {
+        Object[] result = alquilerRepository.findResumenIngresosTotales();
+        return new EstadisticaIngresoResumenDTO(
+                (Double) result[0],
+                (Long) result[1],
+                (Double) result[2],
+                (Long) result[3]
+        );
+    }
 }

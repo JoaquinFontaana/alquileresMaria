@@ -25,52 +25,6 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
             @Param("fechaDesde") LocalDate fechaDesde,
             @Param("fechaHasta") LocalDate fechaHasta
     );
-
-    // Vehículos más alquilados por sucursal
-    @Query("""
-    SELECT a.sucursal.ciudad, a.auto, COUNT(a)
-    FROM Alquiler a
-    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
-        AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
-    GROUP BY a.sucursal.ciudad, a.auto
-    ORDER BY COUNT(a) DESC
-   """)
-    List<Object[]> findMasAlquiladosSucursal();
-
-    // Vehículos más alquilados (general)
-    @Query("""
-    SELECT a.auto, COUNT(a)
-    FROM Alquiler a
-    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
-        AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
-    GROUP BY a.auto
-    ORDER BY COUNT(a) DESC
-    """)
-    List<Object[]> findVehiculosMasAlquilados();
-
-    // Categoría más alquilada
-    @Query("""
-    SELECT a.auto.categoria, COUNT(a)
-    FROM Alquiler a
-    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
-        AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
-    GROUP BY a.auto.categoria
-    ORDER BY COUNT(a) DESC
-    """)
-    List<Object[]> findCategoriasMasAlquiladas();
-
-    // Ingresos por sucursal
-    @Query("""
-    SELECT a.sucursal.ciudad,
-           SUM(CASE WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
-                    THEN (a.pago.monto - COALESCE(a.rembolso.montoRembolsado, 0))
-                    ELSE a.pago.monto END)
-    FROM Alquiler a
-    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
-    GROUP BY a.sucursal.ciudad
-    """)
-    List<Object[]> findIngresosSucursales();
-
     // Ingresos en un periodo de tiempo
     @Query("""
     SELECT SUM(CASE WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
@@ -83,26 +37,87 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     """)
     Double findIngresosPeridoTiempo(@Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin);
 
-    // Ingresos generales
     @Query("""
-    SELECT SUM(CASE WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+    SELECT a.sucursal.ciudad, a.auto,
+           COUNT(a),
+           SUM(CASE WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
                     THEN (a.pago.monto - COALESCE(a.rembolso.montoRembolsado, 0))
                     ELSE a.pago.monto END)
     FROM Alquiler a
-    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
+    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+      AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
+    GROUP BY a.sucursal.ciudad, a.auto
+    ORDER BY COUNT(a) DESC
     """)
-    Double findIngresosTotales();
+    List<Object[]> findMasAlquiladosSucursalConMonto();
 
-    // Cliente con más reservas
     @Query("""
-    SELECT a.cliente, COUNT(a)
+    SELECT a.auto, COUNT(a),
+           SUM(CASE WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+                    THEN (a.pago.monto - COALESCE(a.rembolso.montoRembolsado, 0))
+                    ELSE a.pago.monto END)
     FROM Alquiler a
     WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
-        AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
+      AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
+    GROUP BY a.auto
+    ORDER BY COUNT(a) DESC
+    """)
+    List<Object[]> findVehiculosMasAlquiladosConMonto();
+
+    @Query("""
+    SELECT a.auto.categoria, COUNT(a),
+           SUM(CASE WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+                    THEN (a.pago.monto - COALESCE(a.rembolso.montoRembolsado, 0))
+                    ELSE a.pago.monto END)
+    FROM Alquiler a
+    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+      AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
+    GROUP BY a.auto.categoria
+    ORDER BY COUNT(a) DESC
+    """)
+    List<Object[]> findCategoriasMasAlquiladasConMonto();
+
+    @Query("""
+    SELECT a.cliente, COUNT(a),
+           SUM(CASE WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+                    THEN (a.pago.monto - COALESCE(a.rembolso.montoRembolsado, 0))
+                    ELSE a.pago.monto END)
+    FROM Alquiler a
+    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+      AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
     GROUP BY a.cliente
     ORDER BY COUNT(a) DESC
     """)
-    List<Object[]> findTopClientes();
+    List<Object[]> findTopClientesConMonto();
+
+    @Query("""
+    SELECT 
+       SUM(CASE WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+                THEN (a.pago.monto - COALESCE(a.rembolso.montoRembolsado, 0))
+                ELSE a.pago.monto END),
+       COUNT(a),
+       SUM(COALESCE(a.rembolso.montoRembolsado, 0)),
+       SUM(CASE WHEN a.rembolso.montoRembolsado IS NOT NULL THEN 1 ELSE 0 END)
+    FROM Alquiler a
+    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
+    """)
+    Object[] findResumenIngresosTotales();
+
+    @Query("""
+    SELECT a.sucursal.ciudad,
+           SUM(CASE WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+                    THEN (a.pago.monto - COALESCE(a.rembolso.montoRembolsado, 0))
+                    ELSE a.pago.monto END),
+           COUNT(a)
+    FROM Alquiler a
+    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
+    GROUP BY a.sucursal.ciudad
+    """)
+    List<Object[]> findIngresosYCantidadPorSucursal();
+
+
+
+
 
     List<Alquiler> findBySucursal_Ciudad(@Valid String ciudad);
 }

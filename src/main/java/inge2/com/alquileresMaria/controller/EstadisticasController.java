@@ -18,32 +18,37 @@ public class EstadisticasController {
 
     @Autowired
     private EstadisticasService service;
-
-    // 1. Vehículos más alquilados por sucursal
-    @GetMapping("/vehiculos-por-sucursal")
-    public List<EstadisticaVehiculoSucursalDTO> obtenerVehiculosMasAlquiladosPorSucursal() {
-        return service.obtenerVehiculosMasAlquiladosPorSucursalDTO();
-    }
-
-    // 2. Vehículos más alquilados (general)
-    @GetMapping("/vehiculos-mas-alquilados")
-    public List<EstadisticaVehiculoDTO> obtenerVehiculosMasAlquilados() {
-        return service.obtenerVehiculosMasAlquiladosDTO();
-    }
-
-    // 3. Categoría más alquilada
-    @GetMapping("/categorias-mas-alquiladas")
-    public List<EstadisticaCategoriaDTO> obtenerCategoriasMasAlquiladas() {
-        return service.obtenerCategoriasMasAlquiladasDTO();
-    }
-
-    // 4. Ingresos por sucursal
+    // 1. Ingresos por sucursal + cantidad de alquileres
     @GetMapping("/ingresos-por-sucursal")
-    public List<EstadisticaIngresoSucursalDTO> obtenerIngresosPorSucursal() {
+    public List<EstadisticaIngresoSucursalCantidadDTO> getIngresosPorSucursal() {
         return service.obtenerIngresosPorSucursal();
     }
-
-    // 5. Ingresos en un periodo de tiempo
+    // 2. Vehículos por sucursal + monto recaudado
+    @GetMapping("/vehiculos-por-sucursal")
+    public List<EstadisticaVehiculoSucursalMontoDTO> getVehiculosPorSucursal() {
+        return service.obtenerVehiculosPorSucursal();
+    }
+    // 3. Vehículos más alquilados (general) + monto recaudado
+    @GetMapping("/vehiculos-mas-alquilados")
+    public List<EstadisticaVehiculoMontoDTO> getVehiculosMasAlquilados() {
+        return service.obtenerVehiculosMasAlquilados();
+    }
+    // 4. Categorías más alquiladas + monto recaudado
+    @GetMapping("/categorias-mas-alquiladas")
+    public List<EstadisticaCategoriaMontoDTO> getCategoriasMasAlquiladas() {
+        return service.obtenerCategoriasMasAlquiladas();
+    }
+    // 5. Top clientes + monto gastado
+    @GetMapping("/top-clientes")
+    public List<EstadisticaClienteMontoDTO> getTopClientes() {
+        return service.obtenerTopClientes();
+    }
+    // 6. Ingresos totales + resumen de alquileres y reembolsos
+    @GetMapping("/ingresos-totales")
+    public EstadisticaIngresoResumenDTO getResumenIngresos() {
+        return service.obtenerResumenIngresos();
+    }
+    // 7. Ingresos en un periodo de tiempo
     @GetMapping("/ingresos-periodo")
     public EstadisticaIngresoPeriodoDTO obtenerIngresosPeriodo(
             @RequestParam("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
@@ -51,16 +56,5 @@ public class EstadisticasController {
         return service.obtenerIngresosPeriodo(fechaInicio, fechaFin);
     }
 
-    // 6. Ingresos totales
-    @GetMapping("/ingresos-totales")
-    public Double obtenerIngresosTotales() {
-        return service.obtenerIngresosTotales();
-    }
-
-    // 7. Clientes con más reservas
-    @GetMapping("/top-clientes")
-    public List<EstadisticaClienteDTO> obtenerTopClientes() {
-        return service.obtenerTopClientes();
-    }
 }
 
