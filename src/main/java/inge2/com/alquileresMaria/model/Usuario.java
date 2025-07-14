@@ -37,4 +37,7 @@ public class Usuario {
         return this.getRol().getNombre().equals("ADMIN");
     }
 
+    public void borrarMail() {
+        this.setMail("*" + this.getMail() + "*");
+    }
 }

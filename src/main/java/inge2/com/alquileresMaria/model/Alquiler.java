@@ -126,6 +126,6 @@ public class Alquiler {
     }
 
     public boolean estaEnUso() {
-        return this.auto.enUso();
+        return this.estadoAlquiler ==  EstadoAlquiler.EN_USO;
     }
 }

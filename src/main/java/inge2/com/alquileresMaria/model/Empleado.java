@@ -3,9 +3,13 @@ package inge2.com.alquileresMaria.model;
 import inge2.com.alquileresMaria.dto.user.EmpleadoDTO;
 import inge2.com.alquileresMaria.dto.user.EmpleadoDTOActualizar;
 import inge2.com.alquileresMaria.model.enums.EstadoEmpleado;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Entity @Getter @Setter
 public class Empleado extends Persona {
@@ -15,6 +19,7 @@ public class Empleado extends Persona {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EstadoEmpleado estado;
+    private LocalDate fechaBaja;
 
 
     public void actualizarDatos(EmpleadoDTOActualizar empleadoDTO){
@@ -33,6 +38,7 @@ public class Empleado extends Persona {
         super(empleadoDTO,rol,password);
         this.trabajaEnSucursal = trabajaEnSucursal;
         this.estado = EstadoEmpleado.ACTIVO;
+        this.fechaBaja = null;
     }
     public Empleado(){
         super();
@@ -40,5 +46,8 @@ public class Empleado extends Persona {
 
     public void eliminar() {
         this.estado = EstadoEmpleado.INACTIVO;
+        this.borrarDni();
+        this.borrarMail();
+        this.fechaBaja = LocalDate.now();
     }
 }

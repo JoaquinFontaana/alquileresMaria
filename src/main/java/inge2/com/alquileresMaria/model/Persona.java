@@ -54,4 +54,9 @@ public abstract class Persona extends Usuario {
     public Persona(){
         super();
     }
+
+    public void borrarDni() {
+        this.setDni("*" + this.getDni() + "*");
+    }
+
 }
