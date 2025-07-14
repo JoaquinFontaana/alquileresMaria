@@ -1,6 +1,8 @@
 package inge2.com.alquileresMaria.service;
 
+import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
 import inge2.com.alquileresMaria.dto.estadisticas.*;
+import inge2.com.alquileresMaria.dto.user.PersonaDTO;
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
@@ -43,7 +45,7 @@ public class EstadisticasService {
                 .stream()
                 .map(obj -> new EstadisticaVehiculoSucursalMontoDTO(
                         (String) obj[0],
-                        (Auto) obj[1],
+                        (AutoDTOListar) obj[1],
                         (Long) obj[2],
                         (Double) obj[3]
                 )).toList();
@@ -53,7 +55,7 @@ public class EstadisticasService {
         return alquilerRepository.findVehiculosMasAlquiladosConMonto()
                 .stream()
                 .map(obj -> new EstadisticaVehiculoMontoDTO(
-                        (Auto) obj[0],
+                        (AutoDTOListar) obj[0],
                         (Long) obj[1],
                         (Double) obj[2]
                 )).toList();
@@ -73,19 +75,26 @@ public class EstadisticasService {
         return alquilerRepository.findTopClientesConMonto()
                 .stream()
                 .map(obj -> new EstadisticaClienteMontoDTO(
-                        (Cliente) obj[0],
+                        (PersonaDTO) obj[0],
                         (Long) obj[1],
                         (Double) obj[2]
                 )).toList();
     }
 
     public EstadisticaIngresoResumenDTO obtenerResumenIngresos() {
-        Object[] result = alquilerRepository.findResumenIngresosTotales();
+        Object result = alquilerRepository.findResumenIngresosTotales();
+        Object[] resultArray = (Object[]) result;
+
+        Double montoTotal = resultArray[0] != null ? (Double) resultArray[0] : 0.0;
+        Long cantidadAlquileres = resultArray[1] != null ? (Long) resultArray[1] : 0L;
+        Double montoReembolsado = resultArray[2] != null ? (Double) resultArray[2] : 0.0;
+        Long cantidadReembolsos = resultArray[3] != null ? (Long) resultArray[3] : 0L;
+
         return new EstadisticaIngresoResumenDTO(
-                (Double) result[0],
-                (Long) result[1],
-                (Double) result[2],
-                (Long) result[3]
+                montoTotal,
+                cantidadAlquileres,
+                montoReembolsado,
+                cantidadReembolsos
         );
     }
 }

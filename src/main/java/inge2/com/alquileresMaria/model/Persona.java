@@ -17,9 +17,9 @@ public abstract class Persona extends Usuario {
     @NotBlank(message = "El apellido es obligatorio")
     private String apellido;
     @NotBlank(message = "El mail es obligatorio")
-    @Column(length = 9)
+    @Column(length = 11)
     @NotBlank(message = "El DNI es obligatorio")
-    @Size(min = 8, max = 9, message = "El dni debe tener 8 o 9 caracteres")
+    @Size(min = 8, max = 11, message = "El dni debe tener 8 o 9 caracteres")
     private String dni;
 
     public void actualizarDatos(PersonaDTOActualizar personaDTO){
