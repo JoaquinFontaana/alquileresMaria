@@ -119,7 +119,9 @@ public class Alquiler {
     public boolean isAfter() { return this.getRangoFecha().getFechaDesde().isAfter(LocalDate.now());}
 
     public boolean estaDisponibleRetiro() {
-        return this.isToday() || this.isAfter();
+        return this.estadoAlquiler == EstadoAlquiler.PENDIENTE
+                && this.auto.getEstado() == EstadoAuto.DISPONIBLE
+                && !this.isAfter();
     }
     public boolean checkAutoDisponible() {
         return this.auto.estaDisponible();
