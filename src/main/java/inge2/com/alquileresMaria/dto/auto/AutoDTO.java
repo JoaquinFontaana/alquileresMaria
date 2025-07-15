@@ -11,6 +11,8 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter @Setter
 public abstract class AutoDTO {
     @NotBlank(message = "La patente es obligatoria")
@@ -31,6 +33,7 @@ public abstract class AutoDTO {
     private EstadoAuto estado;
     @NotBlank(message = "La sucursal es obligatoria")
     private String sucursal;
+    private LocalDate fechaBaja;
 
     public AutoDTO(){
         
@@ -45,6 +48,6 @@ public abstract class AutoDTO {
         this.rembolso = auto.getRembolso();
         this.estado = auto.getEstado();
         this.sucursal = auto.getSucursal().getCiudad();
-
+        this.fechaBaja = auto.getFechaBaja();
     }
 }

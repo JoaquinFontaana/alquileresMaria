@@ -62,7 +62,8 @@ public class AutoService {
         this.autoHelperService.checkAutoNotAlquilado(auto);
 
         serviceAlquiler.cancelarReservas(auto.getReservas());
-        auto.setEstado(EstadoAuto.BAJA);
+        auto.borradoLogico();
+
 
         this.autoRepository.save(auto);
     }

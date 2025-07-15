@@ -46,6 +46,7 @@ public class Auto {
     private Sucursal sucursal;
     @NotBlank(message = "La imagen es obligatoria")
     private String rutaImagen;
+    private LocalDate fechaBaja = null;
 
     public Auto(){
         // Constructor por defecto requerido por Hibernate
@@ -108,5 +109,10 @@ public class Auto {
 
     public boolean enUso() {
         return this.estado == EstadoAuto.ALQUILADO;
+    }
+
+    public void borradoLogico() {
+        this.setEstado(EstadoAuto.BAJA);
+        this.fechaBaja = LocalDate.now();
     }
 }
