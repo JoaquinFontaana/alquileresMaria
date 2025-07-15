@@ -5,6 +5,7 @@ import inge2.com.alquileresMaria.dto.estadisticas.*;
 import inge2.com.alquileresMaria.dto.user.PersonaDTO;
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.Cliente;
+import inge2.com.alquileresMaria.model.Empleado;
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
 import inge2.com.alquileresMaria.repository.IAlquilerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class EstadisticasService {
                 .stream()
                 .map(obj -> new EstadisticaVehiculoSucursalMontoDTO(
                         (String) obj[0],
-                        (AutoDTOListar) obj[1],
+                        new AutoDTOListar((Auto) obj[1]),
                         (Long) obj[2],
                         (Double) obj[3]
                 )).toList();
@@ -55,7 +56,7 @@ public class EstadisticasService {
         return alquilerRepository.findVehiculosMasAlquiladosConMonto()
                 .stream()
                 .map(obj -> new EstadisticaVehiculoMontoDTO(
-                        (AutoDTOListar) obj[0],
+                        new AutoDTOListar((Auto) obj[0]),
                         (Long) obj[1],
                         (Double) obj[2]
                 )).toList();
@@ -75,7 +76,7 @@ public class EstadisticasService {
         return alquilerRepository.findTopClientesConMonto()
                 .stream()
                 .map(obj -> new EstadisticaClienteMontoDTO(
-                        (PersonaDTO) obj[0],
+                        new PersonaDTO((Cliente) obj[0]),
                         (Long) obj[1],
                         (Double) obj[2]
                 )).toList();
