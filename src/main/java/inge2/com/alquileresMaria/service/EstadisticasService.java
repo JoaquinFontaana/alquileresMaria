@@ -11,6 +11,8 @@ import inge2.com.alquileresMaria.repository.IAlquilerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -85,16 +87,16 @@ public class EstadisticasService {
     public EstadisticaIngresoResumenDTO obtenerResumenIngresos() {
         Object[] result = alquilerRepository.findResumenIngresosTotales();
 
-        Double montoTotal = result[0] != null ? (Double) result[0] : 0.0;
-        Long cantidadAlquileres = result[1] != null ? (Long) result[1] : 0L;
-        Double montoReembolsado = result[2] != null ? (Double) result[2] : 0.0;
-        Long cantidadReembolsos = result[3] != null ? (Long) result[3] : 0L;
+        BigDecimal montoTotalBD = result[0] != null ? (BigDecimal) result[0] : BigDecimal.ZERO;
+        BigInteger cantidadAlquileresBI = result[1] != null ? (BigInteger) result[1] : BigInteger.ZERO;
+        BigDecimal montoReembolsadoBD = result[2] != null ? (BigDecimal) result[2] : BigDecimal.ZERO;
+        BigInteger cantidadReembolsosBI = result[3] != null ? (BigInteger) result[3] : BigInteger.ZERO;
 
         return new EstadisticaIngresoResumenDTO(
-                montoTotal,
-                cantidadAlquileres,
-                montoReembolsado,
-                cantidadReembolsos
+                montoTotalBD.doubleValue(),
+                cantidadAlquileresBI.longValue(),
+                montoReembolsadoBD.doubleValue(),
+                cantidadReembolsosBI.longValue()
         );
     }
 }
