@@ -5,6 +5,7 @@ import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
 import inge2.com.alquileresMaria.model.*;
 import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
 import inge2.com.alquileresMaria.model.enums.EstadoPago;
+import inge2.com.alquileresMaria.model.enums.TiposRembolso;
 import inge2.com.alquileresMaria.repository.IAlquilerRepository;
 import inge2.com.alquileresMaria.service.builder.AlquilerFilterBuilder;
 import inge2.com.alquileresMaria.service.filter.alquiler.AlquilerFilterComponent;
@@ -12,7 +13,6 @@ import inge2.com.alquileresMaria.service.validators.AlquilerHelperService;
 import inge2.com.alquileresMaria.service.validators.ClienteHelperService;
 import inge2.com.alquileresMaria.service.validators.AutoHelperService;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -91,7 +91,9 @@ public class AlquilerService {
             this.repository.delete(reserva);
         }
         else {
-            this.rembolsoService.crearRembolso(reserva);
+            if(reserva.getAuto().getRembolso() != TiposRembolso.SIN_REMBOLSO){
+                this.rembolsoService.crearRembolso(reserva);
+            }
             reserva.setEstadoAlquiler(EstadoAlquiler.CANCELADO);
             this.repository.save(reserva);
         }
