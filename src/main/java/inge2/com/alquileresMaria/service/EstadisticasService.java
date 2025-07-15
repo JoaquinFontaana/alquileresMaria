@@ -83,13 +83,12 @@ public class EstadisticasService {
     }
 
     public EstadisticaIngresoResumenDTO obtenerResumenIngresos() {
-        Object result = alquilerRepository.findResumenIngresosTotales();
-        Object[] resultArray = (Object[]) result;
+        Object[] result = alquilerRepository.findResumenIngresosTotales();
 
-        Double montoTotal = resultArray[0] != null ? (Double) resultArray[0] : 0.0;
-        Long cantidadAlquileres = resultArray[1] != null ? (Long) resultArray[1] : 0L;
-        Double montoReembolsado = resultArray[2] != null ? (Double) resultArray[2] : 0.0;
-        Long cantidadReembolsos = resultArray[3] != null ? (Long) resultArray[3] : 0L;
+        Double montoTotal = result[0] != null ? (Double) result[0] : 0.0;
+        Long cantidadAlquileres = result[1] != null ? (Long) result[1] : 0L;
+        Double montoReembolsado = result[2] != null ? (Double) result[2] : 0.0;
+        Long cantidadReembolsos = result[3] != null ? (Long) result[3] : 0L;
 
         return new EstadisticaIngresoResumenDTO(
                 montoTotal,
