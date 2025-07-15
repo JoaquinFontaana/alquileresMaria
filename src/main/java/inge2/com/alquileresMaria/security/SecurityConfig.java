@@ -47,6 +47,7 @@ public class SecurityConfig {
                         .requestMatchers("/alquiler/cancelarReserva").hasRole("CLIENT")
                         .requestMatchers("/alquiler/listar").hasAnyRole("ADMIN","EMPLEADO")
                         .requestMatchers("/alquiler/get/extras").permitAll()
+                        .requestMatchers("/alquiler/empleado/*").hasRole("EMPLEADO")
                         .requestMatchers("/estadisticas/**").hasRole("ADMIN")
                         .requestMatchers("/cliente/registrar").permitAll()
                         .requestMatchers("/cliente/multa").hasRole("CLIENT")

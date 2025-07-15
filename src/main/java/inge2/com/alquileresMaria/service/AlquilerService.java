@@ -40,7 +40,7 @@ public class AlquilerService {
         this.rembolsoService = rembolsoService;
         this.filterBuilder = filterBuilder;
     }
-
+    @Transactional
     public Alquiler crearAlquiler(AlquilerDTOCrear alquilerDTO,String mail){
         this.alquilerHelperService.checkDuracionAlquiler(alquilerDTO.getRangoFecha());
         this.alquilerHelperService.checkDisponibilidadConductor(alquilerDTO.getRangoFecha(),alquilerDTO.getLicenciaConductor());
