@@ -27,23 +27,35 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     );
     // Ingresos en un periodo de tiempo
     @Query("""
-    SELECT SUM(CASE WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
-                    THEN (a.pago.monto - COALESCE(a.rembolso.montoRembolsado, 0))
-                    ELSE a.pago.monto END)
+    SELECT SUM(
+        CASE
+            WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+            THEN (p.monto - COALESCE(r.montoRembolsado, 0))
+            ELSE p.monto
+        END
+    )
     FROM Alquiler a
+    JOIN a.pago p
+    LEFT JOIN a.rembolso r
     WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
-        AND a.rangoFecha.fechaDesde <= :fechaInicio
-        AND a.rangoFecha.fechaHasta >= :fechaFin
+      AND a.rangoFecha.fechaDesde <= :fechaFin
+      AND a.rangoFecha.fechaHasta >= :fechaInicio
     """)
     Double findIngresosPeridoTiempo(@Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin);
 
     @Query("""
     SELECT a.sucursal.ciudad, a.auto,
            COUNT(a),
-           SUM(CASE WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
-                    THEN (a.pago.monto - COALESCE(a.rembolso.montoRembolsado, 0))
-                    ELSE a.pago.monto END)
+           SUM(
+               CASE 
+                   WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+                   THEN (p.monto - COALESCE(r.montoRembolsado, 0))
+                   ELSE p.monto
+               END
+           )
     FROM Alquiler a
+    JOIN a.pago p
+    LEFT JOIN a.rembolso r
     WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
       AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
     GROUP BY a.sucursal.ciudad, a.auto
@@ -53,10 +65,16 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
 
     @Query("""
     SELECT a.auto, COUNT(a),
-           SUM(CASE WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
-                    THEN (a.pago.monto - COALESCE(a.rembolso.montoRembolsado, 0))
-                    ELSE a.pago.monto END)
+           SUM(
+               CASE 
+                   WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+                   THEN (p.monto - COALESCE(r.montoRembolsado, 0))
+                   ELSE p.monto
+               END
+           )
     FROM Alquiler a
+    JOIN a.pago p
+    LEFT JOIN a.rembolso r
     WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
       AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
     GROUP BY a.auto
@@ -66,10 +84,16 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
 
     @Query("""
     SELECT a.auto.categoria, COUNT(a),
-           SUM(CASE WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
-                    THEN (a.pago.monto - COALESCE(a.rembolso.montoRembolsado, 0))
-                    ELSE a.pago.monto END)
+           SUM(
+               CASE 
+                   WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+                   THEN (p.monto - COALESCE(r.montoRembolsado, 0))
+                   ELSE p.monto
+               END
+           )
     FROM Alquiler a
+    JOIN a.pago p
+    LEFT JOIN a.rembolso r
     WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
       AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
     GROUP BY a.auto.categoria
@@ -79,10 +103,16 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
 
     @Query("""
     SELECT a.cliente, COUNT(a),
-           SUM(CASE WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
-                    THEN (a.pago.monto - COALESCE(a.rembolso.montoRembolsado, 0))
-                    ELSE a.pago.monto END)
+           SUM(
+               CASE 
+                   WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+                   THEN (p.monto - COALESCE(r.montoRembolsado, 0))
+                   ELSE p.monto
+               END
+           )
     FROM Alquiler a
+    JOIN a.pago p
+    LEFT JOIN a.rembolso r
     WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
       AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
     GROUP BY a.cliente
@@ -101,15 +131,21 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     FROM Alquiler a
     WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
     """)
-    Object[] findResumenIngresosTotales();
+    Optional<Object[]> findResumenIngresosTotales();
 
     @Query("""
     SELECT a.sucursal.ciudad,
-           SUM(CASE WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
-                    THEN (a.pago.monto - COALESCE(a.rembolso.montoRembolsado, 0))
-                    ELSE a.pago.monto END),
+           SUM(
+               CASE 
+                   WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+                   THEN (p.monto - COALESCE(r.montoRembolsado, 0))
+                   ELSE p.monto
+               END
+           ),
            COUNT(a)
     FROM Alquiler a
+    JOIN a.pago p
+    LEFT JOIN a.rembolso r
     WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
     GROUP BY a.sucursal.ciudad
     """)
