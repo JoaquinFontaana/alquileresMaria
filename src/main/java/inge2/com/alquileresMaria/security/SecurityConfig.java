@@ -52,7 +52,7 @@ public class SecurityConfig {
                         .requestMatchers("/cliente/registrar").permitAll()
                         .requestMatchers("/cliente/multa").hasRole("CLIENT")
                         .requestMatchers("/auto/listar").permitAll()
-                        .requestMatchers("/auto/reparar").hasRole("EMPLEADO")
+                        .requestMatchers("/auto/reparado").hasRole("EMPLEADO")
                         .requestMatchers("/auto/admin/**").hasRole("ADMIN")
                         .requestMatchers("/auto/get/**").permitAll()
                         .requestMatchers("/alquileres/pendientes").hasRole("EMPLEADO")
