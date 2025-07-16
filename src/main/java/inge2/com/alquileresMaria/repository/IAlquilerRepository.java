@@ -122,16 +122,16 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
 
     @Query("""
     SELECT 
-       SUM(CASE WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
-                THEN (a.pago.monto - COALESCE(a.rembolso.montoRembolsado, 0))
-                ELSE a.pago.monto END),
-       COUNT(a),
-       SUM(COALESCE(a.rembolso.montoRembolsado, 0)),
-       SUM(CASE WHEN a.rembolso.montoRembolsado IS NOT NULL THEN 1 ELSE 0 END)
+        COALESCE(SUM(p.monto), 0),
+        COUNT(DISTINCT a.id),
+        COALESCE(SUM(r.montoRembolsado), 0),
+        COUNT(DISTINCT r.id)
     FROM Alquiler a
-    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
+    LEFT JOIN a.pago p ON p.estadoPago = 'PAGADO'
+    LEFT JOIN a.rembolso r
+    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
     """)
-    Optional<Object[]> findResumenIngresosTotales();
+    Object findResumenIngresosTotales();
 
     @Query("""
     SELECT a.sucursal.ciudad,
