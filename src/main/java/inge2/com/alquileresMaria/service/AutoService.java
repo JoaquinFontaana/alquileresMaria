@@ -12,6 +12,7 @@ import inge2.com.alquileresMaria.service.builder.AutoFilterBuilder;
 import inge2.com.alquileresMaria.service.filter.auto.IAutoFilter;
 import inge2.com.alquileresMaria.service.validators.AutoHelperService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -83,5 +84,11 @@ public class AutoService {
     public byte[] obtenerImagenAuto(String patente){
         String rutaImagen =this.autoHelperService.findAutoByPatente(patente).getRutaImagen();
         return this.fileStorageService.leerImagenComoBytes(rutaImagen);
+    }
+
+    public void reparar(String patente) {
+        Auto auto = this.autoHelperService.findAutoByPatente(patente);
+        auto.setEstado(EstadoAuto.DISPONIBLE);
+        this.autoRepository.save(auto);
     }
 }

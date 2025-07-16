@@ -93,4 +93,10 @@ public class AutoController {
     public List<AutoDTOListar> listarAutos(@ModelAttribute AutoFilterDTO opcionesFiltrado){
         return this.autoService.listarAutos(opcionesFiltrado);
     }
+
+    @PostMapping("/reparado")
+    public ResponseEntity<String> reparado(@Valid @RequestParam String patente){
+        this.autoService.reparar(patente);
+        return ResponseEntity.ok("Auto actualizado con exito");
+    }
 }
