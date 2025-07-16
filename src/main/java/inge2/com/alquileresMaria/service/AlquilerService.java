@@ -123,7 +123,7 @@ public class AlquilerService {
     public List<AlquilerDTOListar> listarPendientesEntrega(String sucursal) {
         Sucursal ciudad = this.sucursalService.findSucursalByCiudad(sucursal);
         return this.repository.findBySucursal_Ciudad(ciudad.getCiudad()).stream()
-                .filter(a -> a.estaDisponibleRetiro())
+                .filter(Alquiler::estaDisponibleRetiro)
                 .map(a -> new AlquilerDTOListar(a))
                 .toList();
     }
@@ -156,7 +156,7 @@ public class AlquilerService {
     public List<AlquilerDTOListar> listarPendientesDevolucion(String sucursal) {
         Sucursal ciudad = this.sucursalService.findSucursalByCiudad(sucursal);
         return this.repository.findBySucursal_Ciudad(ciudad.getCiudad()).stream()
-                .filter(a -> a.estaEnUso())
+                .filter(Alquiler::estaEnUso)
                 .map(a -> new AlquilerDTOListar(a))
                 .toList();
     }

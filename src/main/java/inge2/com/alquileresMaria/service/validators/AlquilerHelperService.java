@@ -10,6 +10,7 @@ import inge2.com.alquileresMaria.service.EmailService;
 import inge2.com.alquileresMaria.service.RembolsoService;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -64,6 +65,7 @@ public class AlquilerHelperService {
 
         this.serviceEmail.sendEmailsClientes(this.obtenerClientesDeAlquileres(alquileres), subject,body);
     }
+    @Transactional
     public void eliminarAlquileres(List<Alquiler> alquileres){
         this.repository.deleteAll(alquileres);
 

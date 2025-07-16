@@ -20,11 +20,9 @@ import java.util.List;
 @Service
 public class PagoService {
 
-    private final AlquilerHelperService alquilerHelperService;
     private final IPagoRepository pagoRepository;
 
-    public PagoService(AlquilerHelperService alquilerHelperService, IPagoRepository pagoRepository) {
-        this.alquilerHelperService = alquilerHelperService;
+    public PagoService(IPagoRepository pagoRepository) {
         this.pagoRepository = pagoRepository;
     }
 
@@ -52,12 +50,8 @@ public class PagoService {
 
     @Transactional
     public void deletePagosPendientes(){
-        List<Pago> pagos = this.pagoRepository.findPagosExpirados(OffsetDateTime.now(ZoneOffset.UTC), EstadoPago.PENDIENTE);
-        this.alquilerHelperService.eliminarAlquileres(
-                pagos.stream()
-                .map(Pago::getAlquiler)
-                .toList()
-        );
+        List<Long> pagos = this.pagoRepository.findPagosExpirados(OffsetDateTime.now(ZoneOffset.UTC), EstadoPago.PENDIENTE).stream().map(Pago::getId).toList();
+        this.pagoRepository.deleteAllById(pagos);
     }
 
 }
