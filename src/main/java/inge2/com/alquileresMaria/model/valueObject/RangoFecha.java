@@ -41,7 +41,7 @@ public class RangoFecha {
     }
 
     public boolean esPosterior(LocalDate fecha){
-        return this.fechaDesde.isAfter(fecha);
+        return this.fechaDesde.isAfter(fecha) || this.fechaDesde.isEqual(fecha);
     }
     public int cantidadDeDias(){
         return Period.between(fechaDesde,fechaHasta).getDays();
