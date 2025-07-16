@@ -131,7 +131,7 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     FROM Alquiler a
     WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
     """)
-    Object[] findResumenIngresosTotales();
+    Optional<Object[]> findResumenIngresosTotales();
 
     @Query("""
     SELECT a.sucursal.ciudad,

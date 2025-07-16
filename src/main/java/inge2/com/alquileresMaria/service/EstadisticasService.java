@@ -8,6 +8,7 @@ import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.model.Empleado;
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
 import inge2.com.alquileresMaria.repository.IAlquilerRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -85,7 +86,8 @@ public class EstadisticasService {
     }
 
     public EstadisticaIngresoResumenDTO obtenerResumenIngresos() {
-        Object[] result = alquilerRepository.findResumenIngresosTotales();
+        Object[] result = alquilerRepository.findResumenIngresosTotales()
+                .orElseThrow(() -> new EntityNotFoundException("No hay ingresos para mostrar"));
 
         BigDecimal montoTotalBD = result[0] != null ? (BigDecimal) result[0] : BigDecimal.ZERO;
         BigInteger cantidadAlquileresBI = result[1] != null ? (BigInteger) result[1] : BigInteger.ZERO;
