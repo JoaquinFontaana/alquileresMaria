@@ -3,6 +3,7 @@ package inge2.com.alquileresMaria.service;
 import inge2.com.alquileresMaria.model.Alquiler;
 import inge2.com.alquileresMaria.model.Rembolso;
 import inge2.com.alquileresMaria.model.enums.EstadoPago;
+import inge2.com.alquileresMaria.model.enums.TiposRembolso;
 import inge2.com.alquileresMaria.repository.IRembolsoRepository;
 import inge2.com.alquileresMaria.service.builder.MpPreferenceBuilder;
 import jakarta.transaction.Transactional;
@@ -20,7 +21,9 @@ public class RembolsoService {
     }
     @Transactional
     public void crearRembolso(Alquiler reserva){
-        mpPreferenceBuilder.rembolsar(reserva.calcularRembolso(),reserva.getPago().getPaymentId());
+        if(reserva.getAuto().getRembolso() != TiposRembolso.SIN_REMBOLSO) {
+            mpPreferenceBuilder.rembolsar(reserva.calcularRembolso(), reserva.getPago().getPaymentId());
+        }
         reserva.getPago().setEstadoPago(EstadoPago.REMBOLSADO);
         rembolsoRepository.save(new Rembolso(reserva));
     }

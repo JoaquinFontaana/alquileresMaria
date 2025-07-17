@@ -91,9 +91,7 @@ public class AlquilerService {
             this.repository.delete(reserva);
         }
         else {
-            if(reserva.getAuto().getRembolso() != TiposRembolso.SIN_REMBOLSO){
-                this.rembolsoService.crearRembolso(reserva);
-            }
+            this.rembolsoService.crearRembolso(reserva);
             reserva.setEstadoAlquiler(EstadoAlquiler.CANCELADO);
             this.repository.save(reserva);
         }
