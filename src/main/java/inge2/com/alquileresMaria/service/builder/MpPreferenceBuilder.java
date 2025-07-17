@@ -62,8 +62,15 @@ public class MpPreferenceBuilder {
             PreferenceClient client = new PreferenceClient();
             return client.create(preferenceRequest);
         }
-        catch (MPApiException | MPException ex){
-            throw new RuntimeException ("Ocurrio un error interno" + ex.getMessage());
+        catch (MPApiException ex){
+            System.out.println(publicUrl + urlNotificacion);
+            System.err.println("Status: " + ex.getStatusCode());
+            System.err.println("Response body: " + ex.getApiResponse().getContent());
+            throw new RuntimeException("No se pudo procesar el alquiler: " + ex.getApiResponse().getContent(), ex);
+        }
+        catch (MPException ex){
+            System.err.println("Error al : " + ex.getMessage());
+            throw new RuntimeException("No se pudo procesar el alquiler.", ex);
         }
     }
 
