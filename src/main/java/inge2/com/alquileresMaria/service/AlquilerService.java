@@ -128,7 +128,7 @@ public class AlquilerService {
 
     public List<AutoDTOListar> sugerirSimilares(String licenciaConductor, LocalDate fechaDesde, LocalDate fechaHasta) {
         Alquiler alquiler = this.alquilerHelperService.findByConductorRangoFechas(new AlquilerDTOFechaLicencia(fechaDesde, fechaHasta,licenciaConductor));
-        this.alquilerHelperService.checkFechaReserva(alquiler);
+     //   this.alquilerHelperService.checkFechaReserva(alquiler);
         this.autoHelperService.checkAutoNoDisponible(alquiler.getAuto());
         return this.autoHelperService.findSimilaresPorPrecioOCategoria(alquiler.getAuto())
                 .stream()
