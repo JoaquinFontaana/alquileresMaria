@@ -2,7 +2,6 @@ package inge2.com.alquileresMaria.model.valueObject;
 
 
 import jakarta.persistence.Embeddable;
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,7 +30,6 @@ public class RangoFecha {
      *   - este.fechaHasta < rango.fechaDesde  (termina antes de que empiece el otro)
      *   OR
      *   - rango.fechaHasta < this.fechaDesde  (el otro termina antes de que empiece éste)
-     *
      * Igualdades en los límites también cuentan como solapamiento,
      * por lo que usamos isBefore/isAfter estrictos.
      */
@@ -40,7 +38,7 @@ public class RangoFecha {
                 || rango.getFechaHasta().isBefore(this.fechaDesde);
     }
 
-    public boolean esPosterior(LocalDate fecha){
+    public boolean isTodayOrAfter(LocalDate fecha){
         return this.fechaDesde.isAfter(fecha) || this.fechaDesde.isEqual(fecha);
     }
     public int cantidadDeDias(){

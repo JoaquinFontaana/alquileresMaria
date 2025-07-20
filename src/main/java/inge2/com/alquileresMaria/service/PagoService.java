@@ -4,10 +4,10 @@ import com.mercadopago.resources.payment.Payment;
 import com.mercadopago.resources.preference.Preference;
 import inge2.com.alquileresMaria.model.Alquiler;
 import inge2.com.alquileresMaria.model.Pago;
-import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
+import inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum;
 import inge2.com.alquileresMaria.model.enums.EstadoPago;
+import inge2.com.alquileresMaria.model.state.Alquiler.RetiroPendiente;
 import inge2.com.alquileresMaria.repository.IPagoRepository;
-import inge2.com.alquileresMaria.service.validators.AlquilerHelperService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ public class PagoService {
 
         pago.setPaymentId(payment.getId());
         pago.setEstadoPago(EstadoPago.PAGADO);
-        pago.getAlquiler().setEstadoAlquiler(EstadoAlquiler.PENDIENTE);
+        pago.getAlquiler().cambiarEstado(new RetiroPendiente());
 
         this.pagoRepository.save(pago);
     }

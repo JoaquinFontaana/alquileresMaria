@@ -1,8 +1,8 @@
 package inge2.com.alquileresMaria.model.enums;
 
-public enum EstadoAuto {
-    EN_MANTENIMIENTO,
+public enum EstadoAutoEnum {
+    MANTENIMIENTO,
     ALQUILADO,
     DISPONIBLE,
-    BAJA;
+    BAJA
 }

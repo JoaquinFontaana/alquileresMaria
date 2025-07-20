@@ -20,7 +20,7 @@ public interface IAutoRepository extends JpaRepository<Auto,Long> {
     FROM Auto a
     WHERE a.sucursal.id = :sucursalId
       AND (ABS(a.precioPorDia - :precio) <= :rangoPrecio OR a.categoria = :categoria)
-      AND a.estado = inge2.com.alquileresMaria.model.enums.EstadoAuto.DISPONIBLE
+      AND a.estado = inge2.com.alquileresMaria.model.enums.EstadoAutoEnum.DISPONIBLE
       AND a.id <> :autoId
     """)
     List<Auto> findSimilaresPorPrecioOCategoria(

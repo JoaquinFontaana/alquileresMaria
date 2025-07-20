@@ -1,7 +1,7 @@
 package inge2.com.alquileresMaria.dto.auto;
 
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
-import inge2.com.alquileresMaria.model.enums.EstadoAuto;
+import inge2.com.alquileresMaria.model.enums.EstadoAutoEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,14 +14,14 @@ public class AutoFilterDTO {
     private LocalDate fechaHasta;
     private Integer capacidad;
     private List<CategoriaAuto> categorias;
-    private List<EstadoAuto> estadoAuto;
-    public AutoFilterDTO(String nombreSucursal, LocalDate fechaDesde, LocalDate fechaHasta, Integer capacidad, List<CategoriaAuto> categorias, List<EstadoAuto> estadoAuto) {
+    private List<EstadoAutoEnum> estadoAutoEnum;
+    public AutoFilterDTO(String nombreSucursal, LocalDate fechaDesde, LocalDate fechaHasta, Integer capacidad, List<CategoriaAuto> categorias, List<EstadoAutoEnum> estadoAutoEnum) {
         this.nombreSucursal = nombreSucursal;
         this.fechaDesde = fechaDesde ;
         this.fechaHasta = fechaHasta;
         this.capacidad = capacidad;
         this.categorias = categorias;
-        this.estadoAuto = estadoAuto;
+        this.estadoAutoEnum = estadoAutoEnum;
     }
 
 }

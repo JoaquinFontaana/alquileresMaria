@@ -5,14 +5,13 @@ import inge2.com.alquileresMaria.dto.auto.AutoDTOCrear;
 import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
 import inge2.com.alquileresMaria.dto.auto.AutoFilterDTO;
 import inge2.com.alquileresMaria.model.Auto;
-import inge2.com.alquileresMaria.model.enums.EstadoAuto;
+import inge2.com.alquileresMaria.model.enums.EstadoAutoEnum;
 import inge2.com.alquileresMaria.model.Sucursal;
 import inge2.com.alquileresMaria.repository.IAutoRepository;
 import inge2.com.alquileresMaria.service.builder.AutoFilterBuilder;
 import inge2.com.alquileresMaria.service.filter.auto.IAutoFilter;
 import inge2.com.alquileresMaria.service.validators.AutoHelperService;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,17 +56,16 @@ public class AutoService {
                 .map(auto -> new AutoDTOListar(auto))
                 .toList();
     }
+
     @Transactional
     public void eliminarAuto(String patente){
-        Auto auto = this.autoHelperService.findAutoByPatente(patente);
-        this.autoHelperService.checkAutoNotAlquilado(auto);
+        this.autoHelperService.findAutoByPatente(patente).darDeBaja(serviceAlquiler,this);
+    }
 
-        serviceAlquiler.cancelarReservas(auto.getReservas());
-        auto.borradoLogico();
-
-
+    public void saveAuto(Auto auto){
         this.autoRepository.save(auto);
     }
+
     @Transactional
     public void actualizarAuto(AutoDTOActualizar autoActualizado){
         Sucursal sucursal = this.sucursalService.findSucursalByCiudad(autoActualizado.getSucursal());
@@ -88,7 +86,7 @@ public class AutoService {
 
     public void reparar(String patente) {
         Auto auto = this.autoHelperService.findAutoByPatente(patente);
-        auto.setEstado(EstadoAuto.DISPONIBLE);
+        auto.setEstado(EstadoAutoEnum.DISPONIBLE);
         this.autoRepository.save(auto);
     }
 }

@@ -18,7 +18,7 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     WHERE a.licenciaConductor = :licencia
         AND a.rangoFecha.fechaDesde <= :fechaHasta
         AND a.rangoFecha.fechaHasta >= :fechaDesde
-        AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+        AND a.estadoAlquilerEnum != inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CANCELADO
     """)
     Optional<Alquiler> findAlquilerByLicenciaConductorAndRangoFecha (
             @Param("licencia") String licenciaConductor,
@@ -29,7 +29,7 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     @Query("""
     SELECT SUM(
         CASE
-            WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+            WHEN a.estadoAlquilerEnum = inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CANCELADO
             THEN (p.monto - COALESCE(r.montoRembolsado, 0))
             ELSE p.monto
         END
@@ -37,7 +37,7 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     FROM Alquiler a
     JOIN a.pago p
     LEFT JOIN a.rembolso r
-    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
+    WHERE a.estadoAlquilerEnum != inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CONFIRMACION_PENDIENTE
       AND a.rangoFecha.fechaDesde <= :fechaFin
       AND a.rangoFecha.fechaHasta >= :fechaInicio
     """)
@@ -48,7 +48,7 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
            COUNT(a),
            SUM(
                CASE 
-                   WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+                   WHEN a.estadoAlquilerEnum = inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CANCELADO
                    THEN (p.monto - COALESCE(r.montoRembolsado, 0))
                    ELSE p.monto
                END
@@ -56,8 +56,8 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     FROM Alquiler a
     JOIN a.pago p
     LEFT JOIN a.rembolso r
-    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
-      AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
+    WHERE a.estadoAlquilerEnum != inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CANCELADO
+      AND a.estadoAlquilerEnum != inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CONFIRMACION_PENDIENTE
     GROUP BY a.sucursal.ciudad, a.auto
     ORDER BY COUNT(a) DESC
     """)
@@ -67,7 +67,7 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     SELECT a.auto, COUNT(a),
            SUM(
                CASE 
-                   WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+                   WHEN a.estadoAlquilerEnum = inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CANCELADO
                    THEN (p.monto - COALESCE(r.montoRembolsado, 0))
                    ELSE p.monto
                END
@@ -75,8 +75,8 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     FROM Alquiler a
     JOIN a.pago p
     LEFT JOIN a.rembolso r
-    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
-      AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
+    WHERE a.estadoAlquilerEnum != inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CANCELADO
+      AND a.estadoAlquilerEnum != inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CONFIRMACION_PENDIENTE
     GROUP BY a.auto
     ORDER BY COUNT(a) DESC
     """)
@@ -86,7 +86,7 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     SELECT a.auto.categoria, COUNT(a),
            SUM(
                CASE 
-                   WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+                   WHEN a.estadoAlquilerEnum = inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CANCELADO
                    THEN (p.monto - COALESCE(r.montoRembolsado, 0))
                    ELSE p.monto
                END
@@ -94,8 +94,8 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     FROM Alquiler a
     JOIN a.pago p
     LEFT JOIN a.rembolso r
-    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
-      AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
+    WHERE a.estadoAlquilerEnum != inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CANCELADO
+      AND a.estadoAlquilerEnum != inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CONFIRMACION_PENDIENTE
     GROUP BY a.auto.categoria
     ORDER BY COUNT(a) DESC
     """)
@@ -105,7 +105,7 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     SELECT a.cliente, COUNT(a),
            SUM(
                CASE 
-                   WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+                   WHEN a.estadoAlquilerEnum = inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CANCELADO
                    THEN (p.monto - COALESCE(r.montoRembolsado, 0))
                    ELSE p.monto
                END
@@ -113,8 +113,8 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     FROM Alquiler a
     JOIN a.pago p
     LEFT JOIN a.rembolso r
-    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
-      AND a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
+    WHERE a.estadoAlquilerEnum != inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CANCELADO
+      AND a.estadoAlquilerEnum != inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CONFIRMACION_PENDIENTE
     GROUP BY a.cliente
     ORDER BY COUNT(a) DESC
     """)
@@ -129,7 +129,7 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     FROM Alquiler a
     LEFT JOIN a.pago p ON p.estadoPago = 'PAGADO'
     LEFT JOIN a.rembolso r
-    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+    WHERE a.estadoAlquilerEnum != inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CANCELADO
     """)
     Object findResumenIngresosTotales();
 
@@ -137,7 +137,7 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     SELECT a.sucursal.ciudad,
            SUM(
                CASE 
-                   WHEN a.estadoAlquiler = inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CANCELADO
+                   WHEN a.estadoAlquilerEnum = inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CANCELADO
                    THEN (p.monto - COALESCE(r.montoRembolsado, 0))
                    ELSE p.monto
                END
@@ -146,14 +146,25 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     FROM Alquiler a
     JOIN a.pago p
     LEFT JOIN a.rembolso r
-    WHERE a.estadoAlquiler != inge2.com.alquileresMaria.model.enums.EstadoAlquiler.CONFIRMACION_PENDIENTE
+    WHERE a.estadoAlquilerEnum != inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.CONFIRMACION_PENDIENTE
     GROUP BY a.sucursal.ciudad
     """)
     List<Object[]> findIngresosYCantidadPorSucursal();
 
 
+    @Query("""
+    select a
+    from Alquiler a
+    where a.sucursal.ciudad = :ciudad AND a.estadoAlquilerEnum = inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.EN_USO
+    """)
+    List<Alquiler> findEnUsoByCiudad(@Param("ciudad") String ciudad);
+
+    @Query("""
+    select a
+    from Alquiler a
+    where a.sucursal.ciudad = :ciudad AND a.estadoAlquilerEnum = inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.RETIRO_PENDIENTE
+    """)
+    List<Alquiler> findRetiroPendienteByCiudad(@Param("ciudad") String ciudad);
 
 
-
-    List<Alquiler> findBySucursal_Ciudad(@Valid String ciudad);
 }

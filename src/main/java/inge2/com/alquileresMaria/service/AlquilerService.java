@@ -3,7 +3,6 @@ package inge2.com.alquileresMaria.service;
 import inge2.com.alquileresMaria.dto.alquiler.*;
 import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
 import inge2.com.alquileresMaria.model.*;
-import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
 import inge2.com.alquileresMaria.model.enums.EstadoPago;
 import inge2.com.alquileresMaria.repository.IAlquilerRepository;
 import inge2.com.alquileresMaria.service.builder.AlquilerFilterBuilder;
@@ -28,8 +27,10 @@ public class AlquilerService {
     private final AlquilerHelperService alquilerHelperService;
     private final RembolsoService rembolsoService;
     private final AlquilerFilterBuilder filterBuilder;
+    private final EmailService emailService;
+    private final AutoService autoService;
 
-    public AlquilerService(IAlquilerRepository repository, SucursalService sucursalService, AutoHelperService autoHelperService, ClienteHelperService clienteHelperService, AlquilerHelperService alquilerHelperService, RembolsoService rembolsoService, AlquilerFilterBuilder filterBuilder) {
+    public AlquilerService(IAlquilerRepository repository, SucursalService sucursalService, AutoHelperService autoHelperService, ClienteHelperService clienteHelperService, AlquilerHelperService alquilerHelperService, RembolsoService rembolsoService, AlquilerFilterBuilder filterBuilder, EmailService emailService, AutoService autoService) {
         this.repository = repository;
         this.sucursalService = sucursalService;
         this.autoHelperService = autoHelperService;
@@ -37,7 +38,10 @@ public class AlquilerService {
         this.alquilerHelperService = alquilerHelperService;
         this.rembolsoService = rembolsoService;
         this.filterBuilder = filterBuilder;
+        this.emailService = emailService;
+        this.autoService = autoService;
     }
+
     @Transactional
     public Alquiler crearAlquiler(AlquilerDTOCrear alquilerDTO,String mail){
         this.alquilerHelperService.checkDuracionAlquiler(alquilerDTO.getRangoFecha());
@@ -54,73 +58,59 @@ public class AlquilerService {
         return this.repository.save(alquiler);
     }
 
-    @Transactional
-    public void cancelarReservas(List<Alquiler> alquileres){
-        //Solo mandar mails a clientes con reservas futuras verificar que la fecha no sea menor a la actual
-        List<Alquiler> alquileresPosteriores = this.alquilerHelperService.filtrarAlquileresPosteriores(alquileres);
-        this.alquilerHelperService.rembolsarReservasPagadas(alquileresPosteriores
-                .stream()
-                .filter(a -> a.getPago().getEstadoPago().equals(EstadoPago.PAGADO))
-                .toList()
-        );
-        this.alquilerHelperService.eliminarAlquileres(
-                alquileresPosteriores
-                        .stream()
-                        .filter(a -> a.getPago().getEstadoPago().equals(EstadoPago.PENDIENTE))
-                        .toList()
-        );
-    }
-
     public List<AlquilerDTOListar> listarAlquileres(AlquilerDTOFilter filtros) {
         AlquilerFilterComponent filter = filterBuilder.buildFilter(filtros);
         return filter
                 .getAlquileres()
                 .stream()
-                .map( alquiler -> new AlquilerDTOListar(alquiler))
+                .map(AlquilerDTOListar::new)
                 .toList();
     }
 
     @Transactional
     public void cancelarReserva(Long codigoAlquiler) {
-        Alquiler reserva = this.alquilerHelperService.findById(codigoAlquiler);
-
-        this.alquilerHelperService.checkForCancelacion(reserva);
-        if(reserva.getPago().getEstadoPago() == EstadoPago.PENDIENTE){
-            this.repository.delete(reserva);
-        }
-        else {
-            this.rembolsoService.crearRembolso(reserva);
-            reserva.setEstadoAlquiler(EstadoAlquiler.CANCELADO);
-            this.repository.save(reserva);
-        }
+        this.alquilerHelperService.findById(codigoAlquiler).cancelar(this);
     }
+
+    public void sendEmailBajaAuto(Alquiler alquiler,String body) {
+        String subject = "Su auto reservado "+ alquiler.getAuto().getModelo() + " ya no se encuentra disponible";
+        this.emailService.sendEmail(alquiler.getCliente().getMail(), subject, body);
+    }
+
+    public void rembolsarAlquiler(Alquiler alquiler,double montoRembolso){
+        this.rembolsoService.crearRembolso(alquiler, montoRembolso);
+    }
+
+    public void eliminarAlquiler(Alquiler alquiler){
+        this.repository.delete(alquiler);
+    }
+
+    public void saveAlquiler(Alquiler alquiler){
+        this.repository.save(alquiler);
+    }
+
     @Transactional
     public void iniciarAlquiler(Long codigoAlquiler) {
-        Alquiler reserva = this.alquilerHelperService.findById(codigoAlquiler);
-        this.alquilerHelperService.checkAvailable(reserva);
-        this.autoHelperService.checkAutoDisponible(reserva.getAuto());
-        reserva.iniciar();
-        this.repository.save(reserva);
-    }
-    @Transactional
-    public void finalizarAlquilerCorrecto(Long codigoAlquiler) {
-        Alquiler reserva = this.alquilerHelperService.findById(codigoAlquiler);
-        reserva.finalizar();
-        this.repository.save(reserva);
-    }
-    @Transactional
-    public void finalizarAlquilerMantenimiento(MultaAlquilerDTO multaAlquilerDTO) {
-        Alquiler reserva = this.alquilerHelperService.findById(multaAlquilerDTO.getCodigoAlquiler());
-        this.cancelarReservas(reserva.getAuto().getReservas());
-        reserva.finalizarConMantenimiento(multaAlquilerDTO.getMontoMulta());
-        this.repository.save(reserva);
+        this.alquilerHelperService.findById(codigoAlquiler).iniciar(this,autoService);
     }
 
-    public List<AlquilerDTOListar> listarPendientesEntrega(String sucursal) {
-        Sucursal ciudad = this.sucursalService.findSucursalByCiudad(sucursal);
-        return this.repository.findBySucursal_Ciudad(ciudad.getCiudad()).stream()
-                .filter(Alquiler::estaDisponibleRetiro)
-                .map(a -> new AlquilerDTOListar(a))
+    @Transactional
+    public void finalizarAlquilerCorrecto(Long codigoAlquiler) {
+        this.alquilerHelperService.findById(codigoAlquiler).finalizar(autoService,this);
+    }
+
+    @Transactional
+    public void finalizarAlquilerMantenimiento(MultaAlquilerDTO multaAlquilerDTO) {
+        this.alquilerHelperService.findById(multaAlquilerDTO.getCodigoAlquiler())
+                .finalizarConMantenimiento(this,autoService,multaAlquilerDTO.getMontoMulta());
+    }
+
+    public List<AlquilerDTOListar> listarPendientesEntrega(String ciudad) {
+        this.sucursalService.findSucursalByCiudad(ciudad);
+        return this.repository.findRetiroPendienteByCiudad(ciudad)
+                .stream()
+                .filter(Alquiler::retiroDisponible)
+                .map(AlquilerDTOListar::new)
                 .toList();
     }
 
@@ -141,6 +131,7 @@ public class AlquilerService {
                 .stream()
                 .map(AutoDTOListar::getPatente)
                 .toList();
+
         if(!patentes.contains(auto.getPatente())){
             throw new IllegalArgumentException("El auto seleccionado para el cambio no es similar al auto actual");
         }
@@ -150,23 +141,13 @@ public class AlquilerService {
         this.repository.save(alquiler);
     }
 
-    public List<AlquilerDTOListar> listarPendientesDevolucion(String sucursal) {
-        Sucursal ciudad = this.sucursalService.findSucursalByCiudad(sucursal);
-        return this.repository.findBySucursal_Ciudad(ciudad.getCiudad()).stream()
-                .filter(Alquiler::estaEnUso)
-                .map(a -> new AlquilerDTOListar(a))
+    public List<AlquilerDTOListar> listarPendientesDevolucion(String ciudad) {
+        this.sucursalService.findSucursalByCiudad(ciudad);
+        return this.repository.findEnUsoByCiudad(ciudad)
+                .stream()
+                .map(AlquilerDTOListar::new)
                 .toList();
     }
 
-
-/*
-    @Transactional
-    public void agregarExtra(List<Extra> extras, ReservaDTOFechaLicencia reserva){
-        Alquiler alquiler = this.alquilerHelperService.findByConductorRangoFechas(reserva);
-        alquiler.addExtras(extras);
-        this.repository.save(alquiler);
-    }
-
- */
 
 }

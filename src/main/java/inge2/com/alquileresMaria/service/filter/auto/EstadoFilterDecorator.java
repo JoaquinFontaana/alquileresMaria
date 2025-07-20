@@ -1,15 +1,15 @@
 package inge2.com.alquileresMaria.service.filter.auto;
 
 import inge2.com.alquileresMaria.model.Auto;
-import inge2.com.alquileresMaria.model.enums.EstadoAuto;
+import inge2.com.alquileresMaria.model.enums.EstadoAutoEnum;
 
 import java.util.List;
 
 public class EstadoFilterDecorator extends FilterDecorator{
 
-    private List<EstadoAuto> estadosFilter;
+    private List<EstadoAutoEnum> estadosFilter;
 
-    public EstadoFilterDecorator(IAutoFilter componente, List<EstadoAuto> estadosFilter) {
+    public EstadoFilterDecorator(IAutoFilter componente, List<EstadoAutoEnum> estadosFilter) {
         super(componente);
         this.estadosFilter = estadosFilter;
     }

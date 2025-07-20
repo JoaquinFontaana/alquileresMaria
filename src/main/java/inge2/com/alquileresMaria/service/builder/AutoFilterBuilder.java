@@ -34,8 +34,8 @@ public final class AutoFilterBuilder {
             filtro = new CategoriaFilterDecorator(filtro, autoFilterDTO.getCategorias());
         }
 
-        if (autoFilterDTO.getEstadoAuto() != null){
-            filtro = new EstadoFilterDecorator(filtro, autoFilterDTO.getEstadoAuto());
+        if (autoFilterDTO.getEstadoAutoEnum() != null){
+            filtro = new EstadoFilterDecorator(filtro, autoFilterDTO.getEstadoAutoEnum());
         }
 
         return filtro;

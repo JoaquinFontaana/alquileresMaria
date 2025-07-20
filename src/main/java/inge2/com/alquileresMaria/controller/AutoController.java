@@ -5,7 +5,7 @@ import inge2.com.alquileresMaria.dto.auto.AutoDTOCrear;
 import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
 import inge2.com.alquileresMaria.dto.auto.AutoFilterDTO;
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
-import inge2.com.alquileresMaria.model.enums.EstadoAuto;
+import inge2.com.alquileresMaria.model.enums.EstadoAutoEnum;
 import inge2.com.alquileresMaria.model.enums.TiposRembolso;
 import inge2.com.alquileresMaria.service.AutoService;
 import jakarta.validation.Valid;
@@ -58,8 +58,8 @@ public class AutoController {
     }
 
     @GetMapping("/get/estados")
-    public List<EstadoAuto> getEstados(){
-        return List.of(EstadoAuto.values());
+    public List<EstadoAutoEnum> getEstados(){
+        return List.of(EstadoAutoEnum.values());
     }
 
     @GetMapping("/get/rembolsos")

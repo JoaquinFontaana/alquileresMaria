@@ -1,10 +1,9 @@
 package inge2.com.alquileresMaria.model.enums;
 
-public enum EstadoAlquiler {
+public enum EstadoAlquilerEnum {
     CONFIRMACION_PENDIENTE,
-    PENDIENTE,
+    RETIRO_PENDIENTE,
     EN_USO,
-    REVISION_PENDIENTE,
     FINALIZADO,
     CANCELADO
 }

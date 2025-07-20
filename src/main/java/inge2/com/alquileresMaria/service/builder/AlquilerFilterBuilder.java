@@ -6,7 +6,6 @@ import inge2.com.alquileresMaria.service.filter.alquiler.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 @Component
 public class AlquilerFilterBuilder {
     @Autowired
@@ -21,8 +20,8 @@ public class AlquilerFilterBuilder {
             RangoFecha rangoFecha =  new RangoFecha(filtros.getFechaDesde(), filtros.getFechaHasta());
             filtro =  new RangoFechaFilterDecorator(filtro, rangoFecha);
         }
-        if (filtros.getEstadoAlquiler() != null){
-            filtro = new EstadoFilterDecoratorAlquiler(filtro, filtros.getEstadoAlquiler());
+        if (filtros.getEstadoAlquilerEnum() != null){
+            filtro = new EstadoFilterDecoratorAlquiler(filtro, filtros.getEstadoAlquilerEnum());
         }
         if (filtros.getClienteMail() != null){
             filtro = new ClienteFilterDecorator(filtro, filtros.getClienteMail());

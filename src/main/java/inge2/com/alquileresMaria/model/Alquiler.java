@@ -1,10 +1,12 @@
 package inge2.com.alquileresMaria.model;
 
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOCrear;
-import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
-import inge2.com.alquileresMaria.model.enums.EstadoAuto;
+import inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum;
 import inge2.com.alquileresMaria.model.enums.Extra;
+import inge2.com.alquileresMaria.model.state.Alquiler.EstadoAlquiler;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
+import inge2.com.alquileresMaria.service.AlquilerService;
+import inge2.com.alquileresMaria.service.AutoService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -41,8 +43,10 @@ public class Alquiler {
             orphanRemoval = true
     )
     private Pago pago;
-    @NotNull @Enumerated(EnumType.STRING)
-    private EstadoAlquiler estadoAlquiler;
+    @Enumerated(EnumType.STRING)
+    private EstadoAlquilerEnum estadoAlquilerEnum;
+    @Transient
+    private EstadoAlquiler state;
     @OneToOne(mappedBy = "alquilerRembolsado")
     private Rembolso rembolso;
     @ElementCollection(fetch = FetchType.EAGER)
@@ -57,7 +61,7 @@ public class Alquiler {
         this.sucursal = sucursal;
         this.licenciaConductor = alquilerDTOCrear.getLicenciaConductor();
         this.rangoFecha = alquilerDTOCrear.getRangoFecha();
-        this.estadoAlquiler = EstadoAlquiler.CONFIRMACION_PENDIENTE;
+        this.estadoAlquilerEnum = EstadoAlquilerEnum.CONFIRMACION_PENDIENTE;
         this.rembolso = null;
         this.extras = new ArrayList<>();
         this.addExtras(alquilerDTOCrear.getExtras());
@@ -67,13 +71,14 @@ public class Alquiler {
 
     }
 
-    public boolean isToday() {
-        return this.getRangoFecha().getFechaDesde().isEqual(LocalDate.now());
+
+    public void iniciar(AlquilerService alquilerService, AutoService autoService) {
+        this.state.iniciar(this, alquilerService, autoService);
     }
 
-    public void iniciar() {
-        this.setEstadoAlquiler(EstadoAlquiler.EN_USO);
-        this.auto.iniciarAlquiler();
+    public void cambiarEstado(EstadoAlquiler estadoAlquiler) {
+        this.setState(estadoAlquiler);
+        this.setEstadoAlquilerEnum(estadoAlquiler.getEstadoAlquilerEnum());
     }
 
     public boolean sinSolapamiento(RangoFecha rango){
@@ -90,10 +95,6 @@ public class Alquiler {
         return this.auto.getRembolso().calcularRembolso(this.calcularTotal());
     }
 
-    public boolean esPosterior(LocalDate fecha){
-        return this.rangoFecha.esPosterior(fecha);
-    }
-
     public void addExtras(List<Extra> extras){
         if (extras == null) return;
         extras.stream()
@@ -105,29 +106,25 @@ public class Alquiler {
         this.cliente.setMontoMulta(montoMulta);
     }
 
-    public void finalizar() {
-        this.auto.finalizarAlquiler();
-        this.setEstadoAlquiler(EstadoAlquiler.FINALIZADO);
+    public void finalizar(AutoService autoService,AlquilerService alquilerService) {
+        this.state.finalizar(alquilerService,autoService,this);
     }
 
-    public void finalizarConMantenimiento(int multa) {
-        this.setEstadoAlquiler(EstadoAlquiler.FINALIZADO);
-        this.setClienteMulta(multa);
-        this.auto.ponerEnMantenimiento();
+    public void finalizarConMantenimiento(AlquilerService alquilerService,AutoService autoService,int multa) {
+        this.state.finalizarConMantenimiento(this,alquilerService,autoService,multa);
     }
 
-    public boolean isAfter() { return this.getRangoFecha().getFechaDesde().isAfter(LocalDate.now());}
+    public boolean isTodayOrAfter() { return this.rangoFecha.isTodayOrAfter(LocalDate.now());}
 
-    public boolean estaDisponibleRetiro() {
-        return this.estadoAlquiler == EstadoAlquiler.PENDIENTE
-                && this.auto.getEstado() == EstadoAuto.DISPONIBLE
-                && !this.isAfter();
-    }
-    public boolean checkAutoDisponible() {
-        return this.auto.estaDisponible();
+    public boolean retiroDisponible() {
+        return this.state.retiroDisponible(this);
     }
 
-    public boolean estaEnUso() {
-        return this.estadoAlquiler ==  EstadoAlquiler.EN_USO;
+    public void cancelar(AlquilerService alquilerService){
+        this.state.cancelar(this,alquilerService);
+    }
+
+    public void bajaAuto(AlquilerService alquilerService) {
+        this.state.bajaAuto(this, alquilerService);
     }
 }

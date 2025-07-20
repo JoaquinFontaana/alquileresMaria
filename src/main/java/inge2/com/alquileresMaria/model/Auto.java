@@ -3,10 +3,13 @@ package inge2.com.alquileresMaria.model;
 import inge2.com.alquileresMaria.dto.auto.AutoDTO;
 import inge2.com.alquileresMaria.dto.auto.AutoDTOActualizar;
 import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
-import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
-import inge2.com.alquileresMaria.model.enums.EstadoAuto;
+import inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum;
+import inge2.com.alquileresMaria.model.enums.EstadoAutoEnum;
 import inge2.com.alquileresMaria.model.enums.TiposRembolso;
+import inge2.com.alquileresMaria.model.state.Auto.EstadoAuto;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
+import inge2.com.alquileresMaria.service.AlquilerService;
+import inge2.com.alquileresMaria.service.AutoService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,7 +17,6 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.List;
 @Entity
 @Getter @Setter
@@ -38,7 +40,7 @@ public class Auto {
     @Enumerated(EnumType.STRING)
     private TiposRembolso rembolso;
     @Enumerated(EnumType.STRING)
-    private EstadoAuto estado;
+    private EstadoAutoEnum estado;
     @OneToMany(mappedBy = "auto")
     private List<Alquiler> reservas;
     @ManyToOne(optional = false)
@@ -46,8 +48,8 @@ public class Auto {
     private Sucursal sucursal;
     @NotBlank(message = "La imagen es obligatoria")
     private String rutaImagen;
-    private LocalDate fechaBaja = null;
-
+    @Transient
+    private EstadoAuto state;
     public Auto(){
         // Constructor por defecto requerido por Hibernate
     }
@@ -92,27 +94,34 @@ public class Auto {
         this.estado = dto.getEstado();
     }
     public boolean disponibleEnRangoFechas(RangoFecha rango){
-        return this.getReservas().stream().filter(alquiler -> alquiler.getEstadoAlquiler() != EstadoAlquiler.CANCELADO).allMatch(alquiler -> alquiler.sinSolapamiento(rango));
+        return this.getReservas().stream().filter(alquiler -> alquiler.getEstadoAlquilerEnum() != EstadoAlquilerEnum.CANCELADO).allMatch(alquiler -> alquiler.sinSolapamiento(rango));
     }
     public boolean estaDisponible(){
-        return this.estado == EstadoAuto.DISPONIBLE;
-    }
-    public void iniciarAlquiler(){
-        this.estado = EstadoAuto.ALQUILADO;
-    }
-    public void finalizarAlquiler(){
-        this.estado = EstadoAuto.DISPONIBLE;
-    }
-    public void ponerEnMantenimiento(){
-        this.estado = EstadoAuto.EN_MANTENIMIENTO;
+        return this.state.estaDisponible();
     }
 
-    public boolean enUso() {
-        return this.estado == EstadoAuto.ALQUILADO;
+    public void iniciarAlquiler(AutoService autoService){
+        this.state.iniciarAlquiler(this,autoService);
     }
 
-    public void borradoLogico() {
-        this.setEstado(EstadoAuto.BAJA);
-        this.fechaBaja = LocalDate.now();
+    public void finalizarAlquiler(AutoService autoService){
+        this.state.finalizarAlquiler(this,autoService);
+    }
+
+    public void iniciarMantenimiento(AutoService autoService,AlquilerService alquilerService){
+        this.state.iniciarMantenimiento(this,autoService,alquilerService);
+    }
+
+    public void darDeBaja(AlquilerService alquilerService, AutoService autoService) {
+        this.state.darDeBaja(this, alquilerService, autoService);
+    }
+
+    public void cambiarEstado(EstadoAuto estadoAuto) {
+        this.state = estadoAuto;
+        this.setEstado(estadoAuto.getEstadoAutoEnum());
+    }
+
+    public void finalizarMantenimiento(AutoService autoService) {
+        this.state.finalizarMantenimiento(this, autoService);
     }
 }

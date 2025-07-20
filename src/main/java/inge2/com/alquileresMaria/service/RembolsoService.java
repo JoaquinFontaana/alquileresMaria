@@ -20,17 +20,11 @@ public class RembolsoService {
         this.rembolsoRepository = rembolsoRepository;
     }
     @Transactional
-    public void crearRembolso(Alquiler reserva){
-        if(reserva.getAuto().getRembolso() != TiposRembolso.SIN_REMBOLSO) {
-            mpPreferenceBuilder.rembolsar(reserva.calcularRembolso(), reserva.getPago().getPaymentId());
+    public void crearRembolso(Alquiler reserva, double montoRembolso){
+        if(montoRembolso > 0) {
+            mpPreferenceBuilder.rembolsar(montoRembolso, reserva.getPago().getPaymentId());
         }
         reserva.getPago().setEstadoPago(EstadoPago.REMBOLSADO);
         rembolsoRepository.save(new Rembolso(reserva));
-    }
-    @Transactional
-    public void crearRembolsoTotal(Alquiler reserva){
-        mpPreferenceBuilder.rembolsar(reserva.calcularTotal(),reserva.getPago().getPaymentId());
-        reserva.getPago().setEstadoPago(EstadoPago.REMBOLSADO);
-        rembolsoRepository.save(new Rembolso(reserva,reserva.calcularTotal()));
     }
 }
