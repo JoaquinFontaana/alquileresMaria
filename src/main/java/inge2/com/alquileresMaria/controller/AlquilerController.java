@@ -5,6 +5,7 @@ import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
 import inge2.com.alquileresMaria.model.enums.Extra;
 import inge2.com.alquileresMaria.service.AlquilerService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +19,9 @@ public class AlquilerController {
     @Autowired
     private AlquilerService alquilerService;
 
-    @PostMapping("/cancelarReserva")
-    public ResponseEntity<String> cancelarReserva(@Valid  @RequestBody AlquilerDTOFechaLicencia reserva){
-        this.alquilerService.cancelarReserva(reserva);
+    @PostMapping("/cancelar")
+    public ResponseEntity<String> cancelarReserva(@Valid @NotNull(message = "El codigo del alquiler es obligatorio") @RequestParam Long codigoAlquiler){
+        this.alquilerService.cancelarReserva(codigoAlquiler);
         return ResponseEntity.ok("Reserva cancelada exitosamente");
     }
 
@@ -41,37 +42,33 @@ public class AlquilerController {
     }
 
     @PostMapping("/empleado/entregarAlquiler")
-    public ResponseEntity<String> entregarAlquiler(@Valid  @RequestBody AlquilerDTOFechaLicencia reserva){
-        this.alquilerService.iniciarAlquiler(reserva);
+    public ResponseEntity<String> entregarAlquiler(@Valid @NotNull(message = "El codigo del alquiler es obligatorio") @RequestParam Long codigoAlquiler){
+        this.alquilerService.iniciarAlquiler(codigoAlquiler);
         return ResponseEntity.ok("Alquiler iniciado exitosamente");
     }
 
-    @PostMapping("/empleado/recibirAlquilerCorrecto")
-    public ResponseEntity<String> recibirAlquilerCorrecto(@Valid @RequestBody AlquilerDTOFechaLicencia reservaDTO){
-        this.alquilerService.finalizarAlquilerCorrecto(reservaDTO);
+    @PostMapping("/empleado/recibirAlquiler/correcto")
+    public ResponseEntity<String> recibirAlquilerCorrecto(@Valid @NotNull(message = "El codigo del alquiler es obligatorio") @RequestParam Long codigoAlquiler){
+        this.alquilerService.finalizarAlquilerCorrecto(codigoAlquiler);
         return ResponseEntity.ok("Alquiler recibido exitosamente");
     }
-    @PostMapping("/empleado/recibirAlquilerMulta")
+    @PostMapping("/empleado/recibirAlquiler/multa")
     public ResponseEntity<String> recibirAlquilerMulta(@Valid @RequestBody MultaAlquilerDTO multaAlquilerDTO){
         this.alquilerService.finalizarAlquilerMantenimiento(multaAlquilerDTO);
         return ResponseEntity.ok("Alquiler recibido exitosamente");
     }
 
-    @GetMapping("/empleado/pendientesRetiro")
+    @GetMapping("/empleado/get/pendientesRetiro")
     public List<AlquilerDTOListar> listarAlquileresPendientesRetiro(@Valid @RequestParam String sucursal){
         return this.alquilerService.listarPendientesEntrega(sucursal);
     }
-    @GetMapping("/empleado/pendientesDevolucion")
+    @GetMapping("/empleado/get/pendientesDevolucion")
     public List<AlquilerDTOListar> listarAlquileresPendientesDevolucion(@Valid @RequestParam String sucursal){
         return this.alquilerService.listarPendientesDevolucion(sucursal);
     }
-    @GetMapping("/empleado/sugerirSimilares")
-    public List<AutoDTOListar> sugerirSimilares(@Valid @RequestParam String licenciaConductor, @Valid @RequestParam LocalDate fechaDesde, @Valid @RequestParam LocalDate fechaHasta){
-        return this.alquilerService.sugerirSimilares(licenciaConductor, fechaDesde, fechaHasta);
+    @GetMapping("/empleado/get/similares")
+    public List<AutoDTOListar> sugerirSimilares(@Valid @NotNull(message = "El codigo del alquiler es obligatorio") @RequestParam Long codigoAlquiler){
+        return this.alquilerService.sugerirSimilares(codigoAlquiler);
     }
-    @PutMapping("/empleado/cambiarAuto")
-    public ResponseEntity<String> cambiarAuto(@Valid @RequestBody AlquilerDTOCambiarAuto alquilerDTOCambiarAuto){
-        this.alquilerService.cambiarAuto(alquilerDTOCambiarAuto);
-        return ResponseEntity.ok("Auto cambiado exitosamente");
-    }
+
 }

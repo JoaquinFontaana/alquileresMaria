@@ -1,6 +1,5 @@
 package inge2.com.alquileresMaria.service.validators;
 
-import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOFechaLicencia;
 import inge2.com.alquileresMaria.model.Alquiler;
 import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
@@ -9,7 +8,6 @@ import inge2.com.alquileresMaria.repository.IAlquilerRepository;
 import inge2.com.alquileresMaria.service.EmailService;
 import inge2.com.alquileresMaria.service.RembolsoService;
 import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -74,11 +72,6 @@ public class AlquilerHelperService {
 
         this.serviceEmail.sendEmailsClientes(this.obtenerClientesDeAlquileres(alquileres), subject,body);
     }
-    public Alquiler findByConductorRangoFechas(AlquilerDTOFechaLicencia reservaDTO){
-        return repository.findAlquilerByLicenciaConductorAndRangoFecha(reservaDTO.getLicencia(), reservaDTO.getFechaDesde(),
-                        reservaDTO.getFechaFin())
-                .orElseThrow(() -> new EntityNotFoundException("No existe una reserva para este cliente, en esta fecha"));
-    }
 
     public void checkForCancelacion(Alquiler reserva){
         if(reserva.getEstadoAlquiler() != EstadoAlquiler.PENDIENTE && reserva.getEstadoAlquiler() != EstadoAlquiler.CONFIRMACION_PENDIENTE){
@@ -86,12 +79,6 @@ public class AlquilerHelperService {
         }
     }
 
-    public boolean isToday(Alquiler reserva){
-        if(reserva.isToday()) {
-            return true;
-        }
-        else throw new RuntimeException("El alquiler no es en el dia de la fecha");
-    }
 
     public void checkAvailable(Alquiler reserva) {
         this.checkFechaReserva(reserva);
@@ -102,5 +89,9 @@ public class AlquilerHelperService {
         }
     }
 
+    public Alquiler findById(Long codigoAlquiler) {
+        return this.repository.findById(codigoAlquiler)
+                .orElseThrow(() -> new IllegalArgumentException("El alquiler con codigo " + codigoAlquiler + " no existe"));
+    }
 }
 

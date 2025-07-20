@@ -5,7 +5,6 @@ import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
 import inge2.com.alquileresMaria.model.*;
 import inge2.com.alquileresMaria.model.enums.EstadoAlquiler;
 import inge2.com.alquileresMaria.model.enums.EstadoPago;
-import inge2.com.alquileresMaria.model.enums.TiposRembolso;
 import inge2.com.alquileresMaria.repository.IAlquilerRepository;
 import inge2.com.alquileresMaria.service.builder.AlquilerFilterBuilder;
 import inge2.com.alquileresMaria.service.filter.alquiler.AlquilerFilterComponent;
@@ -15,7 +14,6 @@ import inge2.com.alquileresMaria.service.validators.AutoHelperService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 
@@ -83,8 +81,8 @@ public class AlquilerService {
     }
 
     @Transactional
-    public void cancelarReserva(AlquilerDTOFechaLicencia reservaDTO){
-        Alquiler reserva = this.alquilerHelperService.findByConductorRangoFechas(reservaDTO);
+    public void cancelarReserva(Long codigoAlquiler) {
+        Alquiler reserva = this.alquilerHelperService.findById(codigoAlquiler);
 
         this.alquilerHelperService.checkForCancelacion(reserva);
         if(reserva.getPago().getEstadoPago() == EstadoPago.PENDIENTE){
@@ -97,22 +95,22 @@ public class AlquilerService {
         }
     }
     @Transactional
-    public void iniciarAlquiler(AlquilerDTOFechaLicencia reservaDTO){
-        Alquiler reserva = this.alquilerHelperService.findByConductorRangoFechas(reservaDTO);
+    public void iniciarAlquiler(Long codigoAlquiler) {
+        Alquiler reserva = this.alquilerHelperService.findById(codigoAlquiler);
         this.alquilerHelperService.checkAvailable(reserva);
         this.autoHelperService.checkAutoDisponible(reserva.getAuto());
         reserva.iniciar();
         this.repository.save(reserva);
     }
     @Transactional
-    public void finalizarAlquilerCorrecto(AlquilerDTOFechaLicencia reservaDTO) {
-        Alquiler reserva = this.alquilerHelperService.findByConductorRangoFechas(reservaDTO);
+    public void finalizarAlquilerCorrecto(Long codigoAlquiler) {
+        Alquiler reserva = this.alquilerHelperService.findById(codigoAlquiler);
         reserva.finalizar();
         this.repository.save(reserva);
     }
     @Transactional
     public void finalizarAlquilerMantenimiento(MultaAlquilerDTO multaAlquilerDTO) {
-        Alquiler reserva = this.alquilerHelperService.findByConductorRangoFechas(multaAlquilerDTO);
+        Alquiler reserva = this.alquilerHelperService.findById(multaAlquilerDTO.getCodigoAlquiler());
         this.cancelarReservas(reserva.getAuto().getReservas());
         reserva.finalizarConMantenimiento(multaAlquilerDTO.getMontoMulta());
         this.repository.save(reserva);
@@ -126,9 +124,8 @@ public class AlquilerService {
                 .toList();
     }
 
-    public List<AutoDTOListar> sugerirSimilares(String licenciaConductor, LocalDate fechaDesde, LocalDate fechaHasta) {
-        Alquiler alquiler = this.alquilerHelperService.findByConductorRangoFechas(new AlquilerDTOFechaLicencia(fechaDesde, fechaHasta,licenciaConductor));
-     //   this.alquilerHelperService.checkFechaReserva(alquiler);
+    public List<AutoDTOListar> sugerirSimilares(Long codigoAlquiler) {
+        Alquiler alquiler = this.alquilerHelperService.findById(codigoAlquiler);
         this.autoHelperService.checkAutoNoDisponible(alquiler.getAuto());
         return this.autoHelperService.findSimilaresPorPrecioOCategoria(alquiler.getAuto())
                 .stream()
@@ -139,14 +136,16 @@ public class AlquilerService {
 
     public void cambiarAuto(AlquilerDTOCambiarAuto alquilerDTOCambiarAuto){
         Auto auto = this.autoHelperService.findAutoByPatente(alquilerDTOCambiarAuto.getPatenteAutoNuevo());
-        List<String> patentes = this.sugerirSimilares(alquilerDTOCambiarAuto.getLicencia(),alquilerDTOCambiarAuto.getFechaDesde(),alquilerDTOCambiarAuto.getFechaFin())
+
+        List<String> patentes = this.sugerirSimilares(alquilerDTOCambiarAuto.getCodigoAlquiler())
                 .stream()
                 .map(AutoDTOListar::getPatente)
                 .toList();
         if(!patentes.contains(auto.getPatente())){
             throw new IllegalArgumentException("El auto seleccionado para el cambio no es similar al auto actual");
         }
-        Alquiler alquiler = this.alquilerHelperService.findByConductorRangoFechas(alquilerDTOCambiarAuto);
+
+        Alquiler alquiler = this.alquilerHelperService.findById(alquilerDTOCambiarAuto.getCodigoAlquiler());
         alquiler.setAuto(auto);
         this.repository.save(alquiler);
     }
@@ -158,6 +157,7 @@ public class AlquilerService {
                 .map(a -> new AlquilerDTOListar(a))
                 .toList();
     }
+
 
 /*
     @Transactional
