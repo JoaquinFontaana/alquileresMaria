@@ -34,11 +34,6 @@ public class EmailService {
 
         mailSender.send(message);
     }
-    @Async
-    public void sendEmailsClientes(List<Cliente> clientes,String subject, String body){
-        clientes.stream()
-                .forEach(cliente -> this.sendEmail(cliente.getMail(),subject,body));
-    }
 
     @Async
     public void sendNewPassword(String password, String mail){

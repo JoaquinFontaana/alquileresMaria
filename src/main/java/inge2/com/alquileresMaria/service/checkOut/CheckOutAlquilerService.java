@@ -11,6 +11,7 @@ import inge2.com.alquileresMaria.service.PagoService;
 import inge2.com.alquileresMaria.service.builder.MpPreferenceBuilder;
 import inge2.com.alquileresMaria.service.validators.AuthHelperService;
 import inge2.com.alquileresMaria.service.validators.CheckOutHelperService;
+import inge2.com.alquileresMaria.useCase.Alquiler.CrearAlquilerUseCase;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,12 @@ import org.springframework.stereotype.Service;
 public class CheckOutAlquilerService extends AbstractCheckOutService {
 
     private final PagoService pagoService;
-    private final AlquilerService alquilerService;
-    @Autowired
-    public CheckOutAlquilerService(CheckOutHelperService checkOutHelper, MpPreferenceBuilder mpPreferenceBuilder, AuthHelperService authHelperService, PagoService pagoService, AlquilerService alquilerService) {
+    private final CrearAlquilerUseCase crearAlquilerUseCase;
+
+    public CheckOutAlquilerService(CheckOutHelperService checkOutHelper, MpPreferenceBuilder mpPreferenceBuilder, AuthHelperService authHelperService, PagoService pagoService, CrearAlquilerUseCase crearAlquilerUseCase) {
         super(checkOutHelper, mpPreferenceBuilder, authHelperService);
         this.pagoService = pagoService;
-        this.alquilerService = alquilerService;
+        this.crearAlquilerUseCase = crearAlquilerUseCase;
     }
 
     @Override
@@ -34,7 +35,7 @@ public class CheckOutAlquilerService extends AbstractCheckOutService {
 
     @Transactional
     public String registrarAlquiler(CheckOutAlquilerDTO checkOutAlquilerDTO, String mail) {
-        Alquiler alquiler = this.alquilerService.crearAlquiler(checkOutAlquilerDTO.getAlquilerDTO(),mail);
+        Alquiler alquiler = this.crearAlquilerUseCase.crearAlquiler(checkOutAlquilerDTO.getAlquilerDTO(),mail);
 
         Preference preference = this.getMpPreferenceBuilder().crearPreferenceAlquiler(alquiler,checkOutAlquilerDTO.getDatosPagoDTO());
 

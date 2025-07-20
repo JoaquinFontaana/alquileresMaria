@@ -4,11 +4,9 @@ import inge2.com.alquileresMaria.dto.user.EmpleadoDTOActualizar;
 import inge2.com.alquileresMaria.dto.user.PersonaDTO;
 import inge2.com.alquileresMaria.model.Empleado;
 import inge2.com.alquileresMaria.repository.IEmpleadoRepository;
-import inge2.com.alquileresMaria.security.UserDetailsImpl;
 import inge2.com.alquileresMaria.service.UsuarioService;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

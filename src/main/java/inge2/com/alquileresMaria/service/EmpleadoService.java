@@ -3,12 +3,8 @@ package inge2.com.alquileresMaria.service;
 import inge2.com.alquileresMaria.dto.user.EmpleadoDTO;
 import inge2.com.alquileresMaria.dto.user.EmpleadoDTOActualizar;
 import inge2.com.alquileresMaria.dto.user.EmpleadoDTOListar;
-import inge2.com.alquileresMaria.dto.user.PersonaDTO;
-import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.model.Empleado;
 import inge2.com.alquileresMaria.repository.IEmpleadoRepository;
-import inge2.com.alquileresMaria.service.generator.PasswordGenerator;
-import inge2.com.alquileresMaria.service.validators.ClienteHelperService;
 import inge2.com.alquileresMaria.service.validators.EmpleadoHelperService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +43,6 @@ public class EmpleadoService {
                 rolService.findRolByNombre("EMPLEADO"),
                 encryptService.encryptPassword(this.emailService.sendContraseñaAutoGenerada(dto.getMail()))
         );
-
         this.repository.save(empleado);
     }
 

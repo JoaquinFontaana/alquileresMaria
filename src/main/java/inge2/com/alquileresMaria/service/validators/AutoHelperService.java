@@ -13,11 +13,15 @@ import java.util.List;
 
 @Service
 public class AutoHelperService {
-    @Autowired
-    private IAutoRepository autoRepository;
+
+    private final IAutoRepository autoRepository;
+
+    public AutoHelperService(IAutoRepository autoRepository) {
+        this.autoRepository = autoRepository;
+    }
 
     public void verificarDisponibilidad(Auto auto, RangoFecha rangoFecha){
-        if(auto.getEstado() == EstadoAutoEnum.BAJA || auto.getEstado() == EstadoAutoEnum.MANTENIMIENTO || !auto.disponibleEnRangoFechas(rangoFecha)){
+        if(!auto.estaDisponible() || !auto.disponibleEnRangoFechas(rangoFecha)){
             throw new IllegalStateException("El auto no se encuentra disponible en esas fechas");
         }
     }
@@ -33,7 +37,6 @@ public class AutoHelperService {
         return autoRepository.findByPatente(patente)
                 .orElseThrow(() -> new EntityNotFoundException("La patente " + patente + " no existe"));
     }
-
 
     public void checkAutoNoDisponible(Auto auto) {
         if (auto.estaDisponible()) {

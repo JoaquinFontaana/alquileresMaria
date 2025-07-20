@@ -4,6 +4,7 @@ import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOCambiarAuto;
 import inge2.com.alquileresMaria.dto.user.PersonaDTO;
 import inge2.com.alquileresMaria.service.AlquilerService;
 import inge2.com.alquileresMaria.service.ClienteService;
+import inge2.com.alquileresMaria.useCase.Alquiler.CambiarAutoUseCase;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
@@ -15,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/empleado")
 public class EmpleadoController {
     private final ClienteService clienteService;
-    private final AlquilerService alquilerService;
+    private final CambiarAutoUseCase cambiarAutoUseCase;
 
-    public EmpleadoController(ClienteService clienteService, AlquilerService alquilerService) {
+    public EmpleadoController(ClienteService clienteService, CambiarAutoUseCase cambiarAutoUseCase) {
         this.clienteService = clienteService;
-        this.alquilerService = alquilerService;
+        this.cambiarAutoUseCase = cambiarAutoUseCase;
     }
 
     @PostMapping("/registrar/cliente")
@@ -35,7 +36,7 @@ public class EmpleadoController {
 
     @PutMapping("/cambiarAuto")
     public ResponseEntity<String> cambiarAuto(@Valid @RequestBody AlquilerDTOCambiarAuto alquilerDTOCambiarAuto){
-        this.alquilerService.cambiarAuto(alquilerDTOCambiarAuto);
+        this.cambiarAutoUseCase.cambiarAuto(alquilerDTOCambiarAuto);
         return ResponseEntity.ok("Auto cambiado exitosamente");
     }
 }

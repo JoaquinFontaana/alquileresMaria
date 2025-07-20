@@ -5,7 +5,6 @@ import inge2.com.alquileresMaria.dto.auto.AutoDTOCrear;
 import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
 import inge2.com.alquileresMaria.dto.auto.AutoFilterDTO;
 import inge2.com.alquileresMaria.model.Auto;
-import inge2.com.alquileresMaria.model.enums.EstadoAutoEnum;
 import inge2.com.alquileresMaria.model.Sucursal;
 import inge2.com.alquileresMaria.repository.IAutoRepository;
 import inge2.com.alquileresMaria.service.builder.AutoFilterBuilder;
@@ -22,15 +21,14 @@ public class AutoService {
     private final IAutoRepository autoRepository;
     private final SucursalService sucursalService;
     private final AutoHelperService autoHelperService;
-    private final AlquilerService serviceAlquiler;
     private final AutoFilterBuilder autoFilterBuilder;
     private final FileStorageService fileStorageService;
+
     @Autowired
-    public AutoService(IAutoRepository autoRepository, SucursalService sucursalService, AutoHelperService autoHelperService, AlquilerService serviceAlquiler, AutoFilterBuilder autoFilterBuilder, FileStorageService fileStorageService) {
+    public AutoService(IAutoRepository autoRepository, SucursalService sucursalService, AutoHelperService autoHelperService, AutoFilterBuilder autoFilterBuilder, FileStorageService fileStorageService) {
         this.autoRepository = autoRepository;
         this.sucursalService = sucursalService;
         this.autoHelperService = autoHelperService;
-        this.serviceAlquiler = serviceAlquiler;
         this.autoFilterBuilder = autoFilterBuilder;
         this.fileStorageService = fileStorageService;
     }
@@ -56,12 +54,7 @@ public class AutoService {
                 .map(auto -> new AutoDTOListar(auto))
                 .toList();
     }
-
     @Transactional
-    public void eliminarAuto(String patente){
-        this.autoHelperService.findAutoByPatente(patente).darDeBaja(serviceAlquiler,this);
-    }
-
     public void saveAuto(Auto auto){
         this.autoRepository.save(auto);
     }
@@ -79,14 +72,14 @@ public class AutoService {
         }
         this.autoRepository.save(auto);
     }
+
     public byte[] obtenerImagenAuto(String patente){
         String rutaImagen =this.autoHelperService.findAutoByPatente(patente).getRutaImagen();
         return this.fileStorageService.leerImagenComoBytes(rutaImagen);
     }
 
-    public void reparar(String patente) {
-        Auto auto = this.autoHelperService.findAutoByPatente(patente);
-        auto.setEstado(EstadoAutoEnum.DISPONIBLE);
-        this.autoRepository.save(auto);
+    @Transactional
+    public void finalizarMantenimiento(String patente) {
+        this.autoHelperService.findAutoByPatente(patente).finalizarMantenimiento(this);
     }
 }

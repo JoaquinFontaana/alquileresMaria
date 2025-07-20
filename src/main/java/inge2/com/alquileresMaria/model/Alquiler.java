@@ -4,6 +4,7 @@ import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOCrear;
 import inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum;
 import inge2.com.alquileresMaria.model.enums.Extra;
 import inge2.com.alquileresMaria.model.state.Alquiler.EstadoAlquiler;
+import inge2.com.alquileresMaria.model.state.Alquiler.EstadoAlquilerListener;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
 import inge2.com.alquileresMaria.service.AlquilerService;
 import inge2.com.alquileresMaria.service.AutoService;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity @Getter @Setter
+@EntityListeners(EstadoAlquilerListener.class)
 public class Alquiler {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,7 +72,6 @@ public class Alquiler {
     public Alquiler(){
 
     }
-
 
     public void iniciar(AlquilerService alquilerService, AutoService autoService) {
         this.state.iniciar(this, alquilerService, autoService);

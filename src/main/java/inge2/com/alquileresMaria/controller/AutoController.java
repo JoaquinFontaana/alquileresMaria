@@ -8,6 +8,7 @@ import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
 import inge2.com.alquileresMaria.model.enums.EstadoAutoEnum;
 import inge2.com.alquileresMaria.model.enums.TiposRembolso;
 import inge2.com.alquileresMaria.service.AutoService;
+import inge2.com.alquileresMaria.useCase.Auto.EliminarAutoUseCase;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +23,16 @@ import java.util.List;
 public class AutoController {
 
     private final AutoService autoService;
+    private final EliminarAutoUseCase eliminarAutoUseCase;
 
-    @Autowired
-    public AutoController(AutoService autoService) {
+    public AutoController(AutoService autoService, EliminarAutoUseCase eliminarAutoUseCase) {
         this.autoService = autoService;
+        this.eliminarAutoUseCase = eliminarAutoUseCase;
     }
 
     @PutMapping("/admin/eliminar")
     public ResponseEntity<String> eliminarAuto(@RequestParam @NotBlank String patente){
-        this.autoService.eliminarAuto(patente);
+        this.eliminarAutoUseCase.eliminarAuto(patente);
         return ResponseEntity.ok("Auto eliminado con exito");
     }
 
@@ -96,7 +98,7 @@ public class AutoController {
 
     @PostMapping("/reparado")
     public ResponseEntity<String> reparado(@Valid @RequestParam String patente){
-        this.autoService.reparar(patente);
-        return ResponseEntity.ok("Auto actualizado con exito");
+        this.autoService.finalizarMantenimiento(patente);
+        return ResponseEntity.ok("Mantenimiento finalizado con exito");
     }
 }
