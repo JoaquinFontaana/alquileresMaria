@@ -28,22 +28,22 @@ public class CambiarAutoUseCase {
     public void cambiarAuto(AlquilerDTOCambiarAuto alquilerDTOCambiarAuto){
         Auto auto = this.autoHelperService.findAutoByPatente(alquilerDTOCambiarAuto.getPatenteAutoNuevo());
 
-        List<String> patentes = this.sugerirVehiculosSimilares.sugerirSimilares(alquilerDTOCambiarAuto.getCodigoAlquiler())
-                .stream()
-                .map(AutoDTOListar::getPatente)
-                .toList();
-
-        checkVehiculoEsSimiliar(patentes, auto);
+        checkVehiculoEsSimiliar(auto.getPatente(), alquilerDTOCambiarAuto.getCodigoAlquiler());
 
         Alquiler alquiler = this.alquilerHelperService.findById(alquilerDTOCambiarAuto.getCodigoAlquiler());
         alquiler.setAuto(auto);
         alquilerService.saveAlquiler(alquiler);
     }
 
-    private static void checkVehiculoEsSimiliar(List<String> patentes, Auto auto) {
-        if(!patentes.contains(auto.getPatente())){
+
+    private void checkVehiculoEsSimiliar(String patenteAutoNuevo,Long codigoAlquiler) {
+        List<String> patentes = this.sugerirVehiculosSimilares.sugerirSimilares(codigoAlquiler)
+                .stream()
+                .map(AutoDTOListar::getPatente)
+                .toList();
+
+        if(!patentes.contains(patenteAutoNuevo)){
             throw new IllegalArgumentException("El auto seleccionado para el cambio no es similar al auto actual");
         }
     }
-
 }
