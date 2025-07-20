@@ -7,6 +7,7 @@ import inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum;
 import inge2.com.alquileresMaria.model.enums.EstadoAutoEnum;
 import inge2.com.alquileresMaria.model.enums.TiposRembolso;
 import inge2.com.alquileresMaria.model.state.Auto.EstadoAuto;
+import inge2.com.alquileresMaria.model.state.Auto.EstadoAutoListener;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
 import inge2.com.alquileresMaria.service.AlquilerService;
 import inge2.com.alquileresMaria.service.AutoService;
@@ -20,6 +21,7 @@ import lombok.Setter;
 import java.util.List;
 @Entity
 @Getter @Setter
+@EntityListeners(EstadoAutoListener.class)
 public class Auto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
