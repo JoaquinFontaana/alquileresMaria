@@ -14,8 +14,13 @@ import java.util.List;
 
 @Service
 public class SucursalService {
-    @Autowired
-    private ISucursalRepository sucursalRepository;
+
+    private final ISucursalRepository sucursalRepository;
+
+    public SucursalService(ISucursalRepository sucursalRepository) {
+        this.sucursalRepository = sucursalRepository;
+    }
+
     @Transactional
     public void crearSucursal(Sucursal sucursal){
         this.checkNotExistSucursal(sucursal);

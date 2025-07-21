@@ -13,6 +13,7 @@ public class Rol {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "El rol debe tener un nombre")
+    @Column(nullable = false, unique = true)
     private String nombre;
     public Rol(){
 

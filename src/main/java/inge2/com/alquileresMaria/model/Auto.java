@@ -27,6 +27,7 @@ public class Auto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "La patente es obligatoria")
+    @Column(unique = true, nullable = false)
     private String patente;
     @Positive(message = "La capacidad debe ser mayor a cero")
     private int capacidad;
@@ -49,9 +50,11 @@ public class Auto {
     @JoinColumn(name = "sucursal_id")
     private Sucursal sucursal;
     @NotBlank(message = "La imagen es obligatoria")
+    @Column(unique = true, nullable = false)
     private String rutaImagen;
     @Transient
     private EstadoAuto state;
+
     public Auto(){
         // Constructor por defecto requerido por Hibernate
     }

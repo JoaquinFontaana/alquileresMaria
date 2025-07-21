@@ -13,6 +13,7 @@ public class Sucursal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "La ciudad es obligatoria")
+    @Column (nullable = false, unique = true)
     private String ciudad;
     @OneToMany(mappedBy = "sucursal")
     private List<Auto> autos;
