@@ -41,8 +41,8 @@ public class EnUso implements EstadoAlquiler {
     public void finalizarConMantenimiento(Alquiler alquiler, AlquilerService alquilerService, AutoService autoService, int multa) {
         alquiler.setClienteMulta(multa);
         alquiler.cambiarEstado(new Finalizado());
-        alquiler.getAuto().iniciarMantenimiento(autoService,alquilerService);
         alquilerService.saveAlquiler(alquiler);
+        alquiler.getAuto().iniciarMantenimiento(autoService,alquilerService);
     }
 
     @Override

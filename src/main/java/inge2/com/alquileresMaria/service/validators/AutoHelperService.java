@@ -21,8 +21,11 @@ public class AutoHelperService {
     }
 
     public void verificarDisponibilidad(Auto auto, RangoFecha rangoFecha){
-        if(!auto.estaDisponible() || !auto.disponibleEnRangoFechas(rangoFecha)){
-            throw new IllegalStateException("El auto no se encuentra disponible en esas fechas");
+        if(!auto.esAlquilable()){
+            throw new IllegalStateException("El auto no se encuentra en condiciones de ser alquilado, se encuentra en estado: " + auto.getEstado());
+        }
+        if(!auto.disponibleEnRangoFechas( rangoFecha)) {
+            throw new IllegalStateException("El auto no se encuentra disponible en el rango de fechas solicitado: " + rangoFecha);
         }
     }
 
@@ -31,7 +34,6 @@ public class AutoHelperService {
             throw new EntityExistsException("La patente " + patente + " ya se encuentra registrada");
         }
     }
-
 
     public Auto findAutoByPatente(String patente) {
         return autoRepository.findByPatente(patente)

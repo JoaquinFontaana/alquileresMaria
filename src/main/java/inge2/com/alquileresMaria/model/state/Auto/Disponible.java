@@ -32,6 +32,11 @@ public class Disponible implements EstadoAuto{
     }
 
     @Override
+    public boolean esAlquilable() {
+        return true;
+    }
+
+    @Override
     public void finalizarAlquiler(Auto auto, AutoService autoService) {
         throw  new IllegalStateException("El auto no se encuentra alquilado, no se puede finalizar el alquiler.");
     }

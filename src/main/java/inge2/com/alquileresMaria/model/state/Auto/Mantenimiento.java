@@ -28,6 +28,11 @@ public class Mantenimiento implements EstadoAuto{
     }
 
     @Override
+    public boolean esAlquilable() {
+        return false;
+    }
+
+    @Override
     public void finalizarMantenimiento(Auto auto, AutoService autoService) {
         auto.cambiarEstado(new Mantenimiento());
         autoService.saveAuto(auto);

@@ -29,6 +29,11 @@ public class Alquilado implements EstadoAuto{
     }
 
     @Override
+    public boolean esAlquilable() {
+        return true;
+    }
+
+    @Override
     public void finalizarAlquiler(Auto auto, AutoService autoService) {
         auto.cambiarEstado(new Disponible());
         autoService.saveAuto(auto);

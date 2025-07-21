@@ -24,7 +24,7 @@ public class AutoService {
     private final AutoFilterBuilder autoFilterBuilder;
     private final FileStorageService fileStorageService;
 
-    @Autowired
+
     public AutoService(IAutoRepository autoRepository, SucursalService sucursalService, AutoHelperService autoHelperService, AutoFilterBuilder autoFilterBuilder, FileStorageService fileStorageService) {
         this.autoRepository = autoRepository;
         this.sucursalService = sucursalService;

@@ -26,6 +26,11 @@ public class DeBaja implements EstadoAuto{
     }
 
     @Override
+    public boolean esAlquilable() {
+        return false;
+    }
+
+    @Override
     public void finalizarAlquiler(Auto auto, AutoService autoService) {
         throw  new IllegalStateException("El auto no se encuentra alquilado, no se puede finalizar el alquiler.");
     }

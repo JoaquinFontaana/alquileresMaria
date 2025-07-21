@@ -102,6 +102,10 @@ public class Auto {
         return this.state.estaDisponible();
     }
 
+    public boolean esAlquilable(){
+        return this.state.esAlquilable();
+    }
+
     public void iniciarAlquiler(AutoService autoService){
         this.state.iniciarAlquiler(this,autoService);
     }

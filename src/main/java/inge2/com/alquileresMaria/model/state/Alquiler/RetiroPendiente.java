@@ -25,17 +25,16 @@ public class RetiroPendiente implements EstadoAlquiler{
             throw new IllegalStateException("El alquiler todavía no se puede retirar, la fecha de retiro no es válida.");
         }
         alquiler.cambiarEstado(new EnUso());
-        alquiler.getAuto().iniciarAlquiler(autoService);
-
         alquilerService.saveAlquiler(alquiler);
+        alquiler.getAuto().iniciarAlquiler(autoService);
     }
 
     @Override
     public void bajaAuto(Alquiler alquiler, AlquilerService alquilerService) {
         alquilerService.rembolsarAlquiler(alquiler,alquiler.calcularTotal());
         alquiler.cambiarEstado(new Cancelado());
-        alquilerService.sendEmailBajaAuto(alquiler,"El alquiler ha sido cancelado porque el auto no se encuentra disponible para el retiro, se ha rembolsado el total del alquiler " + alquiler.calcularTotal());
         alquilerService.saveAlquiler(alquiler);
+        alquilerService.sendEmailBajaAuto(alquiler,"El alquiler ha sido cancelado porque el auto no se encuentra disponible para el retiro, se ha rembolsado el total del alquiler " + alquiler.calcularTotal());
     }
 
     @Override

@@ -14,7 +14,10 @@ public interface EstadoAuto {
 
     void darDeBaja(Auto auto, AlquilerService alquilerService, AutoService autoService);
 
+    //Retiro disponible
     boolean estaDisponible();
+    //El auto se encuentra en condiciones de ser alquilado
+    boolean esAlquilable();
 
     void finalizarMantenimiento(Auto auto, AutoService autoService);
 
