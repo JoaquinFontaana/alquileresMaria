@@ -4,6 +4,7 @@ import inge2.com.alquileresMaria.dto.alquiler.*;
 import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
 import inge2.com.alquileresMaria.model.enums.Extra;
 import inge2.com.alquileresMaria.service.AlquilerService;
+import inge2.com.alquileresMaria.useCase.Alquiler.ListarAlquileresUseCase;
 import inge2.com.alquileresMaria.useCase.GestionAlquilerAutoUseCase;
 import inge2.com.alquileresMaria.useCase.Alquiler.SugerirVehiculosSimilaresUseCase;
 import jakarta.validation.Valid;
@@ -20,11 +21,13 @@ public class AlquilerController {
     private final AlquilerService alquilerService;
     private final GestionAlquilerAutoUseCase gestionAlquilerAutoUseCase;
     private final SugerirVehiculosSimilaresUseCase sugerirVehiculosSimilaresUseCase;
+    private final ListarAlquileresUseCase listarAlquileresUseCase;
 
-    public AlquilerController(AlquilerService alquilerService, GestionAlquilerAutoUseCase gestionAlquilerAutoUseCase, SugerirVehiculosSimilaresUseCase sugerirVehiculosSimilaresUseCase) {
+    public AlquilerController(AlquilerService alquilerService, GestionAlquilerAutoUseCase gestionAlquilerAutoUseCase, SugerirVehiculosSimilaresUseCase sugerirVehiculosSimilaresUseCase, ListarAlquileresUseCase listarAlquileresUseCase) {
         this.alquilerService = alquilerService;
         this.gestionAlquilerAutoUseCase = gestionAlquilerAutoUseCase;
         this.sugerirVehiculosSimilaresUseCase = sugerirVehiculosSimilaresUseCase;
+        this.listarAlquileresUseCase = listarAlquileresUseCase;
     }
 
     @PostMapping("/cancelar")
@@ -34,8 +37,18 @@ public class AlquilerController {
     }
 
     @GetMapping("/listar")
-    public List<AlquilerDTOListar> filtrar(@ModelAttribute AlquilerDTOFilter opcionesFiltrado){
-        return this.alquilerService.listarAlquileres(opcionesFiltrado);
+    public List<AlquilerDTOListar> listarAlquileres(@ModelAttribute AlquilerDTOFilter opcionesFiltrado){
+        return this.listarAlquileresUseCase.listarAlquileres(opcionesFiltrado);
+    }
+
+    @GetMapping("/empleado/get/pendientesRetiro")
+    public List<AlquilerDTOListar> listarAlquileresPendientesRetiro(@Valid @RequestParam String sucursal){
+        return this.listarAlquileresUseCase.listarPendientesEntrega(sucursal);
+    }
+
+    @GetMapping("/empleado/get/pendientesDevolucion")
+    public List<AlquilerDTOListar> listarAlquileresPendientesDevolucion(@Valid @RequestParam String sucursal){
+        return this.listarAlquileresUseCase.listarPendientesDevolucion(sucursal);
     }
 
     @GetMapping("/get/extras")
@@ -60,14 +73,6 @@ public class AlquilerController {
         return ResponseEntity.ok("Alquiler recibido exitosamente");
     }
 
-    @GetMapping("/empleado/get/pendientesRetiro")
-    public List<AlquilerDTOListar> listarAlquileresPendientesRetiro(@Valid @RequestParam String sucursal){
-        return this.alquilerService.listarPendientesEntrega(sucursal);
-    }
-    @GetMapping("/empleado/get/pendientesDevolucion")
-    public List<AlquilerDTOListar> listarAlquileresPendientesDevolucion(@Valid @RequestParam String sucursal){
-        return this.alquilerService.listarPendientesDevolucion(sucursal);
-    }
     @GetMapping("/empleado/get/similares")
     public List<AutoDTOListar> sugerirSimilares(@Valid @NotNull(message = "El codigo del alquiler es obligatorio") @RequestParam Long codigoAlquiler){
         return this.sugerirVehiculosSimilaresUseCase.sugerirSimilares(codigoAlquiler);
