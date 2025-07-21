@@ -1,10 +1,9 @@
 package inge2.com.alquileresMaria.controller;
 
-import inge2.com.alquileresMaria.dto.alquiler.RembolsoDTO;
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOListar;
 import inge2.com.alquileresMaria.dto.user.PersonaDTOPassword;
 import inge2.com.alquileresMaria.service.ClienteService;
-import inge2.com.alquileresMaria.service.validators.AuthHelperService;
+import inge2.com.alquileresMaria.service.helper.AuthHelperService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

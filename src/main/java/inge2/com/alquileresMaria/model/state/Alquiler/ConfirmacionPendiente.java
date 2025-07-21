@@ -6,6 +6,7 @@ import inge2.com.alquileresMaria.service.AlquilerService;
 import inge2.com.alquileresMaria.service.AutoService;
 
 public class ConfirmacionPendiente implements EstadoAlquiler{
+
     @Override
     public void cancelar(Alquiler alquiler, AlquilerService alquilerService) {
         alquilerService.eliminarAlquiler(alquiler);
@@ -15,6 +16,7 @@ public class ConfirmacionPendiente implements EstadoAlquiler{
     public boolean retiroDisponible(Alquiler alquiler) {
         return false;
     }
+
     @Override
     public void iniciar(Alquiler alquiler, AlquilerService alquilerService, AutoService autoService) {
         throw new IllegalStateException("El alquiler esta pendiente de confirmación, no se puede iniciar.");
@@ -22,7 +24,7 @@ public class ConfirmacionPendiente implements EstadoAlquiler{
 
     @Override
     public void bajaAuto(Alquiler alquiler, AlquilerService alquilerService) {
-        alquilerService.sendEmailBajaAuto(alquiler,"Su alquiler pendiente de pago se ha cancelado, ya que el auto no se encuentra disponible para el alquiler.");
+        alquilerService.sendEmailBajaAuto(alquiler,"Su alquiler pendiente de pago se ha cancelado, porque el auto ya no se encuentra disponible para el alquiler.");
         alquilerService.eliminarAlquiler(alquiler);
     }
 

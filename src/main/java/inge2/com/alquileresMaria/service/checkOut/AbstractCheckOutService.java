@@ -2,8 +2,8 @@ package inge2.com.alquileresMaria.service.checkOut;
 
 import com.mercadopago.resources.payment.Payment;
 import inge2.com.alquileresMaria.service.builder.MpPreferenceBuilder;
-import inge2.com.alquileresMaria.service.validators.AuthHelperService;
-import inge2.com.alquileresMaria.service.validators.CheckOutHelperService;
+import inge2.com.alquileresMaria.service.helper.AuthHelperService;
+import inge2.com.alquileresMaria.service.helper.CheckOutHelperService;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;

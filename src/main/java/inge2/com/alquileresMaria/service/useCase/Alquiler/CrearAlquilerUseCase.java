@@ -1,4 +1,4 @@
-package inge2.com.alquileresMaria.useCase.Alquiler;
+package inge2.com.alquileresMaria.service.useCase.Alquiler;
 
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOCrear;
 import inge2.com.alquileresMaria.model.Alquiler;
@@ -7,9 +7,9 @@ import inge2.com.alquileresMaria.model.Cliente;
 import inge2.com.alquileresMaria.model.Sucursal;
 import inge2.com.alquileresMaria.service.AlquilerService;
 import inge2.com.alquileresMaria.service.SucursalService;
-import inge2.com.alquileresMaria.service.validators.AlquilerHelperService;
-import inge2.com.alquileresMaria.service.validators.AutoHelperService;
-import inge2.com.alquileresMaria.service.validators.ClienteHelperService;
+import inge2.com.alquileresMaria.service.helper.AlquilerHelperService;
+import inge2.com.alquileresMaria.service.helper.AutoHelperService;
+import inge2.com.alquileresMaria.service.helper.ClienteHelperService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

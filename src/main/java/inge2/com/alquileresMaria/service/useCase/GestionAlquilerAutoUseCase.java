@@ -1,9 +1,9 @@
-package inge2.com.alquileresMaria.useCase;
+package inge2.com.alquileresMaria.service.useCase;
 
 import inge2.com.alquileresMaria.dto.alquiler.MultaAlquilerDTO;
 import inge2.com.alquileresMaria.service.AlquilerService;
 import inge2.com.alquileresMaria.service.AutoService;
-import inge2.com.alquileresMaria.service.validators.AlquilerHelperService;
+import inge2.com.alquileresMaria.service.helper.AlquilerHelperService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

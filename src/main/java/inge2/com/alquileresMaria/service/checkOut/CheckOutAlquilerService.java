@@ -1,19 +1,15 @@
 package inge2.com.alquileresMaria.service.checkOut;
 
-import com.mercadopago.exceptions.MPApiException;
-import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.payment.Payment;
 import com.mercadopago.resources.preference.Preference;
 import inge2.com.alquileresMaria.dto.CheckOutAlquilerDTO;
 import inge2.com.alquileresMaria.model.Alquiler;
-import inge2.com.alquileresMaria.service.AlquilerService;
 import inge2.com.alquileresMaria.service.PagoService;
 import inge2.com.alquileresMaria.service.builder.MpPreferenceBuilder;
-import inge2.com.alquileresMaria.service.validators.AuthHelperService;
-import inge2.com.alquileresMaria.service.validators.CheckOutHelperService;
-import inge2.com.alquileresMaria.useCase.Alquiler.CrearAlquilerUseCase;
+import inge2.com.alquileresMaria.service.helper.AuthHelperService;
+import inge2.com.alquileresMaria.service.helper.CheckOutHelperService;
+import inge2.com.alquileresMaria.service.useCase.Alquiler.CrearAlquilerUseCase;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

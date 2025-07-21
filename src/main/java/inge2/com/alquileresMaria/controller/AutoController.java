@@ -8,10 +8,10 @@ import inge2.com.alquileresMaria.model.enums.CategoriaAuto;
 import inge2.com.alquileresMaria.model.enums.EstadoAutoEnum;
 import inge2.com.alquileresMaria.model.enums.TiposRembolso;
 import inge2.com.alquileresMaria.service.AutoService;
-import inge2.com.alquileresMaria.useCase.Auto.EliminarAutoUseCase;
+import inge2.com.alquileresMaria.service.useCase.Auto.EliminarAutoUseCase;
+import inge2.com.alquileresMaria.service.useCase.Auto.ListarAutosUseCase;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +24,12 @@ public class AutoController {
 
     private final AutoService autoService;
     private final EliminarAutoUseCase eliminarAutoUseCase;
+    private final ListarAutosUseCase listarAutosUseCase;
 
-    public AutoController(AutoService autoService, EliminarAutoUseCase eliminarAutoUseCase) {
+    public AutoController(AutoService autoService, EliminarAutoUseCase eliminarAutoUseCase, ListarAutosUseCase listarAutosUseCase) {
         this.autoService = autoService;
         this.eliminarAutoUseCase = eliminarAutoUseCase;
+        this.listarAutosUseCase = listarAutosUseCase;
     }
 
     @PutMapping("/admin/eliminar")
@@ -93,7 +95,7 @@ public class AutoController {
     )*/
     @GetMapping("/listar")
     public List<AutoDTOListar> listarAutos(@ModelAttribute AutoFilterDTO opcionesFiltrado){
-        return this.autoService.listarAutos(opcionesFiltrado);
+        return this.listarAutosUseCase.listarAutos(opcionesFiltrado);
     }
 
     @PostMapping("/reparado")
@@ -101,4 +103,5 @@ public class AutoController {
         this.autoService.finalizarMantenimiento(patente);
         return ResponseEntity.ok("Mantenimiento finalizado con exito");
     }
+
 }

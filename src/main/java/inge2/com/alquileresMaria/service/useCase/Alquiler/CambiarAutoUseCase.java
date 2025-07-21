@@ -1,12 +1,12 @@
-package inge2.com.alquileresMaria.useCase.Alquiler;
+package inge2.com.alquileresMaria.service.useCase.Alquiler;
 
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOCambiarAuto;
 import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
 import inge2.com.alquileresMaria.model.Alquiler;
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.service.AlquilerService;
-import inge2.com.alquileresMaria.service.validators.AlquilerHelperService;
-import inge2.com.alquileresMaria.service.validators.AutoHelperService;
+import inge2.com.alquileresMaria.service.helper.AlquilerHelperService;
+import inge2.com.alquileresMaria.service.helper.AutoHelperService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

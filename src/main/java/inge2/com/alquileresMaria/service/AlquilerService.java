@@ -2,7 +2,7 @@ package inge2.com.alquileresMaria.service;
 
 import inge2.com.alquileresMaria.model.*;
 import inge2.com.alquileresMaria.repository.IAlquilerRepository;
-import inge2.com.alquileresMaria.service.validators.AlquilerHelperService;
+import inge2.com.alquileresMaria.service.helper.AlquilerHelperService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

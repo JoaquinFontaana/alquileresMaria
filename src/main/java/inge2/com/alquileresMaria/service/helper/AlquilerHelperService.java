@@ -1,18 +1,10 @@
-package inge2.com.alquileresMaria.service.validators;
+package inge2.com.alquileresMaria.service.helper;
 
 import inge2.com.alquileresMaria.model.Alquiler;
-import inge2.com.alquileresMaria.model.Cliente;
-import inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
 import inge2.com.alquileresMaria.repository.IAlquilerRepository;
-import inge2.com.alquileresMaria.service.EmailService;
-import inge2.com.alquileresMaria.service.RembolsoService;
 import jakarta.persistence.EntityExistsException;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Service
 public class AlquilerHelperService {

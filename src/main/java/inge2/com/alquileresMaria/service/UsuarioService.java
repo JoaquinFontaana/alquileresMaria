@@ -2,7 +2,6 @@ package inge2.com.alquileresMaria.service;
 
 import inge2.com.alquileresMaria.model.Usuario;
 import inge2.com.alquileresMaria.repository.IUsuarioRepository;
-import inge2.com.alquileresMaria.service.generator.PasswordGenerator;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;

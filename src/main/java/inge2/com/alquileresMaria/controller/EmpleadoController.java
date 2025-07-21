@@ -2,9 +2,8 @@ package inge2.com.alquileresMaria.controller;
 
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOCambiarAuto;
 import inge2.com.alquileresMaria.dto.user.PersonaDTO;
-import inge2.com.alquileresMaria.service.AlquilerService;
 import inge2.com.alquileresMaria.service.ClienteService;
-import inge2.com.alquileresMaria.useCase.Alquiler.CambiarAutoUseCase;
+import inge2.com.alquileresMaria.service.useCase.Alquiler.CambiarAutoUseCase;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;

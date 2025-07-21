@@ -1,14 +1,11 @@
 package inge2.com.alquileresMaria.controller;
 
-import com.mercadopago.exceptions.MPApiException;
-import com.mercadopago.exceptions.MPException;
 import inge2.com.alquileresMaria.dto.CheckOutAlquilerDTO;
 import inge2.com.alquileresMaria.dto.CheckOutAlquilerPresencialDTO;
 import inge2.com.alquileresMaria.dto.DatosPagoDTO;
-import inge2.com.alquileresMaria.service.PagoService;
 import inge2.com.alquileresMaria.service.checkOut.CheckOutAlquilerService;
 import inge2.com.alquileresMaria.service.checkOut.CheckOutMultaService;
-import inge2.com.alquileresMaria.service.validators.AuthHelperService;
+import inge2.com.alquileresMaria.service.helper.AuthHelperService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

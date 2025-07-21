@@ -5,7 +5,7 @@ import inge2.com.alquileresMaria.dto.user.EmpleadoDTOActualizar;
 import inge2.com.alquileresMaria.dto.user.EmpleadoDTOListar;
 import inge2.com.alquileresMaria.model.Empleado;
 import inge2.com.alquileresMaria.repository.IEmpleadoRepository;
-import inge2.com.alquileresMaria.service.validators.EmpleadoHelperService;
+import inge2.com.alquileresMaria.service.helper.EmpleadoHelperService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

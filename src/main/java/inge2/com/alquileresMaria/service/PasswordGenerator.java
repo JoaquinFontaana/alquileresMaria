@@ -1,4 +1,4 @@
-package inge2.com.alquileresMaria.service.generator;
+package inge2.com.alquileresMaria.service;
 
 import org.springframework.stereotype.Component;
 

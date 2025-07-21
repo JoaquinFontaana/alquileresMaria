@@ -1,4 +1,4 @@
-package inge2.com.alquileresMaria.useCase.Alquiler;
+package inge2.com.alquileresMaria.service.useCase.Alquiler;
 
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOFilter;
 import inge2.com.alquileresMaria.dto.alquiler.AlquilerDTOListar;

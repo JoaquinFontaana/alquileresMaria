@@ -2,34 +2,25 @@ package inge2.com.alquileresMaria.service;
 
 import inge2.com.alquileresMaria.dto.auto.AutoDTOActualizar;
 import inge2.com.alquileresMaria.dto.auto.AutoDTOCrear;
-import inge2.com.alquileresMaria.dto.auto.AutoDTOListar;
-import inge2.com.alquileresMaria.dto.auto.AutoFilterDTO;
 import inge2.com.alquileresMaria.model.Auto;
 import inge2.com.alquileresMaria.model.Sucursal;
 import inge2.com.alquileresMaria.repository.IAutoRepository;
-import inge2.com.alquileresMaria.service.builder.AutoFilterBuilder;
-import inge2.com.alquileresMaria.service.filter.auto.IAutoFilter;
-import inge2.com.alquileresMaria.service.validators.AutoHelperService;
+import inge2.com.alquileresMaria.service.helper.AutoHelperService;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class AutoService {
     private final IAutoRepository autoRepository;
     private final SucursalService sucursalService;
     private final AutoHelperService autoHelperService;
-    private final AutoFilterBuilder autoFilterBuilder;
     private final FileStorageService fileStorageService;
 
 
-    public AutoService(IAutoRepository autoRepository, SucursalService sucursalService, AutoHelperService autoHelperService, AutoFilterBuilder autoFilterBuilder, FileStorageService fileStorageService) {
+    public AutoService(IAutoRepository autoRepository, SucursalService sucursalService, AutoHelperService autoHelperService, FileStorageService fileStorageService) {
         this.autoRepository = autoRepository;
         this.sucursalService = sucursalService;
         this.autoHelperService = autoHelperService;
-        this.autoFilterBuilder = autoFilterBuilder;
         this.fileStorageService = fileStorageService;
     }
 
@@ -46,14 +37,6 @@ public class AutoService {
         autoRepository.save(auto);
     }
 
-    public List<AutoDTOListar> listarAutos(AutoFilterDTO opcionesFiltrado){
-        IAutoFilter filter = this.autoFilterBuilder.buildFilter(opcionesFiltrado);
-        return filter
-                .listar()
-                .stream()
-                .map(auto -> new AutoDTOListar(auto))
-                .toList();
-    }
     @Transactional
     public void saveAuto(Auto auto){
         this.autoRepository.save(auto);

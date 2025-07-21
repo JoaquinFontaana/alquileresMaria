@@ -1,12 +1,10 @@
-package inge2.com.alquileresMaria.service.validators;
+package inge2.com.alquileresMaria.service.helper;
 
 import inge2.com.alquileresMaria.model.Auto;
-import inge2.com.alquileresMaria.model.enums.EstadoAutoEnum;
 import inge2.com.alquileresMaria.model.valueObject.RangoFecha;
 import inge2.com.alquileresMaria.repository.IAutoRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
