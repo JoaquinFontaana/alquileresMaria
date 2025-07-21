@@ -6,10 +6,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class EstadoAutoListener {
-    private static final EstadoAutoFactory factory = new EstadoAutoFactory();
+    private final EstadoAutoFactory factory;
+
+    public EstadoAutoListener(EstadoAutoFactory factory) {
+        this.factory = factory;
+    }
 
     @PostLoad
-    public static void setState(Auto auto) {
-        auto.setState(factory.getEstado(auto.getEstado()));
+    public void setState(Auto auto) {
+        auto.setState(this.factory.getEstado(auto.getEstado()));
     }
 }

@@ -44,6 +44,12 @@ public class ConfirmacionPendiente implements EstadoAlquiler{
     }
 
     @Override
+    public void procresarPago(Alquiler alquiler, AlquilerService alquilerService) {
+        alquiler.cambiarEstado(new RetiroPendiente());
+        alquilerService.saveAlquiler(alquiler);
+    }
+
+    @Override
     public EstadoAlquilerEnum getEstadoAlquilerEnum() {
         return EstadoAlquilerEnum.CONFIRMACION_PENDIENTE;
     }

@@ -41,6 +41,11 @@ public class Cancelado implements EstadoAlquiler{
         this.excepcionFinalizacion();
     }
 
+    @Override
+    public void procresarPago(Alquiler alquiler, AlquilerService alquilerService) {
+        throw new IllegalStateException(" El alquiler se encuentra cancelado, no se puede procesar el pago.");
+    }
+
     private void excepcionFinalizacion(){
         throw new IllegalStateException("El alquiler se encuentra cancelado, no se puede finalizar.");
     }

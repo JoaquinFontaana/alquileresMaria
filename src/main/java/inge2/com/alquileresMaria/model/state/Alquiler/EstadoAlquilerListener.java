@@ -9,11 +9,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class EstadoAlquilerListener {
 
-    private static EstadoAlquilerFactory factory;
+    private final EstadoAlquilerFactory factory;
 
-    @Autowired
-    public void setFactory(EstadoAlquilerFactory factory) {
-        EstadoAlquilerListener.factory = factory;
+    public EstadoAlquilerListener(EstadoAlquilerFactory factory) {
+        this.factory = factory;
     }
 
     @PostLoad

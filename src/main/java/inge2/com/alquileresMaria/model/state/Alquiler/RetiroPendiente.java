@@ -54,6 +54,11 @@ public class RetiroPendiente implements EstadoAlquiler{
     }
 
     @Override
+    public void procresarPago(Alquiler alquiler, AlquilerService alquilerService) {
+        throw new IllegalStateException( "El alquiler ya ha sido pagado, no se puede volver a pagar.");
+    }
+
+    @Override
     public EstadoAlquilerEnum getEstadoAlquilerEnum() {
         return EstadoAlquilerEnum.RETIRO_PENDIENTE;
     }

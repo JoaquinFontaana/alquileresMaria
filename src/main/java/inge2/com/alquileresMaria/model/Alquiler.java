@@ -132,4 +132,8 @@ public class Alquiler {
     public void bajaAuto(AlquilerService alquilerService) {
         this.state.bajaAuto(this, alquilerService);
     }
+
+    public void procesarPago(AlquilerService alquilerService) {
+        this.state.procresarPago(this, alquilerService);
+    }
 }

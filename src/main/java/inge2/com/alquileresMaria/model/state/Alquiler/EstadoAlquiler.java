@@ -21,4 +21,6 @@ public interface EstadoAlquiler {
     void iniciar(Alquiler alquiler, AlquilerService alquilerService, AutoService autoService);
 
     void bajaAuto(Alquiler alquiler, AlquilerService alquilerService);
+
+    void procresarPago(Alquiler alquiler,AlquilerService alquilerService);
 }

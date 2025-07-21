@@ -46,6 +46,11 @@ public class EnUso implements EstadoAlquiler {
     }
 
     @Override
+    public void procresarPago(Alquiler alquiler, AlquilerService alquilerService) {
+        throw new IllegalStateException("El alquiler ya ha sido pagado.");
+    }
+
+    @Override
     public EstadoAlquilerEnum getEstadoAlquilerEnum() {
         return EstadoAlquilerEnum.EN_USO;
     }

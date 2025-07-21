@@ -21,11 +21,14 @@ import java.util.List;
 public class PagoService {
 
     private final IPagoRepository pagoRepository;
+    private final AlquilerService alquilerService;
 
-    public PagoService(IPagoRepository pagoRepository) {
+    public PagoService(IPagoRepository pagoRepository, AlquilerService alquilerService) {
         this.pagoRepository = pagoRepository;
+        this.alquilerService = alquilerService;
     }
 
+    @Transactional
     public Pago crearPago(Preference preference, Alquiler alquiler){
         Pago pago = new Pago(preference,alquiler);
         return this.pagoRepository.save(pago);
@@ -37,7 +40,7 @@ public class PagoService {
 
         pago.setPaymentId(payment.getId());
         pago.setEstadoPago(EstadoPago.PAGADO);
-        pago.getAlquiler().cambiarEstado(new RetiroPendiente());
+        pago.getAlquiler().procesarPago(alquilerService);
 
         this.pagoRepository.save(pago);
     }

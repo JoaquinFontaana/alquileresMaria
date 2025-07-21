@@ -5,10 +5,8 @@ import inge2.com.alquileresMaria.repository.IEmpleadoRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -23,18 +21,24 @@ import java.util.stream.Collectors;
 
 @Component
 public class JWTGenerator {
-    @Autowired
-    private IEmpleadoRepository empleadoRepository;
+
+    private final IEmpleadoRepository empleadoRepository;
+    private final JWTConfig JWTConfig;
+
+    public JWTGenerator(IEmpleadoRepository empleadoRepository, JWTConfig JWTConfig) {
+        this.empleadoRepository = empleadoRepository;
+        this.JWTConfig = JWTConfig;
+    }
 
     public String generateToken(Authentication authentication){
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
         String username = authentication.getName();
         Date currentDate = new Date();
-        Date expireDate = new Date(currentDate.getTime() + SecurityConstant.JWT_EXPIRATION);
+        Date expireDate = new Date(currentDate.getTime() + JWTConfig.getTOKEN_EXPIRATION());
 
         // Decodificar la clave Base64 y crear un SecretKey seguro
-        byte[] keyBytes = Base64.getDecoder().decode(SecurityConstant.JWT_SECRET);
+        byte[] keyBytes = Base64.getDecoder().decode(JWTConfig.getJWT_SECRET_KEY());
         SecretKey key = Keys.hmacShaKeyFor(keyBytes);
 
         String roles = userPrincipal.getAuthorities()
@@ -75,7 +79,7 @@ public class JWTGenerator {
     }
 
     private Key getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SecurityConstant.JWT_SECRET);
+        byte[] keyBytes = Decoders.BASE64.decode(JWTConfig.getJWT_SECRET_KEY());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 

@@ -4,6 +4,7 @@ import inge2.com.alquileresMaria.dto.AuthResponseDTO;
 import inge2.com.alquileresMaria.dto.LoginDTO;
 import inge2.com.alquileresMaria.security.JWTGenerator;
 import inge2.com.alquileresMaria.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +17,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private UsuarioService userService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final UsuarioService userService;
+    private final AuthenticationManager authenticationManager;
+    private final JWTGenerator tokenGenerator;
 
-    @Autowired
-    private JWTGenerator tokenGenerator;
+    public AuthController(UsuarioService userService, AuthenticationManager authenticationManager, JWTGenerator tokenGenerator) {
+        this.userService = userService;
+        this.authenticationManager = authenticationManager;
+        this.tokenGenerator = tokenGenerator;
+    }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDto) {
+    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginDTO loginDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDto.getMail(),

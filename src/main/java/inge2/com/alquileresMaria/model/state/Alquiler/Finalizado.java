@@ -43,6 +43,11 @@ public class Finalizado implements EstadoAlquiler{
     }
 
     @Override
+    public void procresarPago(Alquiler alquiler, AlquilerService alquilerService) {
+        throw new IllegalStateException(" El alquiler se encuentra finalizado, no se puede procesar el pago.");
+    }
+
+    @Override
     public EstadoAlquilerEnum getEstadoAlquilerEnum() {
         return EstadoAlquilerEnum.FINALIZADO;
     }
