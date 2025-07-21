@@ -12,6 +12,8 @@ public interface EstadoAlquiler {
 
     void finalizarConMantenimiento(Alquiler alquiler, AlquilerService alquilerService, AutoService autoService, int multa);
 
+    void finalizarVencido(Alquiler alquiler, AlquilerService alquilerService);
+
     boolean retiroDisponible(Alquiler alquiler);
 
     void cancelar(Alquiler alquiler, AlquilerService alquilerService);

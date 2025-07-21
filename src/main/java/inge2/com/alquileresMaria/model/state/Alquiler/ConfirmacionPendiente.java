@@ -32,6 +32,11 @@ public class ConfirmacionPendiente implements EstadoAlquiler{
     }
 
     @Override
+    public void finalizarVencido(Alquiler alquiler, AlquilerService alquilerService) {
+        throw  new IllegalStateException("El alquiler esta pendiente de confirmación, no se puede finalizar vencido.");
+    }
+
+    @Override
     public void finalizarConMantenimiento(Alquiler alquiler, AlquilerService alquilerService, AutoService autoService, int multa) {
         throw new IllegalStateException("El alquiler esta pendiente de confirmación, no se puede finalizar con mantenimiento.");
     }

@@ -115,6 +115,10 @@ public class Alquiler {
         this.state.finalizarConMantenimiento(this,alquilerService,autoService,multa);
     }
 
+    public void finalizarVencido(AlquilerService alquilerService) {
+        this.state.finalizarVencido(this, alquilerService);
+    }
+
     public boolean isTodayOrAfter() { return this.rangoFecha.isTodayOrAfter(LocalDate.now());}
 
     public boolean retiroDisponible() {

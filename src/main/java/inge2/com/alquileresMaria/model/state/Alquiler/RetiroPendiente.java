@@ -49,6 +49,12 @@ public class RetiroPendiente implements EstadoAlquiler{
     }
 
     @Override
+    public void finalizarVencido(Alquiler alquiler, AlquilerService alquilerService) {
+        alquiler.cambiarEstado(new Finalizado());
+        alquilerService.saveAlquiler(alquiler);
+    }
+
+    @Override
     public EstadoAlquilerEnum getEstadoAlquilerEnum() {
         return EstadoAlquilerEnum.RETIRO_PENDIENTE;
     }

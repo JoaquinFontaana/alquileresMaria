@@ -15,6 +15,7 @@ public class Usuario {
     @NotBlank(message = "La contraseña es obligatoria")
     private String password;
     @Email(message = "Ingresa un email valido")
+    @Column(unique = true, nullable = false)
     private String mail;
     @ManyToOne(optional = false)
     @JoinColumn(name = "rol_id")

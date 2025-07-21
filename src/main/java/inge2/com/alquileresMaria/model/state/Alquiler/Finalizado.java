@@ -29,16 +29,25 @@ public class Finalizado implements EstadoAlquiler{
 
     @Override
     public void finalizarConMantenimiento(Alquiler alquiler, AlquilerService alquilerService, AutoService autoService, int multa) {
-        throw new IllegalStateException("El alquiler ya se encuentra finalizado, no se puede finalizar con mantenimiento.");
+        this.excepcionFinalizacionDoble();
     }
 
     @Override
     public void finalizar(AlquilerService alquilerService, AutoService autoService, Alquiler alquiler) {
-        throw new IllegalStateException("El alquiler ya se encuentra finalizado, no se puede finalizar nuevamente.");
+        this.excepcionFinalizacionDoble();
+    }
+
+    @Override
+    public void finalizarVencido(Alquiler alquiler, AlquilerService alquilerService) {
+        this.excepcionFinalizacionDoble();
     }
 
     @Override
     public EstadoAlquilerEnum getEstadoAlquilerEnum() {
         return EstadoAlquilerEnum.FINALIZADO;
+    }
+
+    private void excepcionFinalizacionDoble(){
+        throw new IllegalStateException("El alquiler ya se encuentra finalizado, no se puede finalizar nuevamente.");
     }
 }

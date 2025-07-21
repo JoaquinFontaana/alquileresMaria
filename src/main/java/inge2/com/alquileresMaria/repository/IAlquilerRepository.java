@@ -166,5 +166,10 @@ public interface IAlquilerRepository extends JpaRepository<Alquiler,Long> {
     """)
     List<Alquiler> findRetiroPendienteByCiudad(@Param("ciudad") String ciudad);
 
-
+    @Query("""
+    select a
+    from Alquiler a
+    where a.rangoFecha.fechaHasta < :fechaActual AND a.estadoAlquilerEnum = inge2.com.alquileresMaria.model.enums.EstadoAlquilerEnum.RETIRO_PENDIENTE
+    """)
+    List<Alquiler> findVencidosRetiroPendiente(@Param("fechaActual") LocalDate localDate);
 }

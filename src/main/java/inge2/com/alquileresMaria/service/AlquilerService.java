@@ -9,6 +9,7 @@ import inge2.com.alquileresMaria.service.validators.AlquilerHelperService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -63,6 +64,11 @@ public class AlquilerService {
     @Transactional
     public Alquiler saveAlquiler(Alquiler alquiler){
         return this.repository.save(alquiler);
+    }
+
+    public void finalizarAlquileresVencidosNoRetirados() {
+         this.repository.findVencidosRetiroPendiente(LocalDate.now())
+                 .forEach(a-> a.finalizarVencido(this));
     }
 
 

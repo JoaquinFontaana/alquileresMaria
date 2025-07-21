@@ -10,10 +10,12 @@ public class Cancelado implements EstadoAlquiler{
     public void cancelar(Alquiler alquiler, AlquilerService alquilerService) {
         throw new IllegalStateException("El alquiler ya se encuentra cancelado, no se puede cancelar nuevamente.");
     }
+
     @Override
     public boolean retiroDisponible(Alquiler alquiler) {
         return false;
     }
+
     @Override
     public void iniciar(Alquiler alquiler, AlquilerService alquilerService, AutoService autoService) {
         throw new IllegalStateException("El alquiler se encuentra cancelar, no se puede iniciar.");
@@ -26,12 +28,21 @@ public class Cancelado implements EstadoAlquiler{
 
     @Override
     public void finalizar(AlquilerService alquilerService, AutoService autoService, Alquiler alquiler) {
-        throw new IllegalStateException( "El alquiler se encuentra cancelado, no se puede finalizar.");
+        this.excepcionFinalizacion();
     }
 
     @Override
     public void finalizarConMantenimiento(Alquiler alquiler, AlquilerService alquilerService, AutoService autoService, int multa) {
-        throw new IllegalStateException("El alquiler se encuentra cancelado, no se puede finalizar con mantenimiento.");
+        this.excepcionFinalizacion();
+    }
+
+    @Override
+    public void finalizarVencido(Alquiler alquiler, AlquilerService alquilerService) {
+        this.excepcionFinalizacion();
+    }
+
+    private void excepcionFinalizacion(){
+        throw new IllegalStateException("El alquiler se encuentra cancelado, no se puede finalizar.");
     }
 
     @Override

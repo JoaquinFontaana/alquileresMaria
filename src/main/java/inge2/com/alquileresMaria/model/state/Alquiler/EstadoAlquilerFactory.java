@@ -18,6 +18,7 @@ public class EstadoAlquilerFactory {
         estados.put(EstadoAlquilerEnum.CANCELADO, new Cancelado());
         estados.put(EstadoAlquilerEnum.EN_USO, new EnUso());
         estados.put(EstadoAlquilerEnum.FINALIZADO, new Finalizado());
+        estados.put(EstadoAlquilerEnum.CONFIRMACION_PENDIENTE, new ConfirmacionPendiente());
     }
 
     public EstadoAlquiler getEstado(EstadoAlquilerEnum estado) {

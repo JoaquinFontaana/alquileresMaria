@@ -33,6 +33,11 @@ public class EnUso implements EstadoAlquiler {
     }
 
     @Override
+    public void finalizarVencido(Alquiler alquiler, AlquilerService alquilerService) {
+         throw new IllegalStateException( "El alquiler se encuentra en curso, no se puede finalizar.");
+    }
+
+    @Override
     public void finalizarConMantenimiento(Alquiler alquiler, AlquilerService alquilerService, AutoService autoService, int multa) {
         alquiler.setClienteMulta(multa);
         alquiler.cambiarEstado(new Finalizado());
