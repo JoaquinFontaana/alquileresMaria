@@ -42,7 +42,7 @@ public class Cancelado implements EstadoAlquiler{
     }
 
     @Override
-    public void procresarPago(Alquiler alquiler, AlquilerService alquilerService) {
+    public void procesarPago(Alquiler alquiler, AlquilerService alquilerService) {
         throw new IllegalStateException(" El alquiler se encuentra cancelado, no se puede procesar el pago.");
     }
 
@@ -52,6 +52,6 @@ public class Cancelado implements EstadoAlquiler{
 
     @Override
     public EstadoAlquilerEnum getEstadoAlquilerEnum() {
-        return null;
+        return EstadoAlquilerEnum.CANCELADO;
     }
 }

@@ -38,9 +38,10 @@ public class RangoFecha {
                 || rango.getFechaHasta().isBefore(this.fechaDesde);
     }
 
-    public boolean isTodayOrAfter(LocalDate fecha){
-        return this.fechaDesde.isAfter(fecha) || this.fechaDesde.isEqual(fecha);
+    public boolean isTodayOrBefore(){
+        return !this.fechaDesde.isAfter(LocalDate.now());
     }
+
     public int cantidadDeDias(){
         return Period.between(fechaDesde,fechaHasta).getDays();
     }

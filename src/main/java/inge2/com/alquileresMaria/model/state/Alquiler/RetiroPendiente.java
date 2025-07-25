@@ -16,7 +16,7 @@ public class RetiroPendiente implements EstadoAlquiler{
 
     @Override
     public boolean retiroDisponible(Alquiler alquiler) {
-        return alquiler.isTodayOrAfter();
+        return alquiler.isTodayOrBefore();
     }
 
     @Override
@@ -25,8 +25,8 @@ public class RetiroPendiente implements EstadoAlquiler{
             throw new IllegalStateException("El alquiler todavía no se puede retirar, la fecha de retiro no es válida.");
         }
         alquiler.cambiarEstado(new EnUso());
-        alquilerService.saveAlquiler(alquiler);
         alquiler.getAuto().iniciarAlquiler(autoService);
+        alquilerService.saveAlquiler(alquiler);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class RetiroPendiente implements EstadoAlquiler{
     }
 
     @Override
-    public void procresarPago(Alquiler alquiler, AlquilerService alquilerService) {
+    public void procesarPago(Alquiler alquiler, AlquilerService alquilerService) {
         throw new IllegalStateException( "El alquiler ya ha sido pagado, no se puede volver a pagar.");
     }
 

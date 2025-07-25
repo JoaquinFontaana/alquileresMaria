@@ -134,4 +134,8 @@ public class Auto {
     public void finalizarMantenimiento(AutoService autoService) {
         this.state.finalizarMantenimiento(this, autoService);
     }
+
+    public double calcularRembolso(double monto){
+        return this.rembolso.calcularRembolso(monto);
+    }
 }

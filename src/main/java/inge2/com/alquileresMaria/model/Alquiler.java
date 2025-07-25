@@ -14,7 +14,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,7 +92,7 @@ public class Alquiler {
     public double calcularExtras(){return this.extras.stream().mapToDouble(Extra::getPrecio).sum();}
 
     public double calcularRembolso(){
-        return this.auto.getRembolso().calcularRembolso(this.calcularTotal());
+        return this.auto.calcularRembolso(this.calcularTotal());
     }
 
     public void addExtras(List<Extra> extras){
@@ -119,7 +118,7 @@ public class Alquiler {
         this.state.finalizarVencido(this, alquilerService);
     }
 
-    public boolean isTodayOrAfter() { return this.rangoFecha.isTodayOrAfter(LocalDate.now());}
+    public boolean isTodayOrBefore() { return this.rangoFecha.isTodayOrBefore();}
 
     public boolean retiroDisponible() {
         return this.state.retiroDisponible(this);
@@ -134,6 +133,6 @@ public class Alquiler {
     }
 
     public void procesarPago(AlquilerService alquilerService) {
-        this.state.procresarPago(this, alquilerService);
+        this.state.procesarPago(this, alquilerService);
     }
 }

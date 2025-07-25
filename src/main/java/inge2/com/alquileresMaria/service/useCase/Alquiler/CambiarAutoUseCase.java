@@ -28,7 +28,7 @@ public class CambiarAutoUseCase {
     public void cambiarAuto(AlquilerDTOCambiarAuto alquilerDTOCambiarAuto){
         Auto auto = this.autoHelperService.findAutoByPatente(alquilerDTOCambiarAuto.getPatenteAutoNuevo());
 
-        checkVehiculoEsSimiliar(auto.getPatente(), alquilerDTOCambiarAuto.getCodigoAlquiler());
+        checkVehiculoIsSimiliar(auto.getPatente(), alquilerDTOCambiarAuto.getCodigoAlquiler());
 
         Alquiler alquiler = this.alquilerHelperService.findById(alquilerDTOCambiarAuto.getCodigoAlquiler());
         alquiler.setAuto(auto);
@@ -36,7 +36,7 @@ public class CambiarAutoUseCase {
     }
 
 
-    private void checkVehiculoEsSimiliar(String patenteAutoNuevo,Long codigoAlquiler) {
+    private void checkVehiculoIsSimiliar(String patenteAutoNuevo,Long codigoAlquiler) {
         List<String> patentes = this.sugerirVehiculosSimilares.sugerirSimilares(codigoAlquiler)
                 .stream()
                 .map(AutoDTOListar::getPatente)
