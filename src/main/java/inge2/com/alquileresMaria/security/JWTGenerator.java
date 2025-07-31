@@ -1,13 +1,14 @@
 package inge2.com.alquileresMaria.security;
 
+import inge2.com.alquileresMaria.configuration.JWTConfig;
 import inge2.com.alquileresMaria.model.Empleado;
 import inge2.com.alquileresMaria.repository.IEmpleadoRepository;
+import inge2.com.alquileresMaria.service.EmpleadoService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.security.core.Authentication;
@@ -22,12 +23,12 @@ import java.util.stream.Collectors;
 @Component
 public class JWTGenerator {
 
-    private final IEmpleadoRepository empleadoRepository;
     private final JWTConfig JWTConfig;
+    private final EmpleadoService empleadoService;
 
-    public JWTGenerator(IEmpleadoRepository empleadoRepository, JWTConfig JWTConfig) {
-        this.empleadoRepository = empleadoRepository;
+    public JWTGenerator(JWTConfig JWTConfig, EmpleadoService empleadoService) {
         this.JWTConfig = JWTConfig;
+        this.empleadoService = empleadoService;
     }
 
     public String generateToken(Authentication authentication){
@@ -36,10 +37,6 @@ public class JWTGenerator {
         String username = authentication.getName();
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + JWTConfig.getTOKEN_EXPIRATION());
-
-        // Decodificar la clave Base64 y crear un SecretKey seguro
-        byte[] keyBytes = Base64.getDecoder().decode(JWTConfig.getJWT_SECRET_KEY());
-        SecretKey key = Keys.hmacShaKeyFor(keyBytes);
 
         String roles = userPrincipal.getAuthorities()
                 .stream()
@@ -54,19 +51,22 @@ public class JWTGenerator {
                 .claim("roles", roles);
 
         // Agregar sucursal si el rol es EMPLEADO
+        agregarSucursalEmpleado(roles, userPrincipal, builder);
+
+        return builder.signWith(this.getSecretKey()).compact();
+    }
+
+    private void agregarSucursalEmpleado(String roles, UserDetailsImpl userPrincipal, JwtBuilder builder) {
         if (roles.contains("EMPLEADO")) {
-            // Buscar al empleado por ID
-            Optional<Empleado> empleadoOpt = empleadoRepository.findById(userPrincipal.getId());
-
-            if (empleadoOpt.isPresent()) {
-                Empleado empleado = empleadoOpt.get();
-                if (empleado.getTrabajaEnSucursal() != null) {
-                    builder.claim("sucursal", empleado.getTrabajaEnSucursal().getCiudad());
-                }
+            Empleado empleado = this.empleadoService.findEmpleadoById(userPrincipal.getId());
+                builder.claim("sucursal", empleado.getTrabajaEnSucursal().getCiudad());
             }
-        }
+    }
 
-        return builder.signWith(key).compact();
+    // Decodificar la clave en Base64 y crear un SecretKey seguro
+    private SecretKey getSecretKey() {
+        byte[] keyBytes = Base64.getDecoder().decode(JWTConfig.getJWT_SECRET_KEY());
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String getUsernameJWT(String token){

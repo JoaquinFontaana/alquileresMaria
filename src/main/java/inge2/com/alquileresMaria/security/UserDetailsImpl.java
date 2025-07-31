@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter @Setter
 public class UserDetailsImpl implements UserDetails {
-    private Long id;  // lo mantenés para uso interno pero no lo enviarás en el token
+    private Long id;
     private String username;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;

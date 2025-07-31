@@ -68,4 +68,9 @@ public class EmpleadoService {
         empleado.eliminar();
         this.repository.save(empleado);
     }
+
+    public Empleado findEmpleadoById(Long id) {
+        return this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Empleado no encontrado con ID: " + id));
+    }
 }

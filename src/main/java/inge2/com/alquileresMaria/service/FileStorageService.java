@@ -1,7 +1,7 @@
 package inge2.com.alquileresMaria.service;
 
 
-import org.springframework.beans.factory.annotation.Value;
+import com.cloudinary.Cloudinary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,13 +11,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalTime;
-import java.util.Base64;
+import java.util.Map;
 
 @Service
 public class FileStorageService {
 
-    @Value("${upload.dir.autos}")
-    private String carpetaDestino;
+    private final Cloudinary cloudinary;
+
+    public FileStorageService(Cloudinary cloudinary) {
+        this.cloudinary = cloudinary;
+    }
 
     public String guardarImagen(MultipartFile imagen) {
         if(imagen.isEmpty()){
@@ -25,21 +28,14 @@ public class FileStorageService {
         }
         try {
             String nombre = getNombre(imagen);
-
-            //Crear carpetas si no existen
-            Path uploadPath = Paths.get(carpetaDestino).toAbsolutePath().normalize();
-            Files.createDirectories(uploadPath);
-
-
-            Path filePath = uploadPath.resolve(nombre);
-
-            imagen.transferTo(filePath.toFile());
-            return uploadPath.resolve(nombre).toString();
+            Map uploadResult =cloudinary.uploader().upload(imagen.getBytes(), Map.of("public_id", nombre, "overwrite", true,"resource_type", "image"));
+            return  uploadResult.get("secure_url").toString();
         }
         catch (IOException ex){
             throw  new UncheckedIOException("Ocurrio un error al cargar la imagen",ex);
         }
     }
+
 
     private static String getNombre(MultipartFile imagen) {
         String nombreImagen = imagen.getOriginalFilename();
@@ -47,14 +43,12 @@ public class FileStorageService {
             throw new IllegalArgumentException("La imagen debe tener nombre");
         }
 
-        String extension = "";
         int ultimoPunto = nombreImagen.lastIndexOf('.');
         if (ultimoPunto >= 0) {
-            extension = nombreImagen.substring(ultimoPunto);
             nombreImagen = nombreImagen.substring(0, ultimoPunto);
         }
 
-        return nombreImagen + "_" + LocalTime.now() + extension;
+        return nombreImagen + "_" + LocalTime.now();
     }
 
 
